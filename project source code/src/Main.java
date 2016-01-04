@@ -3,8 +3,7 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) {
-		String path1 = null,
-				path2 = null;
+		String path1 = null,	path2 = null;
 		
 		ImageMerger imageMerger = new ImageMerger(0);
 		
