@@ -3,8 +3,8 @@ import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) {
-		String path1 = "C:\\java images\\clefG\\41.bmp",
-				path2 = "C:\\Users\\Kornel\\Desktop\\54.bmp";
+		String path1 = null,
+				path2 = null;
 		
 		ImageMerger imageMerger = new ImageMerger(0);
 		
