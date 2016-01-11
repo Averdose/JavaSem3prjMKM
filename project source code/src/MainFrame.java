@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 
 public class MainFrame extends JFrame {
 
@@ -96,7 +98,14 @@ public class MainFrame extends JFrame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						button.setIcon(new ImageIcon(img));
+						BufferedImage resized = new BufferedImage(400, 400, img.getType());
+						Graphics2D g = resized.createGraphics();
+						g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+						    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+						g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),
+						    img.getHeight(), null);
+						g.dispose();
+						button.setIcon(new ImageIcon(resized));
 						img.flush();
 						
 						toolBar.add(button);	
