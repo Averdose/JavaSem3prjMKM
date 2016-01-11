@@ -4,8 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -13,8 +12,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
@@ -88,7 +89,16 @@ public class MainFrame extends JFrame {
 						System.out.println(f.getAbsolutePath()+i);
 						i++;
 						JButton button = new JButton();
-						button.setIcon(new ImageIcon(f.getAbsolutePath()));
+						BufferedImage img = null;
+						try {
+							img = ImageIO.read(f);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						button.setIcon(new ImageIcon(img));
+						img.flush();
+						
 						toolBar.add(button);	
 					}
 					 }
