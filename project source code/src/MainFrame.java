@@ -17,6 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
@@ -26,6 +28,8 @@ import java.awt.RenderingHints;
 
 public class MainFrame extends JFrame {
 
+	private final List<JButton> listImgs = new ArrayList<JButton>();
+	private final List<JTextField> listDirs = new ArrayList<JTextField>();
 	private JPanel contentPane;
 	static final String[] EXTENSIONS = new String[]{
 	        "gif", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
@@ -44,8 +48,6 @@ public class MainFrame extends JFrame {
         }
     };
 	private JToolBar toolBar;
-	private JTextField textField;
-	private JTextField textField_1;
 	/**
 	 * Launch the application.
 	 */
@@ -72,50 +74,10 @@ public class MainFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		final JPanel panel = new JPanel();
 		JButton btnNewButton = new JButton("New button");
-		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fileChooser.setAcceptAllFileFilterUsed(false);				    
-					int i =0;
-				
-				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					File dir = fileChooser.getSelectedFile();
-					textField.setText(dir.getAbsolutePath());
-					if (dir.isDirectory()) {
-						for (final File f : dir.listFiles(IMAGE_FILTER)) {
-							System.out.println(f.getAbsolutePath()+i);
-							i++;
-							JButton button = new JButton();
-							BufferedImage img = null;
-							try {
-								img = ImageIO.read(f);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							BufferedImage resized = new BufferedImage(400, 400, img.getType());
-							Graphics2D g = resized.createGraphics();
-							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
-							g.dispose();
-							button.setIcon(new ImageIcon(resized));
-							resized.flush();
-							img.flush();
-							
-							toolBar.add(button);	
-						}
-					}
-			   }
-			}
-		});
-		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JPanel panel = new JPanel();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -143,13 +105,67 @@ public class MainFrame extends JFrame {
 		);
 		panel.setLayout(new GridLayout(20, 1, 0, 0));
 		
-		textField_1 = new JTextField();
-		panel.add(textField_1);
-		textField_1.setColumns(10);
 		
-		textField = new JTextField();
-		panel.add(textField);
-		textField.setColumns(10);
+		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setAcceptAllFileFilterUsed(false);				    
+					int i =0;
+					int j =-1;
+				
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					
+					File dir = fileChooser.getSelectedFile();
+					JTextField textField = new JTextField();
+					textField.setColumns(10);
+					textField.setText(dir.getAbsolutePath());
+					listDirs.add(textField);
+					j++;
+					panel.add(listDirs.get(j));
+					if (dir.isDirectory()) {
+						for (final File f : dir.listFiles(IMAGE_FILTER)) {
+							System.out.println(f.getAbsolutePath()+i);
+							i++;
+							JButton button = new JButton();
+							BufferedImage img = null;
+							button.setToolTipText(f.getAbsolutePath());
+							try {
+								img = ImageIO.read(f);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							
+							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							Graphics2D g = resized.createGraphics();
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
+							g.dispose();
+							
+							
+							button.setIcon(new ImageIcon(resized));
+							
+							listImgs.add(button);
+							
+							resized.flush();
+							img.flush();
+							
+							toolBar.add(button);	
+						}
+					}
+			   }
+			}
+		});
+		
+		
+		
+		
+
 		
 		toolBar = new JToolBar();
 		scrollPane.setViewportView(toolBar);
