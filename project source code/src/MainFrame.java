@@ -76,53 +76,39 @@ public class MainFrame extends JFrame {
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				{
-					JFileChooser fileChooser = new JFileChooser();
-					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					fileChooser.setAcceptAllFileFilterUsed(false);
-				    
+			
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setAcceptAllFileFilterUsed(false);				    
 					int i =0;
-					
-					if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File dir = fileChooser.getSelectedFile();
 					textField.setText(dir.getAbsolutePath());
-					 if (dir.isDirectory()) {
-					for (final File f : dir.listFiles(IMAGE_FILTER)) {
-						System.out.println(f.getAbsolutePath()+i);
-						i++;
-						JButton button = new JButton();
-						BufferedImage img = null;
-						try {
-							img = ImageIO.read(f);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					if (dir.isDirectory()) {
+						for (final File f : dir.listFiles(IMAGE_FILTER)) {
+							System.out.println(f.getAbsolutePath()+i);
+							i++;
+							JButton button = new JButton();
+							BufferedImage img = null;
+							try {
+								img = ImageIO.read(f);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							Graphics2D g = resized.createGraphics();
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
+							g.dispose();
+							button.setIcon(new ImageIcon(resized));
+							img.flush();
+							
+							toolBar.add(button);	
 						}
-						BufferedImage resized = new BufferedImage(400, 400, img.getType());
-						Graphics2D g = resized.createGraphics();
-						g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-						    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-						g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),
-						    img.getHeight(), null);
-						g.dispose();
-						button.setIcon(new ImageIcon(resized));
-						img.flush();
-						
-						toolBar.add(button);	
 					}
-					 }
-				    }
-					
-					
-					
-					
-					
-					
-					
-				}
-			
-			
-			
+			   }
 			}
 		});
 		
