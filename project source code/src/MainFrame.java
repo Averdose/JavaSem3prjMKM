@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
 	static final String[] EXTENSIONS = new String[]{
-	        "gif", "png", "bmp","jpeg","JPEG","jpg","JPG" // and other formats you need
+	        "gif", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP" // and other formats you need
 	    };
 
 	static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
