@@ -103,6 +103,7 @@ public class MainFrame extends JFrame {
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
 							g.dispose();
 							button.setIcon(new ImageIcon(resized));
+							resized.flush();
 							img.flush();
 							
 							toolBar.add(button);	
