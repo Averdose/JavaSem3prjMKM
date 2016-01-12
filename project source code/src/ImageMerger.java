@@ -15,11 +15,36 @@ public class ImageMerger {
 		mode = _mode;
 	}
 	/*TO IMPLEMENT private functions"
-	 * setWhiteBackground()
 	 * setImageExtension()
-	 * getImageExtension()
 	 * setBitsPerPixel()
 	 */
+	int setColorDepth() {
+		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
+		if(depthA == BufferedImage.TYPE_4BYTE_ABGR || depthA == BufferedImage.TYPE_INT_ARGB
+				|| depthB == BufferedImage.TYPE_4BYTE_ABGR || depthB == BufferedImage.TYPE_INT_ARGB)
+			return BufferedImage.TYPE_INT_ARGB;
+		else if(depthA == BufferedImage.TYPE_3BYTE_BGR || depthA == BufferedImage.TYPE_INT_BGR ||
+				depthA == BufferedImage.TYPE_INT_RGB || depthB == BufferedImage.TYPE_3BYTE_BGR ||
+				depthB == BufferedImage.TYPE_INT_BGR || depthB == BufferedImage.TYPE_INT_RGB)
+			return BufferedImage.TYPE_INT_RGB;
+		else if(depthA == BufferedImage.TYPE_USHORT_565_RGB || depthA == BufferedImage.TYPE_USHORT_GRAY ||
+				depthB == BufferedImage.TYPE_USHORT_565_RGB || depthB == BufferedImage.TYPE_USHORT_GRAY)
+			return BufferedImage.TYPE_USHORT_GRAY;
+		else if(depthA == BufferedImage.TYPE_BYTE_GRAY || depthB == BufferedImage.TYPE_BYTE_GRAY)
+			return BufferedImage.TYPE_BYTE_GRAY;
+		else if(depthA == BufferedImage.TYPE_BYTE_BINARY || depthB == BufferedImage.TYPE_BYTE_BINARY)
+			return BufferedImage.TYPE_BYTE_BINARY;
+		return BufferedImage.TYPE_INT_RGB;
+	}
+	private void setWhiteBackground(BufferedImage image) {
+		maxWidth = image.getWidth();
+		maxHeight = image.getHeight();
+		for(int w = 0; w < maxWidth; w++) {
+			for(int h = 0; h < maxHeight; h++) {
+				image.setRGB(w, h, 0xFFFFFF);
+			}
+		}
+	}
 	private void mergePixels(BufferedImage newImage, int width, int height) {
 		if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
@@ -27,7 +52,7 @@ public class ImageMerger {
 			minHeight = (height - baseImageA.getHeight())/2;
 			maxHeight = minHeight + baseImageA.getHeight();
 			
-			for(int w = minWidth, i = 0; w < maxWidth; w++, i++)
+			for(int w = minWidth, i = 0; w < maxWidth; w++, i++) {
 				for(int h = minHeight, j = 0; h < maxHeight; h++, j++) {
 					int pixel1 = baseImageA.getRGB(w, j);
 					int pixel2 = baseImageB.getRGB(i, h);
@@ -43,6 +68,7 @@ public class ImageMerger {
 					}
 					
 				}
+			}
 		}
 		else if(baseImageA.getWidth() <= baseImageB.getWidth() && baseImageA.getHeight() >= baseImageB.getHeight()) {
 			minWidth = (width - baseImageA.getWidth())/2;
@@ -50,7 +76,7 @@ public class ImageMerger {
 			minHeight = (height - baseImageB.getHeight())/2;
 			maxHeight = minHeight + baseImageB.getHeight();
 			
-			for(int w = minWidth, i = 0; w < maxWidth; w++, i++)
+			for(int w = minWidth, i = 0; w < maxWidth; w++, i++) {
 				for(int h = minHeight, j = 0; h < maxHeight; h++, j++) {
 					int pixel1 = baseImageB.getRGB(w, j);
 					int pixel2 = baseImageA.getRGB(i, h);
@@ -65,6 +91,7 @@ public class ImageMerger {
 							newImage.setRGB(w, h, pixel1 & pixel2);	
 					}
 				}
+			}
 		}
 	}
 	
@@ -75,7 +102,8 @@ public class ImageMerger {
 		int width = Math.max(baseImageA.getWidth(), baseImageB.getWidth());
 		int height = Math.max(baseImageA.getHeight(), baseImageB.getHeight());
 		
-		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage newImage = new BufferedImage(width, height, setColorDepth());
+		setWhiteBackground(newImage);
 		
 		Graphics graph = newImage.getGraphics();
 		graph.drawImage(baseImageA, (width - baseImageA.getWidth())/2, (height - baseImageA.getHeight())/2, null);
@@ -83,7 +111,7 @@ public class ImageMerger {
 		
 		mergePixels(newImage, width, height);
 		/*only for tests*/
-		ImageIO.write(newImage, "BMP", new File("newImage.bmp"));
+		//ImageIO.write(newImage, "BMP", new File("newImage.bmp"));
 		
 		graph.dispose();
 		baseImageA.flush();
@@ -163,7 +191,7 @@ public class ImageMerger {
 			}
 		}
 		// only for tests //
-		ImageIO.write(image, "BMP", new File("shadeImage.bmp"));
+		//ImageIO.write(image, "BMP", new File("shadeImage.bmp"));
 		return image;
 	}
 	
@@ -195,7 +223,7 @@ public class ImageMerger {
 			}
 		}
 		// only for tests //
-		ImageIO.write(image, "BMP", new File("fadeImage.bmp"));
+		//ImageIO.write(image, "BMP", new File("fadeImage.bmp"));
 		return image;
 	}
 }
