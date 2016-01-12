@@ -71,7 +71,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 812, 504);
+		setBounds(100, 100, 823, 653);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,6 +79,12 @@ public class MainFrame extends JFrame {
 		final JPanel panel = new JPanel();
 		JButton btnNewButton = new JButton("Load");
 		final JScrollPane scrollPane = new JScrollPane();
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		final JToolBar toolBar_1 = new JToolBar();
+		scrollPane_1.setViewportView(toolBar_1);
+		panel.setLayout(new GridLayout(20, 1, 0, 0));
 		
 		JButton refresh = new JButton("fuck the refresh butt");
 		refresh.addActionListener(new ActionListener() {
@@ -94,7 +100,7 @@ public class MainFrame extends JFrame {
 						for (final File f : dir.listFiles(IMAGE_FILTER)) {
 							System.out.println(f.getAbsolutePath());
 							
-							JButton button = new JButton();
+							final JButton button = new JButton();
 							BufferedImage img = null;
 							button.setToolTipText(f.getAbsolutePath());
 							try {
@@ -116,10 +122,52 @@ public class MainFrame extends JFrame {
 							
 							listImgs.add(button);
 							
+							button.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent arg0) {
+									
+									//JButton selectedButton = new JButton(button);
+									
+									Integer in = (Integer)button.getClientProperty("selected");
+									
+									if(button.getToolTipText() != "")
+									{
+										toolBar_1.add(button);
+										button.setToolTipText("");
+										
+									}
+									else
+									{
+										toolBar.add(button);
+										button.setText("");
+									}
+									//	button.putClientProperty("selected", new Integer(1));
+									//System.out.println(in);
+									
+									
+									
+									revalidate();
+									repaint();
+									/*
+									ActionListener[] actions = button.getActionListeners();
+									for(ActionListener a : actions)
+										button.removeActionListener(a);
+									
+									button.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent arg0) {
+											toolBar.add(button);
+											
+											revalidate();
+											repaint();
+										}
+										});*/
+								}
+							});
 							resized.flush();
 							img.flush();
 							
-							toolBar.add(button);	
+							
+							//toolBar.add(button);	
+							//button.putClientProperty("selected", new Integer(0));
 						
 						}
 					}
@@ -130,9 +178,8 @@ public class MainFrame extends JFrame {
 		JButton btnStarFromThe = new JButton("Star from the top");
 		btnStarFromThe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				scrollPane.removeAll();
-				panel.removeAll();
+				toolBar.removeAll();
+				toolBar_1.removeAll();
 				listImgs.clear();
 				j=0;
 				for(int i =0;i<listDirs.size();i++)
@@ -140,27 +187,36 @@ public class MainFrame extends JFrame {
 					listDirs.get(i).setText("");
 					listDirs.get(i).setVisible(false);
 				}
-				
+				revalidate();
+				repaint();
 			}
 		});
+		
+	
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(38)
-							.addComponent(btnStarFromThe)
-							.addGap(18)
-							.addComponent(refresh)
-							.addGap(83)
-							.addComponent(btnNewButton))
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 532, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnStarFromThe)
+									.addGap(18)
+									.addComponent(refresh)
+									.addGap(83)
+									.addComponent(btnNewButton)
+									.addGap(100))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 532, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 777, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -171,13 +227,15 @@ public class MainFrame extends JFrame {
 						.addComponent(refresh)
 						.addComponent(btnStarFromThe))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 385, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
-					.addContainerGap())
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(scrollPane)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+					.addGap(18)
+					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		panel.setLayout(new GridLayout(20, 1, 0, 0));
 		
+
 		for(;numberofdirs<20;numberofdirs++)
 		{
 			listDirs.add(new JTextField());
@@ -199,17 +257,13 @@ public class MainFrame extends JFrame {
 					listDirs.get(j).setText(dir.getAbsolutePath());
 					listDirs.get(j).setVisible(true);
 					j++;
-					/*JTextField textField = new JTextField();
-					textField.setColumns(10);
-					textField.setText(dir.getAbsolutePath());
-					listDirs.add(textField);
-					j++;
-					panel.add(listDirs.get(j));*/
+					
+					
 					if (dir.isDirectory()) {
 						for (final File f : dir.listFiles(IMAGE_FILTER)) {
 							System.out.println(f.getAbsolutePath());
 							
-							JButton button = new JButton();
+							final JButton button = new JButton();
 							BufferedImage img = null;
 							button.setToolTipText(f.getAbsolutePath());
 							try {
@@ -228,6 +282,17 @@ public class MainFrame extends JFrame {
 							
 							
 							button.setIcon(new ImageIcon(resized));
+							
+							button.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent arg0) {
+									JButton selectedButton = new JButton();
+									selectedButton = button;
+									toolBar_1.add(button);
+									revalidate();
+									repaint();
+								}
+							});
+							
 							
 							listImgs.add(button);
 							
