@@ -14,10 +14,7 @@ public class ImageMerger {
 	public ImageMerger(int _mode) {
 		mode = _mode;
 	}
-	/*TO IMPLEMENT private functions"
-	 * setImageExtension()
-	 * setBitsPerPixel()
-	 */
+	
 	int setColorDepth() {
 		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
 		if(depthA == BufferedImage.TYPE_4BYTE_ABGR || depthA == BufferedImage.TYPE_INT_ARGB
@@ -118,112 +115,5 @@ public class ImageMerger {
 		baseImageB.flush();
 		
 		return newImage;
-	}
-	
-	/*direction: 0 - from L to R, 1 - from TL to BR, 2 - from T to B, 3 - from TR to BL
-	 * 			 4 - from R to L, 5 - from BR to TL, 6 - from B to T, 7 - from BL to TR
-	 */
-	private int getGradient(int direction, int currentWidth, int currentHeight){
-		switch(direction) {
-		case 0 :
-			float ratio = (float) currentWidth / maxWidth;
-			return (int) (ratio * 255);
-		case 1 :
-			int area = maxWidth * maxHeight;
-			int currentArea = currentWidth * currentHeight;
-			ratio = (float) currentArea / area;
-			return (int) (ratio * 255);
-		case 2 :
-			ratio = (float) currentHeight / maxHeight;
-			return (int) (ratio * 255);
-		case 3 :
-			area = maxWidth * maxHeight;
-			currentArea = (maxWidth - (currentWidth - minWidth)) * currentHeight;
-			ratio = (float) currentArea / area;
-			return (int) (ratio * 255);
-		case 4 :
-			int width = maxWidth - (currentWidth - minWidth);
-			ratio = (float) width / maxWidth;
-			return (int) (ratio * 255);
-		case 5 :
-			area = maxWidth * maxHeight;
-			currentArea = (maxWidth - (currentWidth - minWidth)) * (maxHeight - (currentHeight - minHeight));
-			ratio = (float) currentArea / area;
-			return (int) (ratio * 255);
-		case 6 :
-			int height = maxHeight - (currentHeight - minHeight);
-			ratio = (float) height / maxHeight;
-			return (int) (ratio * 255);
-		case 7 :
-			area = maxWidth * maxHeight;
-			currentArea = currentWidth * (maxHeight - (currentHeight - minHeight));
-			ratio = (float) currentArea / area;
-			return (int) (ratio * 255);
-		}
-		return -1;
-	}
-	
-	public BufferedImage shadeImage(BufferedImage image, int direction) throws IOException {
-		if(direction == 2 || direction == 6) {
-			for(int h = minHeight; h < maxHeight; h++) {
-				for(int w = minWidth; w < maxWidth; w++) {
-					int pixel = image.getRGB(w, h);
-					int gradient = getGradient(direction, w ,h);
-					Color baseColor = new Color(pixel);
-					Color newColor = new Color(Math.max(baseColor.getRed() - gradient, 0),
-							Math.max(baseColor.getGreen() - gradient, 0),
-							Math.max(baseColor.getBlue() - gradient, 0));
-					image.setRGB(w,  h, newColor.getRGB());
-				}
-			}
-		}
-		else {
-			for(int w = minWidth; w < maxWidth; w++) {
-				for(int h = minHeight; h < maxHeight; h++) {
-					int pixel = image.getRGB(w, h);
-					int gradient = getGradient(direction, w ,h);
-					Color baseColor = new Color(pixel);
-					Color newColor = new Color(Math.max(baseColor.getRed() - gradient, 0),
-							Math.max(baseColor.getGreen() - gradient, 0),
-							Math.max(baseColor.getBlue() - gradient, 0));
-					image.setRGB(w,  h, newColor.getRGB());	
-				}
-			}
-		}
-		// only for tests //
-		//ImageIO.write(image, "BMP", new File("shadeImage.bmp"));
-		return image;
-	}
-	
-	public BufferedImage fadeImage(BufferedImage image, int direction) throws IOException {
-		if(direction == 2 || direction == 6) {
-			for(int h = minHeight; h < maxHeight; h++) {
-				for(int w = minWidth; w < maxWidth; w++) {
-					int pixel = image.getRGB(w, h);
-					int gradient = getGradient(direction, w ,h);
-					Color baseColor = new Color(pixel);
-					Color newColor = new Color(Math.min(baseColor.getRed() + gradient, 254),
-							Math.min(baseColor.getGreen() + gradient, 254),
-							Math.min(baseColor.getBlue() + gradient, 254));
-					image.setRGB(w,  h, newColor.getRGB());
-				}
-			}
-		}
-		else {
-			for(int w = minWidth; w < maxWidth; w++) {
-				for(int h = minHeight; h < maxHeight; h++) {
-					int pixel = image.getRGB(w, h);
-					int gradient = getGradient(direction, w ,h);
-					Color baseColor = new Color(pixel);
-					Color newColor = new Color(Math.min(baseColor.getRed() + gradient, 254),
-							Math.min(baseColor.getGreen() + gradient, 254),
-							Math.min(baseColor.getBlue() + gradient, 254));
-					image.setRGB(w,  h, newColor.getRGB());	
-				}
-			}
-		}
-		// only for tests //
-		//ImageIO.write(image, "BMP", new File("fadeImage.bmp"));
-		return image;
 	}
 }
