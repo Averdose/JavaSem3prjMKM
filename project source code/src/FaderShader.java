@@ -17,8 +17,7 @@ public class FaderShader {
 		switch(direction) {
 		case 0 :
 			float ratio = (float) currentWidth / maxWidth;
-			if(blackOnWhite)
-				return (int) (ratio * 255);
+			return (int) (ratio * 255);
 		case 1 :
 			int area = maxWidth * maxHeight;
 			int currentArea = currentWidth * currentHeight;

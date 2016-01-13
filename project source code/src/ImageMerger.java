@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+
+/* in constructor mode = 0 -> XOR, mode = 1 -> OR, mode = 2 -> AND*/
 public class ImageMerger {	
 	private int minWidth, minHeight;
 	private int maxWidth, maxHeight;
@@ -33,9 +35,9 @@ public class ImageMerger {
 	public ImageMerger(int _mode) {
 		mode = _mode;
 	}
-	
+	/*this function merges a list of paths to images */
 	public BufferedImage Merge(List<String> paths) {
-		System.out.println(paths.size());
+		//System.out.println(paths.size());
 		if(paths.size() == 1) {
 			BufferedImage img = null;
 			try {
@@ -49,7 +51,7 @@ public class ImageMerger {
 		boolean success = false;
 		for(int i = 0, a = 0; i < paths.size() - 1; i++) {
 			try {
-				System.out.println(paths.get(i));
+			//	System.out.println(paths.get(i));
 				if(a == 0)
 					baseImageA = ImageIO.read(new File(paths.get(i)));
 				a++;
@@ -71,7 +73,9 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	
+	/*merges and fades a list of paths to images, blackOnWhite - true if image is black on white background
+	 * direction 0 - from left to right, 1 - from top left to bottom right, and so on clockwise from 0 to 7
+	 */
 	public BufferedImage MergeAndFade(List<String> paths, boolean blackOnWhite, int direction) {
 		FaderShader faderShader = new FaderShader(blackOnWhite, direction);
 		if(paths.size() == 1) {
@@ -113,7 +117,9 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	
+	/*merges and shades a list of paths to images, blackOnWhite - true if image is black on white background
+	 * direction 0 - from left to right, 1 - from top left to bottom right, and so on clockwise from 0 to 7
+	 */
 	public BufferedImage MergeAndShade(List<String> paths, boolean blackOnWhite, int direction) {
 		FaderShader faderShader = new FaderShader(blackOnWhite, direction);
 		if(paths.size() == 1) {
@@ -155,17 +161,18 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	
+	/*this function merges a list of paths to directories, merging image1 from dir1, dir2, dir3, image2 from
+	 * dir1, dir2, dir3 and so on. returns list of merged images */
 	public List<BufferedImage> DirectoryMerge(List<String> directories) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
 		for(int i = 0; i < directories.size(); i++) {
 			File dir = new File(directories.get(i));
-			System.out.println(dir.getName());
+			//System.out.println(dir.getName());
 			if (dir.isDirectory()) {
 				int j = 0;
 				for(final File file : dir.listFiles(IMAGE_FILTER)) {
-					System.out.println("\t" + file.getName() + " " + j + " " + maxNumberOfFiles);
+				//	System.out.println("\t" + file.getName() + " " + j + " " + maxNumberOfFiles);
 					if(j > maxNumberOfFiles)
 					{
 						list.add(new ArrayList<String>());
@@ -176,7 +183,7 @@ public class ImageMerger {
 				}
 			}	
 		}
-		System.out.println(list.size());
+	//	System.out.println(list.size());
 		List<BufferedImage> images = new ArrayList<BufferedImage>();
 		BufferedImage img = null;
 		for(int i = 0; i < list.size(); i++)  {
@@ -189,10 +196,11 @@ public class ImageMerger {
 			list.get(i).clear();
 		}
 		list.clear();
-		System.out.println(images.size());
+		//System.out.println(images.size());
 		return images;		
 	}
-	
+	/*this function merges and fades a list of paths to directories, merging image1 from dir1, dir2, dir3,
+	 *  image2 from dir1, dir2, dir3 and so on. returns list of merged images */
 	public List<BufferedImage> DirectoryMergeAndFade(List<String> directories, boolean blackOnWhite, int direction) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
@@ -224,7 +232,8 @@ public class ImageMerger {
 		list.clear();
 		return images;
 	}
-	
+	/*this function merges and shades a list of paths to directories, merging image1 from dir1, dir2, dir3,
+	 *  image2 from dir1, dir2, dir3 and so on. returns list of merged images */
 	public List<BufferedImage> DirectoryMergeAndShade(List<String> directories, boolean blackOnWhite, int direction) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
@@ -256,7 +265,7 @@ public class ImageMerger {
 		list.clear();
 		return images;
 	}
-	
+	/*not working atm*/
 	int setColorDepth() {
 		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
 		if(depthA == BufferedImage.TYPE_4BYTE_ABGR || depthA == BufferedImage.TYPE_INT_ARGB
@@ -285,8 +294,8 @@ public class ImageMerger {
 		}
 	}
 	private void mergePixels(BufferedImage newImage, int width, int height) {
-		System.out.println(baseImageA.getWidth() + " x " + baseImageA.getHeight() + " " 
-	+ baseImageB.getWidth() + " x " + baseImageB.getHeight());
+		//System.out.println(baseImageA.getWidth() + " x " + baseImageA.getHeight() + " " 
+	//+ baseImageB.getWidth() + " x " + baseImageB.getHeight());
 		if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
