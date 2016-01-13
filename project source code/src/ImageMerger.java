@@ -19,7 +19,7 @@ public class ImageMerger {
 		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
 		if(depthA == BufferedImage.TYPE_4BYTE_ABGR || depthA == BufferedImage.TYPE_INT_ARGB
 				|| depthB == BufferedImage.TYPE_4BYTE_ABGR || depthB == BufferedImage.TYPE_INT_ARGB)
-			return BufferedImage.TYPE_INT_ARGB;
+			return BufferedImage.TYPE_4BYTE_ABGR;
 		else if(depthA == BufferedImage.TYPE_3BYTE_BGR || depthA == BufferedImage.TYPE_INT_BGR ||
 				depthA == BufferedImage.TYPE_INT_RGB || depthB == BufferedImage.TYPE_3BYTE_BGR ||
 				depthB == BufferedImage.TYPE_INT_BGR || depthB == BufferedImage.TYPE_INT_RGB)
@@ -43,6 +43,8 @@ public class ImageMerger {
 		}
 	}
 	private void mergePixels(BufferedImage newImage, int width, int height) {
+		System.out.println(baseImageA.getWidth() + " x " + baseImageA.getHeight() + " " 
+	+ baseImageB.getWidth() + " x " + baseImageB.getHeight());
 		if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
@@ -77,6 +79,52 @@ public class ImageMerger {
 				for(int h = minHeight, j = 0; h < maxHeight; h++, j++) {
 					int pixel1 = baseImageB.getRGB(w, j);
 					int pixel2 = baseImageA.getRGB(i, h);
+					switch(mode) {
+						case 0 :
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
+							break;
+						case 1 :
+							newImage.setRGB(w, h, pixel1 | pixel2);
+							break;
+						case 2 :
+							newImage.setRGB(w, h, pixel1 & pixel2);	
+					}
+				}
+			}
+		}
+		else if(baseImageA.getWidth() > baseImageB.getWidth() && baseImageA.getHeight() > baseImageB.getHeight()) {
+			minWidth = (width - baseImageB.getWidth())/2;
+			maxWidth = minWidth + baseImageB.getWidth();
+			minHeight = (height - baseImageB.getHeight())/2;
+			maxHeight = minHeight + baseImageB.getHeight();
+			
+			for(int w = minWidth, i = 0; w < maxWidth; w++, i++) {
+				for(int h = minHeight, j = 0; h < maxHeight; h++, j++) {
+					int pixel1 = baseImageB.getRGB(i, j);
+					int pixel2 = baseImageA.getRGB(w, h);
+					switch(mode) {
+						case 0 :
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
+							break;
+						case 1 :
+							newImage.setRGB(w, h, pixel1 | pixel2);
+							break;
+						case 2 :
+							newImage.setRGB(w, h, pixel1 & pixel2);	
+					}
+				}
+			}
+		}
+		else if(baseImageA.getWidth() < baseImageB.getWidth() && baseImageA.getHeight() < baseImageB.getHeight()) {
+			minWidth = (width - baseImageA.getWidth())/2;
+			maxWidth = minWidth + baseImageA.getWidth();
+			minHeight = (height - baseImageA.getHeight())/2;
+			maxHeight = minHeight + baseImageA.getHeight();
+			
+			for(int w = minWidth, i = 0; w < maxWidth; w++, i++) {
+				for(int h = minHeight, j = 0; h < maxHeight; h++, j++) {
+					int pixel1 = baseImageB.getRGB(w, h);
+					int pixel2 = baseImageA.getRGB(i, j);
 					switch(mode) {
 						case 0 :
 							newImage.setRGB(w, h, pixel1 ^ pixel2);

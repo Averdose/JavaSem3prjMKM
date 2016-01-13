@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class FaderShader {
 	private int maxWidth, maxHeight;
@@ -83,30 +86,30 @@ public class FaderShader {
 	public BufferedImage fadeImage(BufferedImage image) throws IOException {
 		maxWidth = image.getWidth();
 		maxHeight = image.getHeight();
-			for(int h = 0; h < maxHeight; h++) {
-				for(int w = 0; w < maxWidth; w++) {
-					int pixel = image.getRGB(w, h);
-					int gradient = getGradient(w ,h);
-					Color baseColor = new Color(pixel);
-					Color newColor = null;
-					if(blackOnWhite) {
-						newColor = new Color(Math.min(baseColor.getRed() + gradient, 254),
-								Math.min(baseColor.getGreen() + gradient, 254),
-								Math.min(baseColor.getBlue() + gradient, 254));
-					}
-					else {
-						float g = (float) gradient / 255;
-						gradient = (int) g * 200;
-						newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
-								Math.max(baseColor.getGreen() - gradient, 55),
-								Math.max(baseColor.getBlue() - gradient, 55));
-						
-					}
-					image.setRGB(w,  h, newColor.getRGB());
+		for(int h = 0; h < maxHeight; h++) {
+			for(int w = 0; w < maxWidth; w++) {
+				int pixel = image.getRGB(w, h);
+				int gradient = getGradient(w ,h);
+				Color baseColor = new Color(pixel);
+				Color newColor = null;
+				if(blackOnWhite) {
+					newColor = new Color(Math.min(baseColor.getRed() + gradient, 254),
+							Math.min(baseColor.getGreen() + gradient, 254),
+							Math.min(baseColor.getBlue() + gradient, 254));
 				}
+				else {
+					float g = (float) gradient / 255;
+					gradient = (int) g * 200;
+					newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
+							Math.max(baseColor.getGreen() - gradient, 55),
+							Math.max(baseColor.getBlue() - gradient, 55));
+						
+				}
+				image.setRGB(w,  h, newColor.getRGB());
 			}
+		}
 		// only for tests //
-		//ImageIO.write(image, "BMP", new File("fadeImage.bmp"));
+		//ImageIO.write(image, "PNG", new File("fadeImage.png"));
 		return image;
 	}
 }
