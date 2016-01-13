@@ -90,7 +90,7 @@ public class ImageMerger {
 			}
 		}
 		boolean success = false;
-		for(int i = 1, a = 0; i < paths.size() - 1; i++) {
+		for(int i = 0, a = 0; i < paths.size() - 1; i++) {
 			try {
 				if(a == 0)
 				{
@@ -134,7 +134,7 @@ public class ImageMerger {
 			}
 		}
 		boolean success = false;
-		for(int i = 1, a = 0; i < paths.size() - 1; i++) {
+		for(int i = 0, a = 0; i < paths.size() - 1; i++) {
 			try {
 				if(a == 0)
 				{

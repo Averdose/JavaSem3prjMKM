@@ -274,13 +274,18 @@ public class MainFrame extends JFrame {
 		JRadioButton rdbtnShading = new JRadioButton("shading");
 		
 		JRadioButton rdbtnNormal = new JRadioButton("normal");
+		 ButtonGroup groupShade = new ButtonGroup();
+		    groupShade.add(rdbtnFading);
+		    groupShade.add(rdbtnShading);
+		    groupShade.add(rdbtnNormal);
 		
 		JRadioButton rdbtnBlackOnWhite = new JRadioButton("black on white");
 		
 		JRadioButton rdbtnWhiteOnBlack = new JRadioButton("white on black");
 		    
-		    
-
+		ButtonGroup groupWB = new ButtonGroup();
+	    groupWB.add(rdbtnWhiteOnBlack);
+	    groupWB.add(rdbtnBlackOnWhite);
 		
 	
 		
