@@ -54,7 +54,7 @@ public class FaderShader {
 		return -1;
 	}
 	
-	public BufferedImage shadeImage(BufferedImage image) throws IOException {
+	public BufferedImage shadeImage(BufferedImage image) {
 		maxWidth = image.getWidth();
 		maxHeight = image.getHeight();
 		for(int h = 0; h < maxHeight; h++) {
@@ -83,7 +83,7 @@ public class FaderShader {
 		return image;
 	}
 	
-	public BufferedImage fadeImage(BufferedImage image) throws IOException {
+	public BufferedImage fadeImage(BufferedImage image) {
 		maxWidth = image.getWidth();
 		maxHeight = image.getHeight();
 		for(int h = 0; h < maxHeight; h++) {
