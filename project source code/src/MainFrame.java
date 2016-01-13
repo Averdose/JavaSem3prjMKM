@@ -201,39 +201,42 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
 				BufferedImage img = null;
-				//for(int i =0; i<listToMerge.size();i++)
-				//	System.out.println(listToMerge.get(i));
-				if(shadeMode ==2)
-					img = imgMerger1.Merge(listToMerge);
-				else if(shadeMode == 0)
+				if(!listToMerge.isEmpty())
 				{
-					if(BWMode ==1)
-					img = imgMerger1.MergeAndFade(listToMerge, true, 0);	
+					//for(int i =0; i<listToMerge.size();i++)
+					//	System.out.println(listToMerge.get(i));
+					if(shadeMode ==2)
+						img = imgMerger1.Merge(listToMerge);
+					else if(shadeMode == 0)
+					{
+						if(BWMode ==1)
+						img = imgMerger1.MergeAndFade(listToMerge, true, 0);	
+						else
+						img = imgMerger1.MergeAndFade(listToMerge, false, 0);
+					}
 					else
-					img = imgMerger1.MergeAndFade(listToMerge, false, 0);
+					{
+						if(BWMode == 1)
+						img = imgMerger1.MergeAndShade(listToMerge, true, 0);
+						else
+						img = imgMerger1.MergeAndShade(listToMerge, false, 0);
+					}
+					BufferedImage resized = new BufferedImage(200, 200, img.getType());
+					Graphics2D g = resized.createGraphics();
+					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					g.drawImage(img, 0, 0, 200, 200, 0, 0, img.getWidth(),img.getHeight(), null);
+					g.dispose();
+					
+					
+					JLabel picLabel = new JLabel(new ImageIcon(resized));
+					panel_1.removeAll();
+					panel_1.add(picLabel);
+					
+					resized.flush();
+					img.flush();
+					revalidate();
+					repaint();
 				}
-				else
-				{
-					if(BWMode == 1)
-					img = imgMerger1.MergeAndShade(listToMerge, true, 0);
-					else
-					img = imgMerger1.MergeAndShade(listToMerge, false, 0);
-				}
-				BufferedImage resized = new BufferedImage(200, 200, img.getType());
-				Graphics2D g = resized.createGraphics();
-				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				g.drawImage(img, 0, 0, 200, 200, 0, 0, img.getWidth(),img.getHeight(), null);
-				g.dispose();
-				
-				
-				JLabel picLabel = new JLabel(new ImageIcon(resized));
-				panel_1.removeAll();
-				panel_1.add(picLabel);
-				
-				resized.flush();
-				img.flush();
-				revalidate();
-				repaint();
 			}
 		});
 		
@@ -242,43 +245,46 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
 				List<String> listStrings = new ArrayList<String>();
-				for(int i =0; i< listDirs.size();i++)
-					listStrings.add(listDirs.get(i).getText());
-				
-				List<BufferedImage> img = new ArrayList<BufferedImage>();
-				
-				if(shadeMode ==2)
-					img = imgMerger1.DirectoryMerge(listStrings);
-				else if(shadeMode == 0)
+				if(!listDirs.isEmpty())
 				{
-					if(BWMode ==1)
-					img = imgMerger1.DirectoryMergeAndFade(listStrings, true, 0);	
-					else
-					img = imgMerger1.DirectoryMergeAndFade(listStrings, false, 0);
-				}
-				else
-				{
-					if(BWMode == 1)
-					img = imgMerger1.DirectoryMergeAndShade(listStrings, true, 0);
-					else
-					img = imgMerger1.DirectoryMergeAndShade(listStrings, false, 0);
-				}
-				
-				
-				panel_1.removeAll();
-				for(int i =0; i<img.size();i++)
-				{
-					BufferedImage resized = new BufferedImage(200, 200, img.get(i).getType());
-					Graphics2D g = resized.createGraphics();
-					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-					g.drawImage(img.get(i), 0, 0, 200, 200, 0, 0, img.get(i).getWidth(),img.get(i).getHeight(), null);
-					g.dispose();
-					JLabel picLabel = new JLabel(new ImageIcon(resized));
-					panel_1.add(picLabel);
+					for(int i =0; i< listDirs.size();i++)
+						listStrings.add(listDirs.get(i).getText());
 					
+					List<BufferedImage> img = new ArrayList<BufferedImage>();
+					
+					if(shadeMode ==2)
+						img = imgMerger1.DirectoryMerge(listStrings);
+					else if(shadeMode == 0)
+					{
+						if(BWMode ==1)
+						img = imgMerger1.DirectoryMergeAndFade(listStrings, true, 0);	
+						else
+						img = imgMerger1.DirectoryMergeAndFade(listStrings, false, 0);
+					}
+					else
+					{
+						if(BWMode == 1)
+						img = imgMerger1.DirectoryMergeAndShade(listStrings, true, 0);
+						else
+						img = imgMerger1.DirectoryMergeAndShade(listStrings, false, 0);
+					}
+					
+					
+					panel_1.removeAll();
+					for(int i =0; i<img.size();i++)
+					{
+						BufferedImage resized = new BufferedImage(200, 200, img.get(i).getType());
+						Graphics2D g = resized.createGraphics();
+						g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+						g.drawImage(img.get(i), 0, 0, 200, 200, 0, 0, img.get(i).getWidth(),img.get(i).getHeight(), null);
+						g.dispose();
+						JLabel picLabel = new JLabel(new ImageIcon(resized));
+						panel_1.add(picLabel);
+						
+					}
+					revalidate();
+					repaint();
 				}
-				revalidate();
-				repaint();
 			}
 		});
 		
