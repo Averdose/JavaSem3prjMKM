@@ -377,9 +377,11 @@ public class StartWin {
 				tbListImages.removeAll();
 				listImgs.clear();
 				File dir;
-				for(j =0;j<listDirs.size();j++)
+				int numberOfDirector =j;
+				for(j =0;j<numberOfDirector;j++)
 				{
-					dir = new File(listDirs.get(j).getText());
+					String dirPath = listDirs.get(j).getText();
+					dir = new File(dirPath);
 						if (dir.isDirectory()) {
 						for (final File f : dir.listFiles(IMAGE_FILTER)) {
 							System.out.println(f.getAbsolutePath());
@@ -471,6 +473,8 @@ public class StartWin {
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					
 					File dir = fileChooser.getSelectedFile();
+					
+					System.out.println("  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j);
 					listDirs.get(j).setText(dir.getAbsolutePath());
 					listDirs.get(j).setVisible(true);
 					j++;
