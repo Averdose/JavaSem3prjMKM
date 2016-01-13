@@ -16,6 +16,8 @@ import javax.swing.JMenu;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class StartWin {
@@ -50,6 +52,13 @@ public class StartWin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
+		int numberofdirs =0;
+		List<String> listToMerge = new ArrayList<String>();
+		final List<JButton> listImgs = new ArrayList<JButton>();
+		final List<JTextField> listDirs = new ArrayList<JTextField>();
+		
+		
 		frame = new JFrame();
 		frame.setBounds(277, 100, 1366, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,36 +127,10 @@ public class StartWin {
 		JPanel plOperationsListPath = new JPanel();
 		plOperationsListPath.setBounds(6, 6, 300, 409);
 		plOperationsImages.add(plOperationsListPath);
-		plOperationsListPath.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JPanel plOperationsWork = new JPanel();
-		plOperationsWork.setBackground(new Color(102, 204, 51));
-		plOperationsWork.setBounds(1092, 0, 274, 640);
-		plOperations.add(plOperationsWork);
-		plOperationsWork.setLayout(null);
-		
-		JButton btnOperationsWorkLoad = new JButton("LOAD");
-		btnOperationsWorkLoad.setBounds(0, 6, 274, 100);
-		plOperationsWork.add(btnOperationsWorkLoad);
-		
-		JButton btnOperationsWorkRefresh = new JButton("Refresh");
-		btnOperationsWorkRefresh.setBounds(0, 106, 274, 40);
-		plOperationsWork.add(btnOperationsWorkRefresh);
-		
-		JButton btnOperationsWorkMerge = new JButton("MERGE");
-		btnOperationsWorkMerge.setBounds(0, 420, 274, 170);
-		plOperationsWork.add(btnOperationsWorkMerge);
+		plOperationsListPath.setLayout(new GridLayout(20, 1, 0, 0));
 		
 		JPanel plOperationsPreview = new JPanel();
 		plOperationsPreview.setVisible(false);
-		plOperationsPreview.setBackground(Color.WHITE);
-		plOperationsPreview.setBounds(0, 0, 1092, 640);
-		plOperations.add(plOperationsPreview);
-		plOperationsPreview.setLayout(null);
-		
-		JButton imgOperationsPreview = new JButton("ImageToView");
-		imgOperationsPreview.setBounds(146, 5, 800, 590);
-		plOperationsPreview.add(imgOperationsPreview);
 		
 		JPanel plOperationsPreviewWork = new JPanel();
 		plOperationsPreviewWork.setVisible(false);
@@ -167,6 +150,32 @@ public class StartWin {
 		tfOperationsPreviewWorkPath.setBounds(6, 36, 262, 30);
 		plOperationsPreviewWork.add(tfOperationsPreviewWorkPath);
 		tfOperationsPreviewWorkPath.setColumns(10);
+		
+		JPanel plOperationsWork = new JPanel();
+		plOperationsWork.setBackground(new Color(102, 204, 51));
+		plOperationsWork.setBounds(1092, 0, 274, 640);
+		plOperations.add(plOperationsWork);
+		plOperationsWork.setLayout(null);
+		
+		JButton btnOperationsWorkLoad = new JButton("LOAD");
+		btnOperationsWorkLoad.setBounds(0, 6, 274, 100);
+		plOperationsWork.add(btnOperationsWorkLoad);
+		
+		JButton btnOperationsWorkRefresh = new JButton("Refresh");
+		btnOperationsWorkRefresh.setBounds(0, 106, 274, 40);
+		plOperationsWork.add(btnOperationsWorkRefresh);
+		
+		JButton btnOperationsWorkMerge = new JButton("MERGE");
+		btnOperationsWorkMerge.setBounds(0, 420, 274, 170);
+		plOperationsWork.add(btnOperationsWorkMerge);
+		plOperationsPreview.setBackground(Color.WHITE);
+		plOperationsPreview.setBounds(0, 0, 1092, 640);
+		plOperations.add(plOperationsPreview);
+		plOperationsPreview.setLayout(null);
+		
+		JButton imgOperationsPreview = new JButton("ImageToView");
+		imgOperationsPreview.setBounds(146, 5, 800, 590);
+		plOperationsPreview.add(imgOperationsPreview);
 		
 		final JPanel plMergedImages = new JPanel();
 		plMergedImages.setVisible(false);
@@ -308,5 +317,13 @@ public class StartWin {
 				plMergedImages.setVisible(true);
 			}
 		});
+		
+		for(;numberofdirs<20;numberofdirs++)
+		{
+			listDirs.add(new JTextField());
+			plOperationsListPath.add(listDirs.get(numberofdirs));
+			listDirs.get(numberofdirs).setColumns(10);
+			listDirs.get(numberofdirs).setVisible(false);
+		}
 	}
 }
