@@ -36,7 +36,7 @@ public class ImageMerger {
 		mode = _mode;
 	}
 	/*this function merges a list of paths to images */
-	public BufferedImage Merge(List<String> paths) {
+	public BufferedImage merge(List<String> paths) {
 		System.out.println("Merging");
 		//System.out.println(paths.size());
 		if(paths.size() == 1) {
@@ -77,7 +77,7 @@ public class ImageMerger {
 	/*merges and fades a list of paths to images, blackOnWhite - true if image is black on white background
 	 * direction 0 - from left to right, 1 - from top left to bottom right, and so on clockwise from 0 to 7
 	 */
-	public BufferedImage MergeAndFade(List<String> paths, boolean blackOnWhite, int direction) {
+	public BufferedImage mergeAndFade(List<String> paths, boolean blackOnWhite, int direction) {
 		FaderShader faderShader = new FaderShader(blackOnWhite, direction);
 		if(paths.size() == 1) {
 			BufferedImage img = null;
@@ -121,7 +121,7 @@ public class ImageMerger {
 	/*merges and shades a list of paths to images, blackOnWhite - true if image is black on white background
 	 * direction 0 - from left to right, 1 - from top left to bottom right, and so on clockwise from 0 to 7
 	 */
-	public BufferedImage MergeAndShade(List<String> paths, boolean blackOnWhite, int direction) {
+	public BufferedImage mergeAndShade(List<String> paths, boolean blackOnWhite, int direction) {
 		FaderShader faderShader = new FaderShader(blackOnWhite, direction);
 		if(paths.size() == 1) {
 			BufferedImage img = null;
@@ -164,7 +164,7 @@ public class ImageMerger {
 	}
 	/*this function merges a list of paths to directories, merging image1 from dir1, dir2, dir3, image2 from
 	 * dir1, dir2, dir3 and so on. returns list of merged images */
-	public List<BufferedImage> DirectoryMerge(List<String> directories) {
+	public List<BufferedImage> directoryMerge(List<String> directories) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
 		for(int i = 0; i < directories.size(); i++) {
@@ -188,7 +188,7 @@ public class ImageMerger {
 		List<BufferedImage> images = new ArrayList<BufferedImage>();
 		BufferedImage img = null;
 		for(int i = 0; i < list.size(); i++)  {
-			img = Merge(list.get(i));
+			img = merge(list.get(i));
 			if(img != null)
 			{
 				images.add(img);
@@ -202,7 +202,7 @@ public class ImageMerger {
 	}
 	/*this function merges and fades a list of paths to directories, merging image1 from dir1, dir2, dir3,
 	 *  image2 from dir1, dir2, dir3 and so on. returns list of merged images */
-	public List<BufferedImage> DirectoryMergeAndFade(List<String> directories, boolean blackOnWhite, int direction) {
+	public List<BufferedImage> directoryMergeAndFade(List<String> directories, boolean blackOnWhite, int direction) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
 		for(int i = 0; i < directories.size(); i++) {
@@ -224,7 +224,7 @@ public class ImageMerger {
 		List<BufferedImage> images = new ArrayList<BufferedImage>();
 		BufferedImage img = null;
 		for(int i = 0; i < list.size(); i++)  {
-			img = MergeAndFade(list.get(i), blackOnWhite, direction);
+			img = mergeAndFade(list.get(i), blackOnWhite, direction);
 			if(img != null)
 				images.add(img);
 			img.flush();
@@ -235,7 +235,7 @@ public class ImageMerger {
 	}
 	/*this function merges and shades a list of paths to directories, merging image1 from dir1, dir2, dir3,
 	 *  image2 from dir1, dir2, dir3 and so on. returns list of merged images */
-	public List<BufferedImage> DirectoryMergeAndShade(List<String> directories, boolean blackOnWhite, int direction) {
+	public List<BufferedImage> directoryMergeAndShade(List<String> directories, boolean blackOnWhite, int direction) {
 		List<List<String>> list = new ArrayList<List<String>>();
 		int maxNumberOfFiles = -1;
 		for(int i = 0; i < directories.size(); i++) {
@@ -257,7 +257,7 @@ public class ImageMerger {
 		List<BufferedImage> images = new ArrayList<BufferedImage>();
 		BufferedImage img = null;
 		for(int i = 0; i < list.size(); i++)  {
-			img = MergeAndShade(list.get(i), blackOnWhite, direction);
+			img = mergeAndShade(list.get(i), blackOnWhite, direction);
 			if(img != null)
 				images.add(img);
 			img.flush();
