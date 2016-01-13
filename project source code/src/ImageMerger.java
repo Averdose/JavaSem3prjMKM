@@ -15,10 +15,10 @@ public class ImageMerger {
 	private int maxWidth, maxHeight;
 	private int mode;
 	private BufferedImage baseImageA, baseImageB;
-	private static final String[] EXTENSIONS = new String[]{
+	private final String[] EXTENSIONS = new String[]{
 	        "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
 	};
-	private static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
+	private final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
         @Override
         public boolean accept(final File dir, final String name) {
@@ -37,6 +37,7 @@ public class ImageMerger {
 	}
 	/*this function merges a list of paths to images */
 	public BufferedImage Merge(List<String> paths) {
+		System.out.println("Merging");
 		//System.out.println(paths.size());
 		if(paths.size() == 1) {
 			BufferedImage img = null;
@@ -139,7 +140,7 @@ public class ImageMerger {
 				if(a == 0)
 				{
 					baseImageA = ImageIO.read(new File(paths.get(i)));
-					faderShader.fadeImage(baseImageA);
+					faderShader.shadeImage(baseImageA);
 				}
 				a++;
 				baseImageB = ImageIO.read(new File(paths.get(i + 1)));
