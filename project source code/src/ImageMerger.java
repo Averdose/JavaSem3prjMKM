@@ -299,13 +299,13 @@ public class ImageMerger {
 					int pixel2 = baseImageB.getRGB(i, h);
 					switch(mode) {
 						case 0 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) ^ (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
 							break;
 						case 1 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) | (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 | pixel2);
 							break;
 						case 2 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) & (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 & pixel2);
 					}
 					
 				}
@@ -323,13 +323,13 @@ public class ImageMerger {
 					int pixel2 = baseImageA.getRGB(i, h);
 					switch(mode) {
 						case 0 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) ^ (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
 							break;
 						case 1 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) | (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 | pixel2);
 							break;
 						case 2 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) & (0xFF000000 | pixel2));	
+							newImage.setRGB(w, h, pixel1 & pixel2);	
 					}
 				}
 			}
@@ -346,13 +346,13 @@ public class ImageMerger {
 					int pixel2 = baseImageA.getRGB(w, h);
 					switch(mode) {
 						case 0 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) ^ (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
 							break;
 						case 1 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) | (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 | pixel2);
 							break;
 						case 2 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) & (0xFF000000 | pixel2));	
+							newImage.setRGB(w, h, pixel1 & pixel2);	
 					}
 				}
 			}
@@ -369,13 +369,13 @@ public class ImageMerger {
 					int pixel2 = baseImageA.getRGB(i, j);
 					switch(mode) {
 						case 0 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) ^ (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 ^ pixel2);
 							break;
 						case 1 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) | (0xFF000000 | pixel2));
+							newImage.setRGB(w, h, pixel1 | pixel2);
 							break;
 						case 2 :
-							newImage.setRGB(w, h, (pixel1 | 0xFF000000) & (0xFF000000 | pixel2));	
+							newImage.setRGB(w, h, pixel1 & pixel2);	
 					}
 				}
 			}
