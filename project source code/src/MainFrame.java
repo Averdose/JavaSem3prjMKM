@@ -32,6 +32,8 @@ import javax.swing.JRadioButton;
 public class MainFrame extends JFrame {
 
 	private int mergeMode =0;
+	private int fadeMode =0;
+	private int BWMode = 0;
 	private List<String> listToMerge = new ArrayList<String>();
 	private final List<JButton> listImgs = new ArrayList<JButton>();
 	private final List<JTextField> listDirs = new ArrayList<JTextField>();
