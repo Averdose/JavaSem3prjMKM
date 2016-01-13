@@ -32,7 +32,7 @@ import javax.swing.JRadioButton;
 public class MainFrame extends JFrame {
 
 	private int mergeMode =0;
-	private int fadeMode =0;
+	private int shadeMode =0;
 	private int BWMode = 0;
 	private List<String> listToMerge = new ArrayList<String>();
 	private final List<JButton> listImgs = new ArrayList<JButton>();
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 	private  int j =0;
 	int numberofdirs =0;
 	static final String[] EXTENSIONS = new String[]{
-	        "gif", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
+	        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG","zip" // and other formats you need
 	    };
 
 	static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
@@ -203,18 +203,35 @@ public class MainFrame extends JFrame {
 				BufferedImage img = null;
 				//for(int i =0; i<listToMerge.size();i++)
 				//	System.out.println(listToMerge.get(i));
-				img = imgMerger1.Merge(listToMerge);
-				
-				/*BufferedImage resized = new BufferedImage(200, 200, img.getType());
+				if(shadeMode ==2)
+					img = imgMerger1.Merge(listToMerge);
+				else if(shadeMode == 0)
+				{
+					if(BWMode ==1)
+					img = imgMerger1.MergeAndFade(listToMerge, true, 0);	
+					else
+					img = imgMerger1.MergeAndFade(listToMerge, false, 0);
+				}
+				else
+				{
+					if(BWMode == 1)
+					img = imgMerger1.MergeAndShade(listToMerge, true, 0);
+					else
+					img = imgMerger1.MergeAndShade(listToMerge, false, 0);
+				}
+				BufferedImage resized = new BufferedImage(200, 200, img.getType());
 				Graphics2D g = resized.createGraphics();
 				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 				g.drawImage(img, 0, 0, 200, 200, 0, 0, img.getWidth(),img.getHeight(), null);
 				g.dispose();
-				*/
 				
-				JLabel picLabel = new JLabel(new ImageIcon(img));
+				
+				JLabel picLabel = new JLabel(new ImageIcon(resized));
 				panel_1.removeAll();
 				panel_1.add(picLabel);
+				
+				resized.flush();
+				img.flush();
 				revalidate();
 				repaint();
 			}
@@ -223,14 +240,32 @@ public class MainFrame extends JFrame {
 		JButton btnQuickmergeThisShit = new JButton("QuickMerge this shit");
 		btnQuickmergeThisShit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ImageMerger imgMerge = new ImageMerger(mergeMode);
+				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
 				List<String> listStrings = new ArrayList<String>();
 				for(int i =0; i< listDirs.size();i++)
 					listStrings.add(listDirs.get(i).getText());
 				
 				List<BufferedImage> img = new ArrayList<BufferedImage>();
-				img = imgMerge.DirectoryMerge(listStrings);
 				
+				if(shadeMode ==2)
+					img = imgMerger1.DirectoryMerge(listStrings);
+				else if(shadeMode == 0)
+				{
+					if(BWMode ==1)
+					img = imgMerger1.DirectoryMergeAndFade(listStrings, true, 0);	
+					else
+					img = imgMerger1.DirectoryMergeAndFade(listStrings, false, 0);
+				}
+				else
+				{
+					if(BWMode == 1)
+					img = imgMerger1.DirectoryMergeAndShade(listStrings, true, 0);
+					else
+					img = imgMerger1.DirectoryMergeAndShade(listStrings, false, 0);
+				}
+				
+				
+				panel_1.removeAll();
 				for(int i =0; i<img.size();i++)
 				{
 					BufferedImage resized = new BufferedImage(200, 200, img.get(i).getType());
@@ -272,19 +307,43 @@ public class MainFrame extends JFrame {
 		    group.add(rdbtnAnd);
 		
 		JRadioButton rdbtnFading = new JRadioButton("fading");
+		rdbtnFading.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				shadeMode = 0;
+			}
+		});
 		
 		JRadioButton rdbtnShading = new JRadioButton("shading");
 		
+		rdbtnShading.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				shadeMode = 1;
+			}
+		});
 		JRadioButton rdbtnNormal = new JRadioButton("normal");
+		rdbtnNormal.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				shadeMode = 2;
+			}
+		});
 		 ButtonGroup groupShade = new ButtonGroup();
 		    groupShade.add(rdbtnFading);
 		    groupShade.add(rdbtnShading);
 		    groupShade.add(rdbtnNormal);
 		
 		JRadioButton rdbtnBlackOnWhite = new JRadioButton("black on white");
+		rdbtnBlackOnWhite.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				BWMode = 1;
+			}
+		});
 		
 		JRadioButton rdbtnWhiteOnBlack = new JRadioButton("white on black");
-		    
+		rdbtnWhiteOnBlack.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				BWMode = 0;
+			}
+		});
 		ButtonGroup groupWB = new ButtonGroup();
 	    groupWB.add(rdbtnWhiteOnBlack);
 	    groupWB.add(rdbtnBlackOnWhite);
@@ -408,6 +467,10 @@ public class MainFrame extends JFrame {
 					if (dir.isDirectory()) {
 						for (final File f : dir.listFiles(IMAGE_FILTER)) {
 							System.out.println(f.getAbsolutePath());
+							if(f.getAbsolutePath().endsWith(".zip"))
+							{
+								//Opening Zip files here
+							}
 							
 							final JButton button = new JButton();
 							BufferedImage img = null;
