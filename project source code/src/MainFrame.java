@@ -206,20 +206,20 @@ public class MainFrame extends JFrame {
 					//for(int i =0; i<listToMerge.size();i++)
 					//	System.out.println(listToMerge.get(i));
 					if(shadeMode ==2)
-						img = imgMerger1.Merge(listToMerge);
+						img = imgMerger1.merge(listToMerge);
 					else if(shadeMode == 0)
 					{
 						if(BWMode ==1)
-						img = imgMerger1.MergeAndFade(listToMerge, true, 0);	
+						img = imgMerger1.mergeAndFade(listToMerge, true, 0);	
 						else
-						img = imgMerger1.MergeAndFade(listToMerge, false, 0);
+						img = imgMerger1.mergeAndFade(listToMerge, false, 0);
 					}
 					else
 					{
 						if(BWMode == 1)
-						img = imgMerger1.MergeAndShade(listToMerge, true, 0);
+						img = imgMerger1.mergeAndShade(listToMerge, true, 0);
 						else
-						img = imgMerger1.MergeAndShade(listToMerge, false, 0);
+						img = imgMerger1.mergeAndShade(listToMerge, false, 0);
 					}
 					BufferedImage resized = new BufferedImage(200, 200, img.getType());
 					Graphics2D g = resized.createGraphics();
@@ -253,20 +253,20 @@ public class MainFrame extends JFrame {
 					List<BufferedImage> img = new ArrayList<BufferedImage>();
 					
 					if(shadeMode ==2)
-						img = imgMerger1.DirectoryMerge(listStrings);
+						img = imgMerger1.directoryMerge(listStrings);
 					else if(shadeMode == 0)
 					{
 						if(BWMode ==1)
-						img = imgMerger1.DirectoryMergeAndFade(listStrings, true, 0);	
+						img = imgMerger1.directoryMergeAndFade(listStrings, true, 0);	
 						else
-						img = imgMerger1.DirectoryMergeAndFade(listStrings, false, 0);
+						img = imgMerger1.directoryMergeAndFade(listStrings, false, 0);
 					}
 					else
 					{
 						if(BWMode == 1)
-						img = imgMerger1.DirectoryMergeAndShade(listStrings, true, 0);
+						img = imgMerger1.directoryMergeAndShade(listStrings, true, 0);
 						else
-						img = imgMerger1.DirectoryMergeAndShade(listStrings, false, 0);
+						img = imgMerger1.directoryMergeAndShade(listStrings, false, 0);
 					}
 					
 					
