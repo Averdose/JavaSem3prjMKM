@@ -442,6 +442,8 @@ public class StartWin {
 								                listToMerge.remove(i);
 								            }
 								        }
+										frame.revalidate();
+										frame.repaint();
 										selectedButton.putClientProperty("selected", new Integer(0));
 									}
 								}
