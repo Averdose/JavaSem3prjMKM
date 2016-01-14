@@ -629,7 +629,14 @@ public class StartWin {
 							
 							button.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
-									plOperationsListImagesOptions.setVisible(true);
+									if (plOperationsListImagesOptions.isVisible())
+									{
+										plOperationsListImagesOptions.setVisible(false);
+									}
+									else
+									{
+										plOperationsListImagesOptions.setVisible(true);
+									}
 									selectedButton = button;
 									int in = (Integer)selectedButton.getClientProperty("selected");
 									if(in ==1)
