@@ -511,7 +511,7 @@ public class StartWin {
 							}
 							
 							
-							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
 							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -539,7 +539,7 @@ public class StartWin {
 											selectedButton.getIcon().paintIcon(null, gr, 0,0);
 											gr.dispose();
 										
-										BufferedImage resized = new BufferedImage(400, 400, img.getType());
+										BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 										Graphics2D g = resized.createGraphics();
 										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 										g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -616,7 +616,7 @@ public class StartWin {
 							}
 							
 							
-							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
 							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -651,7 +651,7 @@ public class StartWin {
 											selectedButton.getIcon().paintIcon(null, gr, 0,0);
 											gr.dispose();
 										
-										BufferedImage resized = new BufferedImage(400, 400, img.getType());
+										BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 										Graphics2D g = resized.createGraphics();
 										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 										g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -702,7 +702,7 @@ public class StartWin {
 					selectedButton.getIcon().paintIcon(null, gr, 0,0);
 					gr.dispose();
 				
-				BufferedImage resized = new BufferedImage(170, 170, img.getType());
+				BufferedImage resized = new BufferedImage(170, 170, BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = resized.createGraphics();
 				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 				g.drawImage(img, 0, 0, 170, 170, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -739,7 +739,7 @@ public class StartWin {
 				selectedButton.getIcon().paintIcon(null, gr, 0,0);
 				gr.dispose();
 			
-			BufferedImage resized = new BufferedImage(800, 600, img.getType());
+			BufferedImage resized = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = resized.createGraphics();
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 			g.drawImage(img, 0, 0, 800, 600, 0, 0, img.getWidth(),img.getHeight(), null);
