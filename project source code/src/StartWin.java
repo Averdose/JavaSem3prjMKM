@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -30,6 +31,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JRadioButton;
 
 public class StartWin {
 
@@ -67,7 +71,7 @@ public class StartWin {
 
 		int numberofdirs =0;
 		int mergeMode =0;
-		int shadeMode =0;
+		final int shadeMode =0;
 		int BWMode = 0;
 		
 		final String[] EXTENSIONS = new String[]{
@@ -178,17 +182,126 @@ public class StartWin {
 		
 		JButton btnOperationsWorkLoad = new JButton("LOAD");
 		
-		btnOperationsWorkLoad.setBounds(0, 6, 274, 100);
+		btnOperationsWorkLoad.setBounds(0, 6, 274, 50);
 		plOperationsWork.add(btnOperationsWorkLoad);
 		
 		JButton btnOperationsWorkRefresh = new JButton("Refresh");
-		btnOperationsWorkRefresh.setBounds(0, 106, 274, 40);
+		btnOperationsWorkRefresh.setBounds(0, 56, 274, 30);
 		plOperationsWork.add(btnOperationsWorkRefresh);
 		
 		JButton btnOperationsWorkMerge = new JButton("MERGE");
-		btnOperationsWorkMerge.setBounds(0, 420, 274, 170);
+		btnOperationsWorkMerge.setBounds(0, 470, 274, 120);
 		plOperationsWork.add(btnOperationsWorkMerge);
 		
+		JButton btnOperationsWorkMergeAll = new JButton("Merge all");
+		btnOperationsWorkMergeAll.setBounds(0, 420, 274, 50);
+		plOperationsWork.add(btnOperationsWorkMergeAll);
+		
+		JPanel plOperationsWorkMode = new JPanel();
+		plOperationsWorkMode.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Mode", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		plOperationsWorkMode.setBounds(10, 98, 258, 61);
+		plOperationsWork.add(plOperationsWorkMode);
+		plOperationsWorkMode.setLayout(null);
+		
+		JRadioButton rdbtnOperationsWorkModeAnd = new JRadioButton("AND");
+		rdbtnOperationsWorkModeAnd.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkModeAnd.setBounds(0, 23, 70, 23);
+		plOperationsWorkMode.add(rdbtnOperationsWorkModeAnd);
+		
+		JRadioButton rdbtnOperationsWorkModeOr = new JRadioButton("OR");
+		rdbtnOperationsWorkModeOr.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkModeOr.setBounds(76, 23, 78, 23);
+		plOperationsWorkMode.add(rdbtnOperationsWorkModeOr);
+		
+		JRadioButton rdbtnOperationsWorkModeXor = new JRadioButton("XOR");
+		rdbtnOperationsWorkModeXor.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkModeXor.setBounds(169, 23, 83, 23);
+		plOperationsWorkMode.add(rdbtnOperationsWorkModeXor);
+			
+		ButtonGroup mMode = new ButtonGroup();
+		mMode.add(rdbtnOperationsWorkModeAnd);
+		mMode.add(rdbtnOperationsWorkModeOr);
+		mMode.add(rdbtnOperationsWorkModeXor);
+		
+		JPanel plOperationsWorkShading = new JPanel();
+		plOperationsWorkShading.setBorder(new TitledBorder(null, "Shading Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plOperationsWorkShading.setBounds(20, 171, 248, 97);
+		plOperationsWork.add(plOperationsWorkShading);
+		plOperationsWorkShading.setLayout(null);
+		
+		JRadioButton rdbtnOperationsWorkShadingNormal = new JRadioButton("NORMAL");
+		rdbtnOperationsWorkShadingNormal.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkShadingNormal.setBounds(6, 22, 141, 23);
+		plOperationsWorkShading.add(rdbtnOperationsWorkShadingNormal);
+		
+		JRadioButton rdbtnOperationsWorkShadingFading = new JRadioButton("FADING");
+		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkShadingFading.setBounds(6, 46, 141, 23);
+		plOperationsWorkShading.add(rdbtnOperationsWorkShadingFading);
+		
+		JRadioButton rdbtnOperationsWorkShadingShading = new JRadioButton("SHADING");
+		rdbtnOperationsWorkShadingShading.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				//shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkShadingShading.setBounds(6, 70, 141, 23);
+		plOperationsWorkShading.add(rdbtnOperationsWorkShadingShading);
+		
+		ButtonGroup shadingMode = new ButtonGroup();
+		shadingMode.add(rdbtnOperationsWorkShadingNormal);
+		shadingMode.add(rdbtnOperationsWorkShadingFading);
+		shadingMode.add(rdbtnOperationsWorkShadingShading);
+		
+		JPanel plOperationsWorkBow = new JPanel();
+		plOperationsWorkBow.setBorder(new TitledBorder(null, "BOW Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plOperationsWorkBow.setBounds(10, 280, 258, 81);
+		plOperationsWork.add(plOperationsWorkBow);
+		plOperationsWorkBow.setLayout(null);
+		
+		JRadioButton rdbtnOperationsWorkBowWob = new JRadioButton("WHITE ON BLACK");
+		rdbtnOperationsWorkBowWob.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkBowWob.setBounds(6, 21, 168, 23);
+		plOperationsWorkBow.add(rdbtnOperationsWorkBowWob);
+		
+		JRadioButton rdbtnOperationsWorkBowBow = new JRadioButton("BLACK ON WHITE");
+		rdbtnOperationsWorkBowBow.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+		//		shadeMode = 0;
+			}
+		});
+		rdbtnOperationsWorkBowBow.setBounds(6, 52, 141, 23);
+		plOperationsWorkBow.add(rdbtnOperationsWorkBowBow);
+
+		ButtonGroup bowMode = new ButtonGroup();
+		bowMode.add(rdbtnOperationsWorkBowWob);
+		bowMode.add(rdbtnOperationsWorkBowBow);
+		
+
 		final JPanel plOperationsPreviewWork = new JPanel();
 		plOperationsPreviewWork.setVisible(false);
 		plOperationsPreviewWork.setBackground(new Color(102, 204, 51));
@@ -672,6 +785,5 @@ public class StartWin {
 		});
 		
 			}
-		
 }
 
