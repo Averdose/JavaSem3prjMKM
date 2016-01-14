@@ -40,6 +40,10 @@ public class StartWin {
 	private JFrame frame;
 	private JTextField tfOperationsPreviewWorkPath;
 	private int j =0;
+	private int numberofdirs =0;
+	private int mergeMode =0;
+	private int shadeMode =0;
+	private int BWMode = 0;
 	JButton selectedButton = new JButton();
 	/**
 	 * Launch the application.
@@ -69,10 +73,7 @@ public class StartWin {
 	 */
 	private void initialize() {
 
-		int numberofdirs =0;
-		int mergeMode =0;
-		final int shadeMode =0;
-		int BWMode = 0;
+		
 		
 		final String[] EXTENSIONS = new String[]{
 		        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG","zip" // and other formats you need
@@ -206,7 +207,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkModeAnd = new JRadioButton("AND");
 		rdbtnOperationsWorkModeAnd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				mergeMode = 2;
 			}
 		});
 		rdbtnOperationsWorkModeAnd.setBounds(0, 23, 70, 23);
@@ -215,7 +216,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkModeOr = new JRadioButton("OR");
 		rdbtnOperationsWorkModeOr.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				mergeMode = 1;
 			}
 		});
 		rdbtnOperationsWorkModeOr.setBounds(76, 23, 78, 23);
@@ -224,7 +225,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkModeXor = new JRadioButton("XOR");
 		rdbtnOperationsWorkModeXor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				mergeMode = 0;
 			}
 		});
 		rdbtnOperationsWorkModeXor.setBounds(169, 23, 83, 23);
@@ -244,7 +245,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkShadingNormal = new JRadioButton("NORMAL");
 		rdbtnOperationsWorkShadingNormal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				shadeMode = 2;
 			}
 		});
 		rdbtnOperationsWorkShadingNormal.setBounds(6, 22, 141, 23);
@@ -253,7 +254,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkShadingFading = new JRadioButton("FADING");
 		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				shadeMode = 0;
 			}
 		});
 		rdbtnOperationsWorkShadingFading.setBounds(6, 46, 141, 23);
@@ -262,7 +263,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkShadingShading = new JRadioButton("SHADING");
 		rdbtnOperationsWorkShadingShading.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				//shadeMode = 0;
+				shadeMode = 1;
 			}
 		});
 		rdbtnOperationsWorkShadingShading.setBounds(6, 70, 141, 23);
@@ -282,7 +283,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkBowWob = new JRadioButton("WHITE ON BLACK");
 		rdbtnOperationsWorkBowWob.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				BWMode = 0;
 			}
 		});
 		rdbtnOperationsWorkBowWob.setBounds(6, 21, 168, 23);
@@ -291,7 +292,7 @@ public class StartWin {
 		JRadioButton rdbtnOperationsWorkBowBow = new JRadioButton("BLACK ON WHITE");
 		rdbtnOperationsWorkBowBow.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-		//		shadeMode = 0;
+				BWMode = 1;
 			}
 		});
 		rdbtnOperationsWorkBowBow.setBounds(6, 52, 141, 23);
@@ -334,12 +335,12 @@ public class StartWin {
 		plMain.add(plMergedImages, "name_77604441665075");
 		plMergedImages.setLayout(null);
 		
-		JPanel plMergedImagesView = new JPanel();
+		final JPanel plMergedImagesView = new JPanel();
 		plMergedImagesView.setBounds(0, 0, 1092, 640);
 		plMergedImages.add(plMergedImagesView);
 		plMergedImagesView.setLayout(null);
 		
-		JButton btnMergedImagesViewView = new JButton("MergedImage");
+		final JButton btnMergedImagesViewView = new JButton("");
 		btnMergedImagesViewView.setBounds(6, 6, 1080, 534);
 		plMergedImagesView.add(btnMergedImagesViewView);
 		
@@ -788,6 +789,50 @@ public class StartWin {
 			}
 		});
 		
+		
+		btnOperationsWorkMerge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
+				BufferedImage img = null;
+				if(!listToMerge.isEmpty())
+				{
+					if(shadeMode ==2)
+						img = imgMerger1.merge(listToMerge);
+					else if(shadeMode == 0)
+					{
+						if(BWMode ==1)
+						img = imgMerger1.mergeAndFade(listToMerge, true, 0);	
+						else
+						img = imgMerger1.mergeAndFade(listToMerge, false, 0);
+					}
+					else
+					{
+						if(BWMode == 1)
+						img = imgMerger1.mergeAndShade(listToMerge, true, 0);
+						else
+						img = imgMerger1.mergeAndShade(listToMerge, false, 0);
+					}
+					BufferedImage resized = new BufferedImage(700, 700, img.getType());
+					Graphics2D g = resized.createGraphics();
+					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
+					g.dispose();
+					
+					
+					//JLabel picLabel = new JLabel(new ImageIcon(resized));
+					btnMergedImagesViewView.setIcon(new ImageIcon(resized));
+					//plMergedImagesView.removeAll();
+					//plMergedImagesView.add(picLabel);
+					plOperations.setVisible(false);
+					plMergedImages.setVisible(true);
+					
+					resized.flush();
+					img.flush();
+					frame.revalidate();
+					frame.repaint();
+			}
+			}
+		});
 			}
 }
 
