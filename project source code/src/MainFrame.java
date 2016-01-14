@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 	private  int j =0;
 	int numberofdirs =0;
 	static final String[] EXTENSIONS = new String[]{
-	        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG","zip" // and other formats you need
+	        "TIFF","TIF","tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG","zip" // and other formats you need
 	    };
 
 	static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
@@ -120,7 +120,7 @@ public class MainFrame extends JFrame {
 							}
 							
 							
-							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
 							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
@@ -489,7 +489,7 @@ public class MainFrame extends JFrame {
 							}
 							
 							
-							BufferedImage resized = new BufferedImage(400, 400, img.getType());
+							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
 							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
