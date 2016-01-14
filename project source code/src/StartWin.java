@@ -125,7 +125,7 @@ public class StartWin {
 		plMain.add(plOperations, "name_77612886309962");
 		plOperations.setLayout(null);
 		
-		JPanel plOperationsImages = new JPanel();
+		final JPanel plOperationsImages = new JPanel();
 		plOperationsImages.setBackground(new Color(192, 192, 192));
 		plOperationsImages.setBounds(0, 0, 1092, 640);
 		plOperations.add(plOperationsImages);
@@ -167,10 +167,10 @@ public class StartWin {
 		plOperationsImages.add(plOperationsListPath);
 		plOperationsListPath.setLayout(new GridLayout(20, 1, 0, 0));
 		
-		JPanel plOperationsPreview = new JPanel();
+		final JPanel plOperationsPreview = new JPanel();
 		plOperationsPreview.setVisible(false);
 		
-		JPanel plOperationsWork = new JPanel();
+		final JPanel plOperationsWork = new JPanel();
 		plOperationsWork.setBackground(new Color(102, 204, 51));
 		plOperationsWork.setBounds(1092, 0, 274, 640);
 		plOperations.add(plOperationsWork);
@@ -189,7 +189,7 @@ public class StartWin {
 		btnOperationsWorkMerge.setBounds(0, 420, 274, 170);
 		plOperationsWork.add(btnOperationsWorkMerge);
 		
-		JPanel plOperationsPreviewWork = new JPanel();
+		final JPanel plOperationsPreviewWork = new JPanel();
 		plOperationsPreviewWork.setVisible(false);
 		plOperationsPreviewWork.setBackground(new Color(102, 204, 51));
 		plOperationsPreviewWork.setBounds(1092, 0, 274, 640);
@@ -212,7 +212,7 @@ public class StartWin {
 		plOperations.add(plOperationsPreview);
 		plOperationsPreview.setLayout(null);
 		
-		JButton imgOperationsPreview = new JButton("ImageToView");
+		final JButton imgOperationsPreview = new JButton("ImageToView");
 		imgOperationsPreview.setBounds(146, 5, 800, 590);
 		plOperationsPreview.add(imgOperationsPreview);
 		
@@ -374,6 +374,7 @@ public class StartWin {
 		
 		btnOperationsWorkRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				plOperationsListImagesOptions.setVisible(false);
 				tbListImages.removeAll();
 				listImgs.clear();
 				File dir;
@@ -465,6 +466,7 @@ public class StartWin {
 		
 		btnOperationsWorkLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				plOperationsListImagesOptions.setVisible(false);
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				    
@@ -594,6 +596,57 @@ public class StartWin {
 
 			}
 		});
+		
+		
+		//starting a preview of selected image
+		btnOperationsListImagePreview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			plOperationsImages.setVisible(false);
+			plOperationsWork.setVisible(false);
+			plOperationsPreview.setVisible(true);
+			plOperationsPreviewWork.setVisible(true);
+			
+			BufferedImage img = new BufferedImage(
+					selectedButton.getIcon().getIconWidth(),
+					selectedButton.getIcon().getIconHeight(),
+				    BufferedImage.TYPE_INT_RGB);
+				Graphics gr = img.createGraphics();
+				// paint the Icon to the BufferedImage.
+				selectedButton.getIcon().paintIcon(null, gr, 0,0);
+				gr.dispose();
+			
+			BufferedImage resized = new BufferedImage(800, 600, img.getType());
+			Graphics2D g = resized.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.drawImage(img, 0, 0, 800, 600, 0, 0, img.getWidth(),img.getHeight(), null);
+			g.dispose();
+			
+			imgOperationsPreview.setIcon(new ImageIcon(resized));
+			imgOperationsPreview.setText("");
+			tfOperationsPreviewWorkPath.setText(selectedButton.getToolTipText());
+			
+			frame.revalidate();
+			frame.repaint();
+
+			
+			}
+		});
+		
+		//returning from preview
+		btnOperationsPreviewWorkBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plOperationsImages.setVisible(true);
+				plOperationsWork.setVisible(true);
+				plOperationsPreview.setVisible(false);
+				plOperationsPreviewWork.setVisible(false);
+					
+
+				frame.revalidate();
+				frame.repaint();
+			}
+		});
+		
+		
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tbListImages.removeAll();
