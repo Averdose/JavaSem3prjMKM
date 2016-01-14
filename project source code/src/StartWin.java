@@ -555,6 +555,8 @@ public class StartWin {
 								                listToMerge.remove(i);
 								            }
 								        }
+										frame.revalidate();
+										frame.repaint();
 										selectedButton.putClientProperty("selected", new Integer(0));
 									}
 								}
@@ -627,14 +629,7 @@ public class StartWin {
 							
 							button.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
-									if (plOperationsListImagesOptions.isVisible())
-									{
-										plOperationsListImagesOptions.setVisible(false);
-									}
-									else
-									{
-										plOperationsListImagesOptions.setVisible(true);
-									}
+									plOperationsListImagesOptions.setVisible(true);
 									selectedButton = button;
 									int in = (Integer)selectedButton.getClientProperty("selected");
 									if(in ==1)
@@ -666,6 +661,8 @@ public class StartWin {
 								            }
 								        }
 										selectedButton.putClientProperty("selected", new Integer(0));
+										frame.revalidate();
+										frame.repaint();
 									}
 								}
 							});
