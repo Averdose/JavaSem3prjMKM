@@ -65,6 +65,13 @@ public class FaderShader {
 			if(grayShade)
 				return (int) (ratio * 200);
 			return (int) (ratio * 255);
+		case 8 :
+			area = (maxWidth / 2) + (maxHeight / 2);
+			currentArea = Math.abs((maxWidth / 2) - currentWidth) + Math.abs((maxHeight / 2) - currentHeight);
+			ratio = (float) currentArea / area;
+			if(grayShade)
+				return (int) (ratio * 200);
+			return (int) (ratio * 255);
 		}
 		return -1;
 	}
