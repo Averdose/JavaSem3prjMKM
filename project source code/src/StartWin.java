@@ -127,6 +127,31 @@ public class StartWin {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		final JPanel plShade = new JPanel();
+		plShade.setVisible(false);
+		plShade.setBounds(0, 20, 1366, 660);
+		frame.getContentPane().add(plShade);
+		plShade.setBackground(new Color(0, 0, 0, 120));
+		plShade.setLayout(null);
+		
+		final JPanel plAboutUs = new JPanel();
+		plAboutUs.setBackground(new Color(51, 153, 255));
+		plAboutUs.setVisible(false);
+		plAboutUs.setBounds(433, 50, 500, 500);
+		plShade.add(plAboutUs);
+		
+		final JPanel plProgram = new JPanel();
+		plProgram.setBackground(new Color(238, 238, 238));
+		plProgram.setVisible(false);
+		plProgram.setBounds(433, 50, 500, 500);
+		plShade.add(plProgram);
+		
+		JButton btnShadeBack = new JButton("New button");
+		btnShadeBack.setBorderPainted(false);
+		btnShadeBack.setBackground(new Color(51, 0, 51));
+		btnShadeBack.setBounds(0, 0, 1366, 660);
+		plShade.add(btnShadeBack);
+		
 		JPanel plMenu = new JPanel();
 		plMenu.setBounds(0, 20, 1366, 40);
 		frame.getContentPane().add(plMenu);
@@ -388,11 +413,11 @@ public class StartWin {
 		bowMode.add(rdbtnOperationsWorkBowWob);
 		bowMode.add(rdbtnOperationsWorkBowBow);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("View images after merge");
-		chckbxNewCheckBox.setSelected(true);
-		chckbxNewCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-		chckbxNewCheckBox.setBounds(0, 384, 274, 30);
-		plOperationsWork.add(chckbxNewCheckBox);
+		JCheckBox chckbxOperationsWorkViewAfterMerge = new JCheckBox("View images after merge");
+		chckbxOperationsWorkViewAfterMerge.setSelected(true);
+		chckbxOperationsWorkViewAfterMerge.setHorizontalAlignment(SwingConstants.CENTER);
+		chckbxOperationsWorkViewAfterMerge.setBounds(0, 384, 274, 30);
+		plOperationsWork.add(chckbxOperationsWorkViewAfterMerge);
 		
 		
 		
@@ -493,17 +518,6 @@ public class StartWin {
 		saveAs.add(rdbtnMergedImagesWorkTypePNG);
 		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
 		
-		JPanel plShade = new JPanel();
-		plShade.setVisible(false);
-		plShade.setBounds(0, 20, 1366, 660);
-		frame.getContentPane().add(plShade);
-		plShade.setBackground(new Color(0, 0, 0, 120));
-		plShade.setLayout(null);
-		
-		JPanel plAboutUs = new JPanel();
-		plAboutUs.setBounds(433, 50, 500, 500);
-		plShade.add(plAboutUs);
-		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1366, 20);
 		frame.getContentPane().add(menuBar);
@@ -542,6 +556,30 @@ public class StartWin {
 		
 		JMenuItem mntmProgramo = new JMenuItem("Program");
 		mnAbout.add(mntmProgramo);
+		
+		btnShadeBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plShade.setVisible(false);
+				plProgram.setVisible(false);
+				plAboutUs.setVisible(false);
+			}
+		});
+		
+		mntmProgramo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plShade.setVisible(true);
+				plProgram.setVisible(true);
+				plAboutUs.setVisible(false);
+			}
+		});
+		
+		mntmCreators.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plShade.setVisible(true);
+				plProgram.setVisible(false);
+				plAboutUs.setVisible(true);
+			}
+		});
 		
 		btnOperationsOperations.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
