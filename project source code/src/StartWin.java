@@ -49,6 +49,9 @@ public class StartWin {
 	private int mergeMode =0;
 	private int shadeMode =0;
 	private int BWMode = 0;
+	private String baseString = "image";
+	private int counter =1;
+	private int counterStep = 1;
 	JButton selectedButton = new JButton();
 	/**
 	 * Launch the application.
@@ -100,6 +103,7 @@ public class StartWin {
 		final List<String> listToMerge = new ArrayList<String>();
 		final List<JButton> listImgs = new ArrayList<JButton>();
 		final List<JTextField> listDirs = new ArrayList<JTextField>();
+		final List<String> listMerged = new ArrayList<String>();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double widthScreen = screenSize.getWidth();
@@ -467,7 +471,7 @@ public class StartWin {
 		scrollPaneListMergedImages.setBounds(6, 546, 1080, 40);
 		plMergedImagesView.add(scrollPaneListMergedImages);
 		
-		JToolBar tbListMergedImages = new JToolBar();
+		final JToolBar tbListMergedImages = new JToolBar();
 		scrollPaneListMergedImages.setViewportView(tbListMergedImages);
 		
 		JPanel plMergedImagesWork = new JPanel();
@@ -942,17 +946,37 @@ public class StartWin {
 						else
 						img = imgMerger1.mergeAndShade(listToMerge, false, 0);
 					}
-					BufferedImage resized = new BufferedImage(700, 700, img.getType());
+					BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
 					Graphics2D g = resized.createGraphics();
 					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 					g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
 					g.dispose();
 					
+					String name = baseString + counter;
+					counter += counterStep;
 					
-					//JLabel picLabel = new JLabel(new ImageIcon(resized));
 					btnMergedImagesViewView.setIcon(new ImageIcon(resized));
-					//plMergedImagesView.removeAll();
-					//plMergedImagesView.add(picLabel);
+					listMerged.add(name);
+					final JButton button = new JButton(name);
+					button.putClientProperty("image", img);
+					button.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							BufferedImage image = (BufferedImage)button.getClientProperty("image");
+							BufferedImage res = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
+							Graphics2D g = res.createGraphics();
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							g.drawImage(image, 0, 0, 700, 700, 0, 0, image.getWidth(),image.getHeight(), null);
+							g.dispose();
+							btnMergedImagesViewView.setIcon(new ImageIcon(res));
+							image.flush();
+							res.flush();
+							frame.revalidate();
+							frame.repaint();
+						}
+					});
+					
+					tbListMergedImages.add(button);
+					
 					plOperations.setVisible(false);
 					plMergedImages.setVisible(true);
 					
@@ -961,6 +985,87 @@ public class StartWin {
 					frame.revalidate();
 					frame.repaint();
 			}
+			}
+		});
+		
+		btnOperationsWorkMergeAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i;
+				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
+				List<String> listStrings = new ArrayList<String>();
+				if(!listDirs.isEmpty())
+				{
+					for(int p =0; p< listDirs.size();p++)
+						listStrings.add(listDirs.get(p).getText());
+					
+					List<BufferedImage> img = new ArrayList<BufferedImage>();
+					
+					if(shadeMode ==2)
+						img = imgMerger1.directoryMerge(listStrings);
+					else if(shadeMode == 0)
+					{
+						if(BWMode ==1)
+						img = imgMerger1.directoryMergeAndFade(listStrings, true, 0);	
+						else
+						img = imgMerger1.directoryMergeAndFade(listStrings, false, 0);
+					}
+					else
+					{
+						if(BWMode == 1)
+						img = imgMerger1.directoryMergeAndShade(listStrings, true, 0);
+						else
+						img = imgMerger1.directoryMergeAndShade(listStrings, false, 0);
+					}
+					
+					
+					
+					for(i =0; i<img.size();i++)
+					{
+						
+						String name = baseString + counter;
+						counter += counterStep;
+						
+						
+						listMerged.add(name);
+						final JButton button = new JButton(name);
+						button.putClientProperty("image", img.get(i));
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								BufferedImage image = (BufferedImage)button.getClientProperty("image");
+								BufferedImage res = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
+								Graphics2D g = res.createGraphics();
+								g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+								g.drawImage(image, 0, 0, 700, 700, 0, 0, image.getWidth(),image.getHeight(), null);
+								g.dispose();
+								btnMergedImagesViewView.setIcon(new ImageIcon(res));
+								image.flush();
+								res.flush();
+								frame.revalidate();
+								frame.repaint();
+							}
+						});
+						
+						tbListMergedImages.add(button);
+						
+						
+						img.get(i).flush();
+							
+						
+					}
+					
+					BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
+					Graphics2D g = resized.createGraphics();
+					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					g.drawImage(img.get(i-1), 0, 0, 700, 700, 0, 0, img.get(i-1).getWidth(),img.get(i-1).getHeight(), null);
+					g.dispose();
+					btnMergedImagesViewView.setIcon(new ImageIcon(resized));
+					resized.flush();
+					plOperations.setVisible(false);
+					plMergedImages.setVisible(true);
+					
+					frame.revalidate();
+					frame.repaint();
+				}
 			}
 		});
 			}
