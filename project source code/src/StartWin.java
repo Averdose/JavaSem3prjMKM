@@ -1119,14 +1119,17 @@ public class StartWin {
 		btnMergedImagesWorkSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ImageMerger imgmer = new ImageMerger();
-				
+				File dir;
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				  
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-					//File dir = fileChooser.getSelectedFile();
+				{
+					dir =fileChooser.getSelectedFile();
+					String path = dir.getAbsolutePath();
+					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),"jpg",24,path);
+				}
 				
-				imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),"jpg",24,"");
 			}
 		});
 			}
