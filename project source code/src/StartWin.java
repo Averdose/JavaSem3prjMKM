@@ -54,6 +54,7 @@ public class StartWin {
 	private int counterStep = 1;
 	private JButton selectedButton = new JButton();
 	private int direction = 8;
+	private JButton buttonToSave = new JButton();
 	/**
 	 * Launch the application.
 	 */
@@ -1022,7 +1023,7 @@ public class StartWin {
 					});
 					
 					tbListMergedImages.add(button);
-					
+					buttonToSave = button;
 					plOperations.setVisible(false);
 					plMergedImages.setVisible(true);
 					
@@ -1092,7 +1093,7 @@ public class StartWin {
 						});
 						
 						tbListMergedImages.add(button);
-						
+						buttonToSave = button;
 						
 						img.get(i).flush();
 							
@@ -1112,6 +1113,20 @@ public class StartWin {
 					frame.revalidate();
 					frame.repaint();
 				}
+			}
+		});
+		
+		btnMergedImagesWorkSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ImageMerger imgmer = new ImageMerger();
+				
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setAcceptAllFileFilterUsed(false);				  
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+					//File dir = fileChooser.getSelectedFile();
+				
+				imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),"jpg",24,"");
 			}
 		});
 			}

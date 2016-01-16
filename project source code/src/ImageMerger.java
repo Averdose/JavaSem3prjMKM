@@ -35,7 +35,7 @@ public class ImageMerger {
 		mode = _mode;
 	}
 	/* takes formats: .bmp .jpg .jpeg .png .tiff .tif, bitsPerPixel: 1, 8, 16, 24, 32(32 not for bmp)*/
-	public void saveImage(BufferedImage image, String fileName, String format, int bitsPerPixel) {
+	public void saveImage(BufferedImage image, String fileName, String format, int bitsPerPixel, String destination) {
 		int width = image.getWidth();
 		int height = image.getHeight();
 		int bpp = 24;
@@ -57,7 +57,7 @@ public class ImageMerger {
 		image.flush();
 		
 		try {
-			ImageIO.write(image, format.toUpperCase(), new File(fileName + "." + format));
+			ImageIO.write(image, format.toUpperCase(), new File(destination + fileName + "." + format));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
