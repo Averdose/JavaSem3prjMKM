@@ -1,5 +1,5 @@
-import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.*;
 import java.io.*;
 import java.lang.Math;
@@ -294,7 +294,7 @@ public class ImageMerger {
 		list.clear();
 		return images;
 	}
-	/*not working atm*/
+
 	int setColorDepth() {
 		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
 		if(depthA == BufferedImage.TYPE_3BYTE_BGR || depthA == BufferedImage.TYPE_INT_BGR ||
@@ -311,17 +311,15 @@ public class ImageMerger {
 		return BufferedImage.TYPE_INT_RGB;
 	}
 	private void setWhiteBackground(BufferedImage image) {
-		maxWidth = image.getWidth();
-		maxHeight = image.getHeight();
-		for(int w = 0; w < maxWidth; w++) {
-			for(int h = 0; h < maxHeight; h++) {
-				image.setRGB(w, h, 0xFFFFFF);
-			}
-		}
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		Graphics g = image.getGraphics();
+		g.setColor(new Color(0xFF, 0xFF, 0xFF));
+		g.fillRect(0, 0, width, height);
+		g.dispose();
 	}
 	private void mergePixels(BufferedImage newImage, int width, int height) {
-		//System.out.println(baseImageA.getWidth() + " x " + baseImageA.getHeight() + " " 
-	//+ baseImageB.getWidth() + " x " + baseImageB.getHeight());
 		if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
@@ -368,7 +366,7 @@ public class ImageMerger {
 				}
 			}
 		}
-		else if(baseImageA.getWidth() > baseImageB.getWidth() && baseImageA.getHeight() > baseImageB.getHeight()) {
+		else if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() >= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
 			minHeight = (height - baseImageB.getHeight())/2;
@@ -391,7 +389,7 @@ public class ImageMerger {
 				}
 			}
 		}
-		else if(baseImageA.getWidth() < baseImageB.getWidth() && baseImageA.getHeight() < baseImageB.getHeight()) {
+		else if(baseImageA.getWidth() <= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageA.getWidth())/2;
 			maxWidth = minWidth + baseImageA.getWidth();
 			minHeight = (height - baseImageA.getHeight())/2;
