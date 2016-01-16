@@ -52,7 +52,8 @@ public class StartWin {
 	private String baseString = "image";
 	private int counter =1;
 	private int counterStep = 1;
-	JButton selectedButton = new JButton();
+	private JButton selectedButton = new JButton();
+	private int direction = 8;
 	/**
 	 * Launch the application.
 	 */
@@ -340,38 +341,83 @@ public class StartWin {
 		plOperationsWorkShadingDirections.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTL = new JRadioButton("TL");
+		rdbtnOperationsWorkShadingDirectionsTL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 1;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsTL.setBounds(0, 20, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTC = new JRadioButton("TC");
+		rdbtnOperationsWorkShadingDirectionsTC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 2;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsTC.setBounds(50, 20, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTR = new JRadioButton("TR");
+		rdbtnOperationsWorkShadingDirectionsTR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 3;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsTR.setBounds(100, 20, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCL = new JRadioButton("CL");
+		rdbtnOperationsWorkShadingDirectionsCL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 0;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsCL.setBounds(0, 50, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCC = new JRadioButton("CC");
+		rdbtnOperationsWorkShadingDirectionsCC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 8;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsCC.setBounds(50, 50, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCR = new JRadioButton("CR");
+		rdbtnOperationsWorkShadingDirectionsCR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 4;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsCR.setBounds(100, 50, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBL = new JRadioButton("BL");
+		rdbtnOperationsWorkShadingDirectionsBL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 7;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsBL.setBounds(0, 80, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBC = new JRadioButton("BC");
+		rdbtnOperationsWorkShadingDirectionsBC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 6;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsBC.setBounds(50, 80, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBR = new JRadioButton("BR");
+		rdbtnOperationsWorkShadingDirectionsBR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				direction = 5;
+			}
+		});
 		rdbtnOperationsWorkShadingDirectionsBR.setBounds(100, 80, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBR);
 		
@@ -935,16 +981,16 @@ public class StartWin {
 					else if(shadeMode == 0)
 					{
 						if(BWMode ==1)
-						img = imgMerger1.mergeAndFade(listToMerge, true, 0);	
+						img = imgMerger1.mergeAndFade(listToMerge, true, direction);	
 						else
-						img = imgMerger1.mergeAndFade(listToMerge, false, 0);
+						img = imgMerger1.mergeAndFade(listToMerge, false, direction);
 					}
 					else
 					{
 						if(BWMode == 1)
-						img = imgMerger1.mergeAndShade(listToMerge, true, 0);
+						img = imgMerger1.mergeAndShade(listToMerge, true, direction);
 						else
-						img = imgMerger1.mergeAndShade(listToMerge, false, 0);
+						img = imgMerger1.mergeAndShade(listToMerge, false, direction);
 					}
 					BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
 					Graphics2D g = resized.createGraphics();
@@ -1005,16 +1051,16 @@ public class StartWin {
 					else if(shadeMode == 0)
 					{
 						if(BWMode ==1)
-						img = imgMerger1.directoryMergeAndFade(listStrings, true, 0);	
+						img = imgMerger1.directoryMergeAndFade(listStrings, true, direction);	
 						else
-						img = imgMerger1.directoryMergeAndFade(listStrings, false, 0);
+						img = imgMerger1.directoryMergeAndFade(listStrings, false, direction);
 					}
 					else
 					{
 						if(BWMode == 1)
-						img = imgMerger1.directoryMergeAndShade(listStrings, true, 0);
+						img = imgMerger1.directoryMergeAndShade(listStrings, true, direction);
 						else
-						img = imgMerger1.directoryMergeAndShade(listStrings, false, 0);
+						img = imgMerger1.directoryMergeAndShade(listStrings, false, direction);
 					}
 					
 					
