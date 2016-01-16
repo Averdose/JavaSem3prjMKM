@@ -30,10 +30,38 @@ public class ImageMerger {
             return (false);
         }
 	};
-	
 	public ImageMerger() {}
 	public ImageMerger(int _mode) {
 		mode = _mode;
+	}
+	/* takes formats: .bmp .jpg .jpeg .png .tiff .tif, bitsPerPixel: 1, 8, 16, 24, 32(32 not for bmp)*/
+	public void saveImage(BufferedImage image, String fileName, String format, int bitsPerPixel) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+		int bpp = 24;
+		if(bitsPerPixel == 32)
+			bpp = BufferedImage.TYPE_4BYTE_ABGR;
+		else if(bitsPerPixel == 24)
+			bpp = BufferedImage.TYPE_INT_RGB;
+		else if(bitsPerPixel == 16)
+			bpp = BufferedImage.TYPE_USHORT_565_RGB;
+		else if(bitsPerPixel == 8)
+			bpp = BufferedImage.TYPE_BYTE_GRAY;
+		else if(bitsPerPixel == 1)
+			bpp = BufferedImage.TYPE_BYTE_BINARY;
+		
+		BufferedImage newImage = new BufferedImage(width, height, bpp);
+		Graphics graph = newImage.getGraphics();
+		graph.drawImage(image, 0, 0, null);
+		graph.dispose();
+		image.flush();
+		
+		try {
+			ImageIO.write(image, format.toUpperCase(), new File(fileName + "." + format));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/*this function merges a list of paths to images */
 	public BufferedImage merge(List<String> paths) {
@@ -278,8 +306,6 @@ public class ImageMerger {
 			return BufferedImage.TYPE_USHORT_GRAY;
 		else if(depthA == BufferedImage.TYPE_BYTE_GRAY || depthB == BufferedImage.TYPE_BYTE_GRAY)
 			return BufferedImage.TYPE_BYTE_GRAY;
-		else if(depthA == BufferedImage.TYPE_BYTE_INDEXED || depthB == BufferedImage.TYPE_BYTE_INDEXED)
-			return BufferedImage.TYPE_BYTE_INDEXED;
 		else if(depthA == BufferedImage.TYPE_BYTE_BINARY || depthB == BufferedImage.TYPE_BYTE_BINARY)
 			return BufferedImage.TYPE_BYTE_BINARY;
 		return BufferedImage.TYPE_INT_RGB;
@@ -402,13 +428,6 @@ public class ImageMerger {
 		graph.drawImage(baseImageB, (width - baseImageB.getWidth())/2, (height - baseImageB.getHeight())/2, null);
 		
 		mergePixels(newImage, width, height);
-		/*only for tests*/
-		/*try {
-			ImageIO.write(newImage, "BMP", new File("C:\\Users\\Kornel\\Desktop\\newImage1.bmp"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		
 		graph.dispose();
 		baseImageA.flush();
