@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-import java.awt.Color;
 import java.awt.image.*;
 import java.io.*;
 import java.lang.Math;
