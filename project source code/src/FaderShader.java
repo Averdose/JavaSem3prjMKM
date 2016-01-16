@@ -88,9 +88,12 @@ public class FaderShader {
 				}
 				else {
 					int gradient = getGradient(w , h, true);
-					newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
-							Math.max(baseColor.getGreen() - gradient, 55),
-							Math.max(baseColor.getBlue() - gradient, 55));
+					if(baseColor.getRed() >= 55)
+						newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
+								Math.max(baseColor.getGreen() - gradient, 55),
+								Math.max(baseColor.getBlue() - gradient, 55));
+					else
+						newColor = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue());
 				}
 				image.setRGB(w,  h, newColor.getRGB());
 			}
@@ -116,9 +119,12 @@ public class FaderShader {
 				}
 				else {
 					int gradient = getGradient(w , h, true);
-					newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
-							Math.max(baseColor.getGreen() - gradient, 55),
-							Math.max(baseColor.getBlue() - gradient, 55));
+					if(baseColor.getRed() >= 55)
+						newColor = new Color(Math.max(baseColor.getRed() - gradient, 55),
+								Math.max(baseColor.getGreen() - gradient, 55),
+								Math.max(baseColor.getBlue() - gradient, 55));
+					else
+						newColor = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue());
 						
 				}
 				image.setRGB(w,  h, newColor.getRGB());
