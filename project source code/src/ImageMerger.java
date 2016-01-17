@@ -57,7 +57,7 @@ public class ImageMerger {
 		image.flush();
 		
 		try {
-			ImageIO.write(image, format.toUpperCase(), new File(destination+"\\" + fileName + "." + format));
+			ImageIO.write(newImage, format.toUpperCase(), new File(destination+"\\" + fileName + "." + format));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
