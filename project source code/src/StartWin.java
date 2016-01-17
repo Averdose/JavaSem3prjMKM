@@ -55,6 +55,7 @@ public class StartWin {
 	private JButton selectedButton = new JButton();
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
+	private String type = "jpg";
 	/**
 	 * Launch the application.
 	 */
@@ -86,7 +87,7 @@ public class StartWin {
 		
 		
 		final String[] EXTENSIONS = new String[]{
-		        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG","zip" // and other formats you need
+		        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
 		    };
 
 		final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
@@ -543,22 +544,48 @@ public class StartWin {
 		plMergedImagesWorkType.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeJPG = new JRadioButton(".JPG");
+		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "JPG";
+			}
+		});
 		rdbtnMergedImagesWorkTypeJPG.setBounds(10, 20, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeJPEG = new JRadioButton(".JPEG");
+		rdbtnMergedImagesWorkTypeJPEG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "JPEG";
+			}
+		});
 		rdbtnMergedImagesWorkTypeJPEG.setBounds(10, 50, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPEG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeBMP = new JRadioButton(".BMP");
+		rdbtnMergedImagesWorkTypeBMP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "BMP";
+				System.out.println("BMP action performed");
+			}
+		});
 		rdbtnMergedImagesWorkTypeBMP.setBounds(10, 80, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeBMP);
 		
 		JRadioButton rdbtnMergedImagesWorkTypePNG = new JRadioButton(".PNG");
+		rdbtnMergedImagesWorkTypePNG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "PNG";
+			}
+		});
 		rdbtnMergedImagesWorkTypePNG.setBounds(10, 110, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypePNG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeTIFF = new JRadioButton(".TIFF");
+		rdbtnMergedImagesWorkTypeTIFF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "TIFF";
+			}
+		});
 		rdbtnMergedImagesWorkTypeTIFF.setBounds(10, 140, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeTIFF);
 		
@@ -1127,7 +1154,8 @@ public class StartWin {
 				{
 					dir =fileChooser.getSelectedFile();
 					String path = dir.getAbsolutePath();
-					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),"jpg",24,path);
+					System.out.println("the tpye choosen is"+type);
+					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),type,24,path);
 				}
 				
 			}
