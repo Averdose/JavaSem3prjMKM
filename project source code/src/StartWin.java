@@ -60,9 +60,9 @@ public class StartWin {
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
 	private String type = "jpg";
-	private JTextField tfMergedImagesWorkPath;
 	private JTextField tfMergedImagesWorkName;
-	private JTextField tfMergedImagesWorkCounter;
+	private JTextField tfMergedImagesWorkCounterStart;
+	private JTextField tfMergedImagesWorkCounterIncrease;
 	/**
 	 * Launch the application.
 	 */
@@ -523,22 +523,10 @@ public class StartWin {
 		plMergedImagesWork.setBackground(new Color(204, 153, 51));
 		plMergedImagesWork.setLayout(null);
 		
-		JPanel plMergedImagesWorkPath = new JPanel();
-		plMergedImagesWorkPath.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkPath.setBorder(new TitledBorder(null, "Path", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkPath.setBounds(0, 34, 274, 60);
-		plMergedImagesWork.add(plMergedImagesWorkPath);
-		plMergedImagesWorkPath.setLayout(null);
-		
-		tfMergedImagesWorkPath = new JTextField();
-		tfMergedImagesWorkPath.setBounds(10, 20, 254, 30);
-		plMergedImagesWorkPath.add(tfMergedImagesWorkPath);
-		tfMergedImagesWorkPath.setColumns(10);
-		
 		JPanel plMergedImagesWorkName = new JPanel();
 		plMergedImagesWorkName.setBorder(new TitledBorder(null, "Name", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		plMergedImagesWorkName.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkName.setBounds(0, 100, 274, 60);
+		plMergedImagesWorkName.setBounds(0, 50, 274, 60);
 		plMergedImagesWork.add(plMergedImagesWorkName);
 		plMergedImagesWorkName.setLayout(null);
 		
@@ -550,27 +538,41 @@ public class StartWin {
 		JPanel plMergedImagesWorkCounter = new JPanel();
 		plMergedImagesWorkCounter.setBorder(new TitledBorder(null, "Counter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		plMergedImagesWorkCounter.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkCounter.setBounds(0, 166, 274, 60);
+		plMergedImagesWorkCounter.setBounds(0, 116, 274, 95);
 		plMergedImagesWork.add(plMergedImagesWorkCounter);
 		plMergedImagesWorkCounter.setLayout(null);
 		
-		tfMergedImagesWorkCounter = new JTextField();
-		tfMergedImagesWorkCounter.setBounds(10, 20, 254, 30);
-		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounter);
-		tfMergedImagesWorkCounter.setColumns(10);
+		tfMergedImagesWorkCounterStart = new JTextField();
+		tfMergedImagesWorkCounterStart.setBounds(100, 20, 164, 30);
+		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterStart);
+		tfMergedImagesWorkCounterStart.setColumns(10);
+		
+		tfMergedImagesWorkCounterIncrease = new JTextField();
+		tfMergedImagesWorkCounterIncrease.setBounds(100, 55, 164, 30);
+		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterIncrease);
+		tfMergedImagesWorkCounterIncrease.setColumns(10);
+		
+		JLabel lblMergedImagesWorkCounterStart = new JLabel("Start value:");
+		lblMergedImagesWorkCounterStart.setBounds(10, 20, 90, 30);
+		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterStart);
+		
+		JLabel lblMergedImagesWorkCounterIncrease = new JLabel("Increase by:");
+		lblMergedImagesWorkCounterIncrease.setBounds(10, 55, 90, 30);
+		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterIncrease);
 		
 		JButton btnMergedImagesWorkSave = new JButton("SAVE");
 		btnMergedImagesWorkSave.setBounds(0, 440, 274, 100);
 		plMergedImagesWork.add(btnMergedImagesWorkSave);
 		
 		JButton btnMergedImagesWorkDelete = new JButton("Delete");
+		btnMergedImagesWorkDelete.setToolTipText("Delete chosen image");
 		btnMergedImagesWorkDelete.setBounds(0, 546, 182, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDelete);
 		
 		JPanel plMergedImagesWorkType = new JPanel();
 		plMergedImagesWorkType.setBorder(new TitledBorder(null, "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		plMergedImagesWorkType.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkType.setBounds(0, 232, 137, 180);
+		plMergedImagesWorkType.setBounds(0, 217, 137, 180);
 		plMergedImagesWork.add(plMergedImagesWorkType);
 		plMergedImagesWorkType.setLayout(null);
 		
@@ -630,7 +632,7 @@ public class StartWin {
 		JPanel plMergedImagesWorkBpp = new JPanel();
 		plMergedImagesWorkBpp.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "BPP", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		plMergedImagesWorkBpp.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkBpp.setBounds(149, 232, 137, 180);
+		plMergedImagesWorkBpp.setBounds(137, 217, 137, 180);
 		plMergedImagesWork.add(plMergedImagesWorkBpp);
 		plMergedImagesWorkBpp.setLayout(null);
 		
