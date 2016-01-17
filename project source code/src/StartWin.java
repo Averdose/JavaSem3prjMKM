@@ -60,6 +60,9 @@ public class StartWin {
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
 	private String type = "jpg";
+	private JTextField tfMergedImagesWorkPath;
+	private JTextField tfMergedImagesWorkName;
+	private JTextField tfMergedImagesWorkCounter;
 	/**
 	 * Launch the application.
 	 */
@@ -219,7 +222,7 @@ public class StartWin {
 		plOperationsWork.add(btnOperationsWorkLoad);
 		
 		JButton btnOperationsWorkRefresh = new JButton("Refresh");
-		btnOperationsWorkRefresh.setBounds(0, 56, 274, 30);
+		btnOperationsWorkRefresh.setBounds(0, 56, 182, 30);
 		plOperationsWork.add(btnOperationsWorkRefresh);
 		
 		JButton btnOperationsWorkMerge = new JButton("MERGE");
@@ -322,6 +325,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTL = new JRadioButton("TL");
+		rdbtnOperationsWorkShadingDirectionsTL.setToolTipText("From top left corner");
 		rdbtnOperationsWorkShadingDirectionsTL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 1;
@@ -331,6 +335,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTC = new JRadioButton("TC");
+		rdbtnOperationsWorkShadingDirectionsTC.setToolTipText("From top");
 		rdbtnOperationsWorkShadingDirectionsTC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 2;
@@ -340,6 +345,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTR = new JRadioButton("TR");
+		rdbtnOperationsWorkShadingDirectionsTR.setToolTipText("From top right corner");
 		rdbtnOperationsWorkShadingDirectionsTR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 3;
@@ -349,6 +355,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCL = new JRadioButton("CL");
+		rdbtnOperationsWorkShadingDirectionsCL.setToolTipText("From left side");
 		rdbtnOperationsWorkShadingDirectionsCL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 0;
@@ -358,6 +365,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCC = new JRadioButton("CC");
+		rdbtnOperationsWorkShadingDirectionsCC.setToolTipText("From center");
 		rdbtnOperationsWorkShadingDirectionsCC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 8;
@@ -367,6 +375,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCR = new JRadioButton("CR");
+		rdbtnOperationsWorkShadingDirectionsCR.setToolTipText("From right side");
 		rdbtnOperationsWorkShadingDirectionsCR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 4;
@@ -376,6 +385,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBL = new JRadioButton("BL");
+		rdbtnOperationsWorkShadingDirectionsBL.setToolTipText("From bottom left corner");
 		rdbtnOperationsWorkShadingDirectionsBL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 7;
@@ -385,6 +395,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBC = new JRadioButton("BC");
+		rdbtnOperationsWorkShadingDirectionsBC.setToolTipText("From bottom");
 		rdbtnOperationsWorkShadingDirectionsBC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 6;
@@ -394,6 +405,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBR = new JRadioButton("BR");
+		rdbtnOperationsWorkShadingDirectionsBR.setToolTipText("From bottom right corner");
 		rdbtnOperationsWorkShadingDirectionsBR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 5;
@@ -449,6 +461,10 @@ public class StartWin {
 		chckbxOperationsWorkViewAfterMerge.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxOperationsWorkViewAfterMerge.setBounds(0, 384, 274, 30);
 		plOperationsWork.add(chckbxOperationsWorkViewAfterMerge);
+		
+		JButton btnOperationsWorkClearAll = new JButton("Clear all");
+		btnOperationsWorkClearAll.setBounds(182, 56, 92, 30);
+		plOperationsWork.add(btnOperationsWorkClearAll);
 		
 		
 		
@@ -507,18 +523,54 @@ public class StartWin {
 		plMergedImagesWork.setBackground(new Color(204, 153, 51));
 		plMergedImagesWork.setLayout(null);
 		
+		JPanel plMergedImagesWorkPath = new JPanel();
+		plMergedImagesWorkPath.setBackground(new Color(204, 153, 51));
+		plMergedImagesWorkPath.setBorder(new TitledBorder(null, "Path", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plMergedImagesWorkPath.setBounds(0, 34, 274, 60);
+		plMergedImagesWork.add(plMergedImagesWorkPath);
+		plMergedImagesWorkPath.setLayout(null);
+		
+		tfMergedImagesWorkPath = new JTextField();
+		tfMergedImagesWorkPath.setBounds(10, 20, 254, 30);
+		plMergedImagesWorkPath.add(tfMergedImagesWorkPath);
+		tfMergedImagesWorkPath.setColumns(10);
+		
+		JPanel plMergedImagesWorkName = new JPanel();
+		plMergedImagesWorkName.setBorder(new TitledBorder(null, "Name", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plMergedImagesWorkName.setBackground(new Color(204, 153, 51));
+		plMergedImagesWorkName.setBounds(0, 100, 274, 60);
+		plMergedImagesWork.add(plMergedImagesWorkName);
+		plMergedImagesWorkName.setLayout(null);
+		
+		tfMergedImagesWorkName = new JTextField();
+		tfMergedImagesWorkName.setBounds(10, 20, 254, 30);
+		plMergedImagesWorkName.add(tfMergedImagesWorkName);
+		tfMergedImagesWorkName.setColumns(10);
+		
+		JPanel plMergedImagesWorkCounter = new JPanel();
+		plMergedImagesWorkCounter.setBorder(new TitledBorder(null, "Counter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plMergedImagesWorkCounter.setBackground(new Color(204, 153, 51));
+		plMergedImagesWorkCounter.setBounds(0, 166, 274, 60);
+		plMergedImagesWork.add(plMergedImagesWorkCounter);
+		plMergedImagesWorkCounter.setLayout(null);
+		
+		tfMergedImagesWorkCounter = new JTextField();
+		tfMergedImagesWorkCounter.setBounds(10, 20, 254, 30);
+		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounter);
+		tfMergedImagesWorkCounter.setColumns(10);
+		
 		JButton btnMergedImagesWorkSave = new JButton("SAVE");
 		btnMergedImagesWorkSave.setBounds(0, 440, 274, 100);
 		plMergedImagesWork.add(btnMergedImagesWorkSave);
 		
-		JButton btnMergedImagesWorkDelete = new JButton("DELETE");
-		btnMergedImagesWorkDelete.setBounds(0, 546, 274, 40);
+		JButton btnMergedImagesWorkDelete = new JButton("Delete");
+		btnMergedImagesWorkDelete.setBounds(0, 546, 182, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDelete);
 		
 		JPanel plMergedImagesWorkType = new JPanel();
 		plMergedImagesWorkType.setBorder(new TitledBorder(null, "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		plMergedImagesWorkType.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkType.setBounds(77, 89, 120, 180);
+		plMergedImagesWorkType.setBounds(0, 232, 137, 180);
 		plMergedImagesWork.add(plMergedImagesWorkType);
 		plMergedImagesWorkType.setLayout(null);
 		
@@ -575,6 +627,46 @@ public class StartWin {
 		saveAs.add(rdbtnMergedImagesWorkTypePNG);
 		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
 		
+		JPanel plMergedImagesWorkBpp = new JPanel();
+		plMergedImagesWorkBpp.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "BPP", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		plMergedImagesWorkBpp.setBackground(new Color(204, 153, 51));
+		plMergedImagesWorkBpp.setBounds(149, 232, 137, 180);
+		plMergedImagesWork.add(plMergedImagesWorkBpp);
+		plMergedImagesWorkBpp.setLayout(null);
+		
+		JRadioButton rdbtnMergedImagesWorkBpp1 = new JRadioButton("1");
+		rdbtnMergedImagesWorkBpp1.setBounds(10, 20, 110, 30);
+		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp1);
+		
+		JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
+		rdbtnMergedImagesWorkBpp8.setBounds(10, 50, 110, 30);
+		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp8);
+		
+		JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
+		rdbtnMergedImagesWorkBpp16.setBounds(10, 80, 110, 30);
+		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp16);
+		
+		JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
+		rdbtnMergedImagesWorkBpp24.setBounds(10, 110, 110, 30);
+		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp24);
+		
+		JRadioButton rdbtnMergedImagesWorkBpp32 = new JRadioButton("32");
+		rdbtnMergedImagesWorkBpp32.setBounds(10, 140, 110, 30);
+		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp32);
+		
+		ButtonGroup saveBpp = new ButtonGroup();
+		saveBpp.add(rdbtnMergedImagesWorkBpp1);
+		saveBpp.add(rdbtnMergedImagesWorkBpp8);
+		saveBpp.add(rdbtnMergedImagesWorkBpp16);
+		saveBpp.add(rdbtnMergedImagesWorkBpp24);
+		saveBpp.add(rdbtnMergedImagesWorkBpp32);
+		
+		
+		
+		JButton btnMergedImagesWorkDeleteAll = new JButton("Delete all");
+		btnMergedImagesWorkDeleteAll.setBounds(182, 546, 92, 40);
+		plMergedImagesWork.add(btnMergedImagesWorkDeleteAll);
+		
 		final JPanel plShade = new JPanel();
 		plShade.setVisible(false);
 		plShade.setBounds(0, 20, 1366, 660);
@@ -606,30 +698,30 @@ public class StartWin {
 		
 		final JTextPane txtpnShadeDataFaq = new JTextPane();
 		txtpnShadeDataFaq.setVisible(false);
-		txtpnShadeDataFaq.setText("Shit?\nShit!");
+		txtpnShadeDataFaq.setText("Q: What does these letters in Shading Direction mean?\nA: Hover mouse over each abbreviation, you will see a tip.");
 		txtpnShadeDataFaq.setEditable(false);
 		txtpnShadeDataFaq.setBounds(296, 80, 500, 380);
 		plShadeData.add(txtpnShadeDataFaq);
 		
 		final JTextPane txtpnShadeDataBugs = new JTextPane();
-		txtpnShadeDataBugs.setText("Known bugs:");
+		txtpnShadeDataBugs.setText("Known bugs:\n- \"delete\" does not delete any image\n- \"save\" does not save any image");
 		txtpnShadeDataBugs.setEditable(false);
 		txtpnShadeDataBugs.setVisible(false);
 		txtpnShadeDataBugs.setBounds(296, 80, 500, 380);
 		plShadeData.add(txtpnShadeDataBugs);
 		txtpnShadeDataAboutUs.setEditable(false);
-		txtpnShadeDataAboutUs.setText("ABOUT US\n\n\na;kfm\n\n\n\nakfma\nsfasfas\ngasgasgasga\nagasf\nsf\nasf\nasf\nasf\nas\nfa\nsf\nasf\nas\ng\nsdh\nsfh\n\nsdh\nsdf\na\nsf\nasf\nh\nsdh\nd\nhs\ndh\nsdh\nsdh\n");
+		txtpnShadeDataAboutUs.setText("Students of Warsaw University of Technology:\nMikołaj Słoń\nMateusz Szperna\nKornel Żaba");
 		txtpnShadeDataAboutUs.setBounds(296, 80, 500, 380);
 		plShadeData.add(txtpnShadeDataAboutUs);
 		
 		final JTextPane txtpnShadeDataProgram = new JTextPane();
 		txtpnShadeDataProgram.setVisible(false);
-		txtpnShadeDataProgram.setText("MICROMERGE\n");
+		txtpnShadeDataProgram.setText("MicroMerge Beta 0.83");
 		txtpnShadeDataProgram.setEditable(false);
 		
 		final JTextPane txtpnShadeDataThanks = new JTextPane();
 		txtpnShadeDataThanks.setVisible(false);
-		txtpnShadeDataThanks.setText("Thanks to Mikolaj and Kornel for a great efford they have been putting to creat a wonderful program - MicroMerge");
+		txtpnShadeDataThanks.setText("Special thanks to Mikolaj and Kornel for a great efford they have been putting to create this wonderful, perfect program - MicroMerge! <3");
 		txtpnShadeDataThanks.setEditable(false);
 		txtpnShadeDataThanks.setBounds(296, 80, 500, 380);
 		plShadeData.add(txtpnShadeDataThanks);
