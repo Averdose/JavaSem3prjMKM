@@ -39,6 +39,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import java.awt.Rectangle;
+import java.awt.Font;
+import javax.swing.JTextPane;
+import javax.swing.DropMode;
+import java.awt.Component;
 
 public class StartWin {
 
@@ -134,32 +138,7 @@ public class StartWin {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		final JPanel plShade = new JPanel();
-		plShade.setVisible(false);
-		plShade.setBounds(0, 20, 1366, 660);
-		frame.getContentPane().add(plShade);
-		plShade.setBackground(new Color(0, 0, 0, 120));
-		plShade.setLayout(null);
-		
-		final JPanel plAboutUs = new JPanel();
-		plAboutUs.setBackground(new Color(51, 153, 255));
-		plAboutUs.setVisible(false);
-		plAboutUs.setBounds(433, 50, 500, 500);
-		plShade.add(plAboutUs);
-		
-		final JPanel plProgram = new JPanel();
-		plProgram.setBackground(new Color(238, 238, 238));
-		plProgram.setVisible(false);
-		plProgram.setBounds(433, 50, 500, 500);
-		plShade.add(plProgram);
-		
-		JButton btnShadeBack = new JButton("New button");
-		btnShadeBack.setBorderPainted(false);
-		btnShadeBack.setBackground(new Color(51, 0, 51));
-		btnShadeBack.setBounds(0, 0, 1366, 660);
-		plShade.add(btnShadeBack);
-		
-		JPanel plMenu = new JPanel();
+		final JPanel plMenu = new JPanel();
 		plMenu.setBounds(0, 20, 1366, 40);
 		frame.getContentPane().add(plMenu);
 		plMenu.setBackground(new Color(192, 192, 192));
@@ -173,7 +152,7 @@ public class StartWin {
 		btnOperationsMergedImages.setBounds(683, 0, 683, 40);
 		plMenu.add(btnOperationsMergedImages);
 		
-		JPanel plMain = new JPanel();
+		final JPanel plMain = new JPanel();
 		plMain.setBounds(0, 60, 1366, 678);
 		frame.getContentPane().add(plMain);
 		plMain.setLayout(new CardLayout(0, 0));
@@ -596,6 +575,107 @@ public class StartWin {
 		saveAs.add(rdbtnMergedImagesWorkTypePNG);
 		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
 		
+		final JPanel plShade = new JPanel();
+		plShade.setVisible(false);
+		plShade.setBounds(0, 20, 1366, 660);
+		frame.getContentPane().add(plShade);
+		plShade.setBackground(Color.WHITE);
+		plShade.setLayout(null);
+		
+		final JPanel plShadeData = new JPanel();
+		plShadeData.setBackground(new Color(51, 153, 255));
+		plShadeData.setVisible(false);
+		
+		final JButton btnShadeCancel = new JButton("CANCEL");
+		btnShadeCancel.setForeground(new Color(51, 153, 255));
+		btnShadeCancel.setBounds(1092, 280, 274, 40);
+		plShade.add(btnShadeCancel);
+		plShadeData.setBounds(0, 60, 1366, 480);
+		plShade.add(plShadeData);
+		plShadeData.setLayout(null);
+		
+		final JTextPane txtpnShadeDataAboutUs = new JTextPane();
+		txtpnShadeDataAboutUs.setVisible(false);
+		
+		final JLabel lblShadeTitle = new JLabel("");
+		lblShadeTitle.setBounds(0, 0, 1092, 50);
+		plShadeData.add(lblShadeTitle);
+		lblShadeTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblShadeTitle.setForeground(Color.WHITE);
+		lblShadeTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+		
+		final JTextPane txtpnShadeDataFaq = new JTextPane();
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataFaq.setText("Shit?\nShit!");
+		txtpnShadeDataFaq.setEditable(false);
+		txtpnShadeDataFaq.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataFaq);
+		
+		final JTextPane txtpnShadeDataBugs = new JTextPane();
+		txtpnShadeDataBugs.setText("Known bugs:");
+		txtpnShadeDataBugs.setEditable(false);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataBugs.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataBugs);
+		txtpnShadeDataAboutUs.setEditable(false);
+		txtpnShadeDataAboutUs.setText("ABOUT US\n\n\na;kfm\n\n\n\nakfma\nsfasfas\ngasgasgasga\nagasf\nsf\nasf\nasf\nasf\nas\nfa\nsf\nasf\nas\ng\nsdh\nsfh\n\nsdh\nsdf\na\nsf\nasf\nh\nsdh\nd\nhs\ndh\nsdh\nsdh\n");
+		txtpnShadeDataAboutUs.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataAboutUs);
+		
+		final JTextPane txtpnShadeDataProgram = new JTextPane();
+		txtpnShadeDataProgram.setVisible(false);
+		txtpnShadeDataProgram.setText("MICROMERGE\n");
+		txtpnShadeDataProgram.setEditable(false);
+		
+		final JTextPane txtpnShadeDataThanks = new JTextPane();
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataThanks.setText("Thanks to Mikolaj and Kornel for a great efford they have been putting to creat a wonderful program - MicroMerge");
+		txtpnShadeDataThanks.setEditable(false);
+		txtpnShadeDataThanks.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataThanks);
+		txtpnShadeDataProgram.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataProgram);
+		
+		JButton btnShadeBackUp = new JButton("");
+		btnShadeBackUp.setFocusable(false);
+		btnShadeBackUp.setRequestFocusEnabled(false);
+		btnShadeBackUp.setBorderPainted(false);
+		btnShadeBackUp.setBackground(Color.WHITE);
+		btnShadeBackUp.setBounds(0, 0, 1366, 60);
+		plShade.add(btnShadeBackUp);
+		
+		JButton btnShadeBackBottom = new JButton("");
+		btnShadeBackBottom.setBackground(Color.WHITE);
+		btnShadeBackBottom.setBorderPainted(false);
+		btnShadeBackBottom.setRequestFocusEnabled(false);
+		btnShadeBackBottom.setFocusable(false);
+		btnShadeBackBottom.setBounds(0, 540, 1366, 100);
+		plShade.add(btnShadeBackBottom);
+		
+		btnShadeBackUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(true);
+				plMenu.setVisible(true);
+				plShade.setVisible(false);
+			}
+		});
+		
+		btnShadeBackBottom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(true);
+				plMenu.setVisible(true);
+				plShade.setVisible(false);
+			}
+		});
+		
+		btnShadeCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(true);
+				plMenu.setVisible(true);
+				plShade.setVisible(false);
+			}
+		});
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1366, 20);
 		frame.getContentPane().add(menuBar);
@@ -632,32 +712,94 @@ public class StartWin {
 		JMenuItem mntmThanks = new JMenuItem("Thanks");
 		mnAbout.add(mntmThanks);
 		
-		JMenuItem mntmProgramo = new JMenuItem("Program");
-		mnAbout.add(mntmProgramo);
+		JMenuItem mntmProgram = new JMenuItem("Program");
+		mnAbout.add(mntmProgram);
 		
-		btnShadeBack.addActionListener(new ActionListener() {
+		mntmFaq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				plShade.setVisible(false);
-				plProgram.setVisible(false);
-				plAboutUs.setVisible(false);
+				plMain.setVisible(false);
+				plMenu.setVisible(false);
+				plShade.setVisible(true);
+				plShadeData.setVisible(true);
+				plShadeData.setBackground(new Color(153, 0, 0));
+				btnShadeCancel.setForeground(new Color(153, 0, 0));
+				txtpnShadeDataFaq.setVisible(true);
+				txtpnShadeDataBugs.setVisible(false);
+				txtpnShadeDataAboutUs.setVisible(false);
+				txtpnShadeDataThanks.setVisible(false);
+				txtpnShadeDataProgram.setVisible(false);
+				lblShadeTitle.setText("FAQ");
 			}
 		});
 		
-		mntmProgramo.addActionListener(new ActionListener() {
+		mntmBugs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(false);
+				plMenu.setVisible(false);
 				plShade.setVisible(true);
-				plProgram.setVisible(true);
-				plAboutUs.setVisible(false);
+				plShadeData.setVisible(true);
+				plShadeData.setBackground(new Color(153, 0, 0));
+				btnShadeCancel.setForeground(new Color(153, 0, 0));
+				txtpnShadeDataFaq.setVisible(false);
+				txtpnShadeDataBugs.setVisible(true);
+				txtpnShadeDataAboutUs.setVisible(false);
+				txtpnShadeDataThanks.setVisible(false);
+				txtpnShadeDataProgram.setVisible(false);
+				lblShadeTitle.setText("Bugs");
 			}
 		});
 		
 		mntmCreators.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(false);
+				plMenu.setVisible(false);
 				plShade.setVisible(true);
-				plProgram.setVisible(false);
-				plAboutUs.setVisible(true);
+				plShadeData.setVisible(true);
+				plShadeData.setBackground(new Color(51, 153, 255));
+				btnShadeCancel.setForeground(new Color(51, 153, 255));
+				txtpnShadeDataFaq.setVisible(false);
+				txtpnShadeDataBugs.setVisible(false);
+				txtpnShadeDataAboutUs.setVisible(true);
+				txtpnShadeDataThanks.setVisible(false);
+				txtpnShadeDataProgram.setVisible(false);
+				lblShadeTitle.setText("About Us");
 			}
 		});
+		
+		mntmThanks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(false);
+				plMenu.setVisible(false);
+				plShade.setVisible(true);
+				plShadeData.setVisible(true);
+				plShadeData.setBackground(new Color(51, 153, 255));
+				btnShadeCancel.setForeground(new Color(51, 153, 255));
+				txtpnShadeDataFaq.setVisible(false);
+				txtpnShadeDataBugs.setVisible(false);
+				txtpnShadeDataAboutUs.setVisible(false);
+				txtpnShadeDataThanks.setVisible(true);
+				txtpnShadeDataProgram.setVisible(false);
+				lblShadeTitle.setText("Special thanks");
+			}
+		});
+		
+		mntmProgram.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				plMain.setVisible(false);
+				plMenu.setVisible(false);
+				plShade.setVisible(true);
+				plShadeData.setVisible(true);
+				plShadeData.setBackground(new Color(51, 153, 255));
+				btnShadeCancel.setForeground(new Color(51, 153, 255));
+				txtpnShadeDataFaq.setVisible(false);
+				txtpnShadeDataBugs.setVisible(false);
+				txtpnShadeDataAboutUs.setVisible(false);
+				txtpnShadeDataThanks.setVisible(false);
+				txtpnShadeDataProgram.setVisible(true);
+				lblShadeTitle.setText("MicroMerge");
+			}
+		});
+		
 		
 		btnOperationsOperations.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
