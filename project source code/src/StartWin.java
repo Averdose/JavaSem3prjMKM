@@ -67,6 +67,8 @@ public class StartWin {
 	private JTextField tfMergedImagesWorkCounterIncrease;
 	private boolean viewImagesAfterMerge = true;
 	private int bppMode = 24;
+	private String lastOpenDirectory = null;
+	private String lastSaveDirectory = null;
 	/**
 	 * Launch the application.
 	 */
@@ -1083,7 +1085,7 @@ public class StartWin {
 		btnOperationsWorkLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(lastOpenDirectory);
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				    
 					
@@ -1091,6 +1093,7 @@ public class StartWin {
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					
 					File dir = fileChooser.getSelectedFile();
+					lastOpenDirectory = dir.getAbsolutePath();
 					
 					System.out.println("  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j);
 					listDirs.get(j).setText(dir.getAbsolutePath());
@@ -1465,12 +1468,13 @@ public class StartWin {
 			public void actionPerformed(ActionEvent arg0) {
 				ImageMerger imgmer = new ImageMerger();
 				File dir;
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(lastSaveDirectory);
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				  
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				{
 					dir =fileChooser.getSelectedFile();
+					lastSaveDirectory = dir.getAbsolutePath();
 					String path = dir.getAbsolutePath();
 					System.out.println("the tpye choosen is"+type);
 					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkName.getText()+saveCounter,type,bppMode,path);
@@ -1522,12 +1526,13 @@ public class StartWin {
 				ImageMerger imgmer = new ImageMerger();
 				File dir;
 				JButton button;
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(lastSaveDirectory);
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				  
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				{
 					dir =fileChooser.getSelectedFile();
+					lastSaveDirectory = dir.getAbsolutePath();
 					String path = dir.getAbsolutePath();
 					System.out.println("the tpye choosen is"+type);
 					for(int i =0; i < tbListMergedImages.getComponentCount();i++)
