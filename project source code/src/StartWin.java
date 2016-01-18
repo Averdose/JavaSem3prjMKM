@@ -721,6 +721,10 @@ public class StartWin {
 		btnMergedImagesWorkDeleteAll.setBounds(182, 546, 92, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDeleteAll);
 		
+		JButton btnMergedImagesWorkSaveAll = new JButton("save all");
+		btnMergedImagesWorkSaveAll.setBounds(0, 399, 253, 29);
+		plMergedImagesWork.add(btnMergedImagesWorkSaveAll);
+		
 		final JPanel plShade = new JPanel();
 		plShade.setVisible(false);
 		plShade.setBounds(0, 20, 1366, 660);
