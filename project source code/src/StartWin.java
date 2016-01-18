@@ -604,6 +604,7 @@ public class StartWin {
 		plMergedImagesWorkType.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeJPG = new JRadioButton(".JPG");
+		rdbtnMergedImagesWorkTypeJPG.setSelected(true);
 		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "JPG";
@@ -691,6 +692,7 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp16);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
+		rdbtnMergedImagesWorkBpp24.setSelected(true);
 		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 24;
@@ -1273,6 +1275,24 @@ public class StartWin {
 		
 		
 		mntmNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tbListImages.removeAll();
+				tbListToMerge.removeAll();
+				listImgs.clear();
+				listToMerge.clear();
+				tbListMergedImages.removeAll();
+				btnMergedImagesViewView.setIcon(null);
+				j=0;
+				for(int i =0;i<listDirs.size();i++)
+				{
+					listDirs.get(i).setText("");
+					listDirs.get(i).setVisible(false);
+				}
+				frame.revalidate();
+				frame.repaint();
+			}
+		});
+		btnOperationsWorkClearAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tbListImages.removeAll();
 				tbListToMerge.removeAll();
