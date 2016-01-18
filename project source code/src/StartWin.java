@@ -1497,6 +1497,28 @@ public class StartWin {
 				frame.repaint();
 			}
 		});
+		btnMergedImagesWorkSaveAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ImageMerger imgmer = new ImageMerger();
+				File dir;
+				JButton button;
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setAcceptAllFileFilterUsed(false);				  
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+				{
+					dir =fileChooser.getSelectedFile();
+					String path = dir.getAbsolutePath();
+					System.out.println("the tpye choosen is"+type);
+					for(int i =0; i < tbListMergedImages.getComponentCount();i++)
+					{
+						button = (JButton)tbListMergedImages.getComponent(i);
+						imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkName.getText()+saveCounter,type,bppMode,path);
+						saveCounter+= saveStep;
+					}
+				}
+			}
+		});
 	}
 }
 
