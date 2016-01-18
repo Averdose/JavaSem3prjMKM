@@ -98,7 +98,7 @@ public class StartWin {
 		
 		
 		final String[] EXTENSIONS = new String[]{
-		        "tif","tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
+		       "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
 		    };
 
 		final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
