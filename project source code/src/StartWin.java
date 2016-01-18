@@ -265,6 +265,7 @@ public class StartWin {
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeOr);
 		
 		JRadioButton rdbtnOperationsWorkModeXor = new JRadioButton("XOR");
+		rdbtnOperationsWorkModeXor.setSelected(true);
 		rdbtnOperationsWorkModeXor.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeXor.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -297,6 +298,7 @@ public class StartWin {
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingNormal);
 		
 		JRadioButton rdbtnOperationsWorkShadingFading = new JRadioButton("FADING");
+		rdbtnOperationsWorkShadingFading.setSelected(true);
 		rdbtnOperationsWorkShadingFading.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -369,6 +371,7 @@ public class StartWin {
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCC = new JRadioButton("CC");
+		rdbtnOperationsWorkShadingDirectionsCC.setSelected(true);
 		rdbtnOperationsWorkShadingDirectionsCC.setToolTipText("From center");
 		rdbtnOperationsWorkShadingDirectionsCC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -437,6 +440,7 @@ public class StartWin {
 		plOperationsWorkBow.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkBowWob = new JRadioButton("WHITE ON BLACK");
+		rdbtnOperationsWorkBowWob.setSelected(true);
 		rdbtnOperationsWorkBowWob.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkBowWob.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -1450,6 +1454,36 @@ public class StartWin {
 				
 			}
 		});
+		btnMergedImagesWorkDeleteAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tbListMergedImages.removeAll();
+				btnMergedImagesViewView.setIcon(null);
 			}
+		});
+		btnMergedImagesWorkDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i;
+				for(i =0; i<listMerged.size();i++)
+				{
+					if(listMerged.get(i)==buttonToSave.getText())
+						break;
+				}
+				tbListMergedImages.remove(buttonToSave);
+				if(i!=0)
+					buttonToSave = (JButton)tbListMergedImages.getComponent(i-2);
+				else
+					buttonToSave = (JButton)tbListMergedImages.getComponent(i+1);
+				BufferedImage img = (BufferedImage)buttonToSave.getClientProperty("image");
+				BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = resized.createGraphics();
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
+				g.dispose();
+				btnMergedImagesViewView.setIcon(new ImageIcon(resized));
+				frame.revalidate();
+				frame.repaint();
+			}
+		});
+	}
 }
 
