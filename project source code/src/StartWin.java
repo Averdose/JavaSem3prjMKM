@@ -283,6 +283,7 @@ public class StartWin {
 		plOperationsWorkShading.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingNormal = new JRadioButton("NORMAL");
+		rdbtnOperationsWorkShadingNormal.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingNormal.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingNormal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
