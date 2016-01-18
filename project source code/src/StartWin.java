@@ -1457,6 +1457,12 @@ public class StartWin {
 		btnMergedImagesWorkDeleteAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tbListMergedImages.removeAll();
+				for(int i =0 ; i<tbListMergedImages.getComponentCount();i++)
+				{
+					JButton button =(JButton)tbListMergedImages.getComponent(i);
+					BufferedImage img = (BufferedImage)button.getClientProperty("image");
+					img.flush();
+				}
 				btnMergedImagesViewView.setIcon(null);
 			}
 		});
@@ -1468,12 +1474,14 @@ public class StartWin {
 					if(listMerged.get(i)==buttonToSave.getText())
 						break;
 				}
+				BufferedImage img = (BufferedImage)buttonToSave.getClientProperty("image");
+				img.flush();
 				tbListMergedImages.remove(buttonToSave);
 				if(i!=0)
 					buttonToSave = (JButton)tbListMergedImages.getComponent(i-2);
 				else
 					buttonToSave = (JButton)tbListMergedImages.getComponent(i+1);
-				BufferedImage img = (BufferedImage)buttonToSave.getClientProperty("image");
+				img = (BufferedImage)buttonToSave.getClientProperty("image");
 				BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = resized.createGraphics();
 				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
