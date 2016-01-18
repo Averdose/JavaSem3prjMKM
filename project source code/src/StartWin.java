@@ -56,6 +56,8 @@ public class StartWin {
 	private String baseString = "image";
 	private int counter =1;
 	private int counterStep = 1;
+	private int saveCounter = 1;
+	private int saveStep = 1;
 	private JButton selectedButton = new JButton();
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
@@ -63,6 +65,8 @@ public class StartWin {
 	private JTextField tfMergedImagesWorkName;
 	private JTextField tfMergedImagesWorkCounterStart;
 	private JTextField tfMergedImagesWorkCounterIncrease;
+	private boolean viewImagesAfterMerge = true;
+	private int bppMode = 24;
 	/**
 	 * Launch the application.
 	 */
@@ -457,6 +461,11 @@ public class StartWin {
 		bowMode.add(rdbtnOperationsWorkBowBow);
 		
 		JCheckBox chckbxOperationsWorkViewAfterMerge = new JCheckBox("View images after merge");
+		chckbxOperationsWorkViewAfterMerge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				viewImagesAfterMerge = !viewImagesAfterMerge;
+			}
+		});
 		chckbxOperationsWorkViewAfterMerge.setSelected(true);
 		chckbxOperationsWorkViewAfterMerge.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxOperationsWorkViewAfterMerge.setBounds(0, 384, 274, 30);
@@ -531,6 +540,7 @@ public class StartWin {
 		plMergedImagesWorkName.setLayout(null);
 		
 		tfMergedImagesWorkName = new JTextField();
+		tfMergedImagesWorkName.setText("image");
 		tfMergedImagesWorkName.setBounds(10, 20, 254, 30);
 		plMergedImagesWorkName.add(tfMergedImagesWorkName);
 		tfMergedImagesWorkName.setColumns(10);
@@ -543,11 +553,23 @@ public class StartWin {
 		plMergedImagesWorkCounter.setLayout(null);
 		
 		tfMergedImagesWorkCounterStart = new JTextField();
+		tfMergedImagesWorkCounterStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveCounter = Integer.parseInt(tfMergedImagesWorkCounterStart.getText());
+			}
+		});
+		tfMergedImagesWorkCounterStart.setText("1");
 		tfMergedImagesWorkCounterStart.setBounds(100, 20, 164, 30);
 		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterStart);
 		tfMergedImagesWorkCounterStart.setColumns(10);
 		
 		tfMergedImagesWorkCounterIncrease = new JTextField();
+		tfMergedImagesWorkCounterIncrease.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveStep = Integer.parseInt(tfMergedImagesWorkCounterIncrease.getText());
+			}
+		});
+		tfMergedImagesWorkCounterIncrease.setText("1");
 		tfMergedImagesWorkCounterIncrease.setBounds(100, 55, 164, 30);
 		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterIncrease);
 		tfMergedImagesWorkCounterIncrease.setColumns(10);
@@ -637,22 +659,47 @@ public class StartWin {
 		plMergedImagesWorkBpp.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp1 = new JRadioButton("1");
+		rdbtnMergedImagesWorkBpp1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bppMode = 1;
+			}
+		});
 		rdbtnMergedImagesWorkBpp1.setBounds(10, 20, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp1);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
+		rdbtnMergedImagesWorkBpp8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bppMode = 8;
+			}
+		});
 		rdbtnMergedImagesWorkBpp8.setBounds(10, 50, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp8);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
+		rdbtnMergedImagesWorkBpp16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bppMode = 16;
+			}
+		});
 		rdbtnMergedImagesWorkBpp16.setBounds(10, 80, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp16);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
+		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bppMode = 24;
+			}
+		});
 		rdbtnMergedImagesWorkBpp24.setBounds(10, 110, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp24);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp32 = new JRadioButton("32");
+		rdbtnMergedImagesWorkBpp32.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bppMode = 32;
+			}
+		});
 		rdbtnMergedImagesWorkBpp32.setBounds(10, 140, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp32);
 		
@@ -1282,14 +1329,17 @@ public class StartWin {
 							res.flush();
 							frame.revalidate();
 							frame.repaint();
+							buttonToSave = button;
 						}
 					});
 					
 					tbListMergedImages.add(button);
 					buttonToSave = button;
-					plOperations.setVisible(false);
-					plMergedImages.setVisible(true);
-					
+					if(viewImagesAfterMerge)
+					{
+						plOperations.setVisible(false);
+						plMergedImages.setVisible(true);
+					}
 					resized.flush();
 					img.flush();
 					frame.revalidate();
@@ -1352,6 +1402,7 @@ public class StartWin {
 								res.flush();
 								frame.revalidate();
 								frame.repaint();
+								buttonToSave = button;
 							}
 						});
 						
@@ -1370,9 +1421,11 @@ public class StartWin {
 					g.dispose();
 					btnMergedImagesViewView.setIcon(new ImageIcon(resized));
 					resized.flush();
-					plOperations.setVisible(false);
-					plMergedImages.setVisible(true);
-					
+					if(viewImagesAfterMerge)
+					{
+						plOperations.setVisible(false);
+						plMergedImages.setVisible(true);
+					}
 					frame.revalidate();
 					frame.repaint();
 				}
@@ -1391,7 +1444,8 @@ public class StartWin {
 					dir =fileChooser.getSelectedFile();
 					String path = dir.getAbsolutePath();
 					System.out.println("the tpye choosen is"+type);
-					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),buttonToSave.getText(),type,24,path);
+					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkName.getText()+saveCounter,type,bppMode,path);
+					saveCounter+= saveStep;
 				}
 				
 			}
