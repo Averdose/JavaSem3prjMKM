@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 
@@ -571,11 +572,13 @@ public class StartWin {
 		tfMergedImagesWorkNameCustom.setColumns(10);
 		
 		JRadioButton rdbtnMergedImagesWorkNameCustom = new JRadioButton("Custom");
+		rdbtnMergedImagesWorkNameCustom.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkNameCustom.setSelected(true);
 		rdbtnMergedImagesWorkNameCustom.setBounds(10, 20, 121, 23);
 		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameCustom);
 		
 		JRadioButton rdbtnMergedImagesWorkNameFromFile = new JRadioButton("Get from file");
+		rdbtnMergedImagesWorkNameFromFile.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkNameFromFile.setBounds(131, 20, 121, 23);
 		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameFromFile);
 		
