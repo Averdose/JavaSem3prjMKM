@@ -807,7 +807,7 @@ public class StartWin {
 		
 		final JButton btnShadeCancel = new JButton("CANCEL");
 		btnShadeCancel.setForeground(new Color(51, 153, 255));
-		btnShadeCancel.setBounds(1092, 280, 274, 40);
+		btnShadeCancel.setBounds(1086, 280, 262, 40);
 		plShade.add(btnShadeCancel);
 		plShadeData.setBounds(0, 60, 1366, 480);
 		plShade.add(plShadeData);
@@ -831,7 +831,7 @@ public class StartWin {
 		plShadeData.add(txtpnShadeDataFaq);
 		
 		final JTextPane txtpnShadeDataBugs = new JTextPane();
-		txtpnShadeDataBugs.setText("Known bugs:\n- \"delete\" does not delete any image\n- \"save\" does not save any image");
+		txtpnShadeDataBugs.setText("Known bugs:\n- Name choose options does not work properly.");
 		txtpnShadeDataBugs.setEditable(false);
 		txtpnShadeDataBugs.setVisible(false);
 		txtpnShadeDataBugs.setBounds(296, 80, 500, 380);
@@ -843,12 +843,12 @@ public class StartWin {
 		
 		final JTextPane txtpnShadeDataProgram = new JTextPane();
 		txtpnShadeDataProgram.setVisible(false);
-		txtpnShadeDataProgram.setText("MicroMerge Beta 0.83");
+		txtpnShadeDataProgram.setText("MicroMerge Beta 0.95");
 		txtpnShadeDataProgram.setEditable(false);
 		
 		final JTextPane txtpnShadeDataThanks = new JTextPane();
 		txtpnShadeDataThanks.setVisible(false);
-		txtpnShadeDataThanks.setText("Special thanks to Mikolaj and Kornel for a great efford they have been putting to create this wonderful, perfect program - MicroMerge! <3");
+		txtpnShadeDataThanks.setText("Special thanks to Mikolaj and Kornel  and all who helped us to create this wonderful program - MicroMerge! <3");
 		txtpnShadeDataThanks.setEditable(false);
 		txtpnShadeDataThanks.setBounds(296, 80, 500, 380);
 		plShadeData.add(txtpnShadeDataThanks);
@@ -931,7 +931,7 @@ public class StartWin {
 		JMenuItem mntmThanks = new JMenuItem("Thanks");
 		mnAbout.add(mntmThanks);
 		
-		JMenuItem mntmProgram = new JMenuItem("Program");
+		JMenuItem mntmProgram = new JMenuItem("MicroMerge");
 		mnAbout.add(mntmProgram);
 		
 		mntmFaq.addActionListener(new ActionListener() {
