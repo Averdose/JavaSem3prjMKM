@@ -46,10 +46,10 @@ import javax.swing.DropMode;
 import java.awt.Component;
 
 public class StartWin {
-
+	
 	private JFrame frame;
 	private JTextField tfOperationsPreviewWorkPath;
-	private int j =0;
+	private int j =0;										//j is the number of selected directories
 	private int numberofdirs =0;
 	private int mergeMode =0;
 	private int shadeMode =0;
@@ -58,7 +58,7 @@ public class StartWin {
 	private int counter =1;
 	private int counterStep = 1;
 	private int saveCounter = 1;
-	private int saveStep = 1;
+	private int saveStep = 1;								//seting up some variables that are modified by the program
 	private JButton selectedButton = new JButton();
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
@@ -101,13 +101,13 @@ public class StartWin {
 		
 		
 		final String[] EXTENSIONS = new String[]{
-		      "tif","tiff", "TIFF", "TIF", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
+		      "tif","tiff", "TIFF", "TIF", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // all the formats accepted by the filter
 		    };
 
 		final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
 	        @Override
-	        public boolean accept(final File dir, final String name) {
+	        public boolean accept(final File dir, final String name) {							//creating filter for file choosing
 	            for (final String ext : EXTENSIONS) {
 	                if (name.endsWith("." + ext)) {
 	                    return (true);
@@ -119,7 +119,7 @@ public class StartWin {
 		
 		final List<String> listToMerge = new ArrayList<String>();
 		final List<JButton> listImgs = new ArrayList<JButton>();
-		final List<JTextField> listDirs = new ArrayList<JTextField>();
+		final List<JTextField> listDirs = new ArrayList<JTextField>();							//creating containers used to store operating data
 		final List<String> listMerged = new ArrayList<String>();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -265,7 +265,7 @@ public class StartWin {
 		rdbtnOperationsWorkModeOr.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkModeOr.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeOr.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {												//simple ActionListeners used to change the merge mode
 				mergeMode = 1;
 			}
 		});
@@ -311,7 +311,7 @@ public class StartWin {
 		rdbtnOperationsWorkShadingFading.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingFading.setSelected(true);
 		rdbtnOperationsWorkShadingFading.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){
+		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){						//similar to above Action Listeners used to change shade mode
 			public void actionPerformed(ActionEvent e) {
 				shadeMode = 0;
 			}
@@ -413,7 +413,7 @@ public class StartWin {
 		rdbtnOperationsWorkShadingDirectionsBL.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsBL.setToolTipText("From bottom left corner");
 		rdbtnOperationsWorkShadingDirectionsBL.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {										//Action listeners used to change direction from which we shade/fade
 				direction = 7;
 			}
 		});
@@ -469,7 +469,7 @@ public class StartWin {
 				BWMode = 0;
 			}
 		});
-		rdbtnOperationsWorkBowWob.setBounds(10, 20, 242, 30);
+		rdbtnOperationsWorkBowWob.setBounds(10, 20, 242, 30);										//change if the shading/fading is performed black on white or white on black
 		plOperationsWorkBow.add(rdbtnOperationsWorkBowWob);
 		
 		JRadioButton rdbtnOperationsWorkBowBow = new JRadioButton("BLACK ON WHITE");
@@ -490,7 +490,7 @@ public class StartWin {
 		JCheckBox chckbxOperationsWorkViewAfterMerge = new JCheckBox("View images after merge");
 		chckbxOperationsWorkViewAfterMerge.setBackground(new Color(102, 204, 51));
 		chckbxOperationsWorkViewAfterMerge.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {											//changing viewImagesAfterMerge boolean  flag
 				viewImagesAfterMerge = !viewImagesAfterMerge;
 			}
 		});
@@ -675,7 +675,7 @@ public class StartWin {
 		final JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
 		rdbtnMergedImagesWorkBpp24.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp24.setSelected(true);
-		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {
+		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {						//changing the bpp with which images will be saved
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 24;
 			}
@@ -732,8 +732,8 @@ public class StartWin {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "JPEG";
 				if (bppMode == 32) {
-					bppMode = 24;
-					rdbtnMergedImagesWorkBpp32.setSelected(false);
+					bppMode = 24;												//choosing type in which images will be saved for jpg and bmp we also change bpp mode because
+					rdbtnMergedImagesWorkBpp32.setSelected(false);				//they do not support such bpp mode
 					rdbtnMergedImagesWorkBpp24.setSelected(true);
 				}
 				rdbtnMergedImagesWorkBpp32.setEnabled(false);
