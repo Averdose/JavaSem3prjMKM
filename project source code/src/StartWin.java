@@ -62,7 +62,7 @@ public class StartWin {
 	private int direction = 8;
 	private JButton buttonToSave = new JButton();
 	private String type = "jpg";
-	private JTextField tfMergedImagesWorkName;
+	private JTextField tfMergedImagesWorkNameCustom;
 	private JTextField tfMergedImagesWorkCounterStart;
 	private JTextField tfMergedImagesWorkCounterIncrease;
 	private boolean viewImagesAfterMerge = true;
@@ -153,11 +153,13 @@ public class StartWin {
 		plMenu.setBackground(new Color(192, 192, 192));
 		plMenu.setLayout(null);
 		
-		JButton btnOperationsOperations = new JButton("Operations");
+		final JButton btnOperationsOperations = new JButton("Operations");
+		btnOperationsOperations.setForeground(new Color(0, 153, 0));
 		btnOperationsOperations.setBounds(0, 0, 683, 40);
 		plMenu.add(btnOperationsOperations);
 		
-		JButton btnOperationsMergedImages = new JButton("Merged Images");
+		final JButton btnOperationsMergedImages = new JButton("Merged Images");
+		btnOperationsMergedImages.setForeground(new Color(0, 0, 0));
 		btnOperationsMergedImages.setBounds(683, 0, 683, 40);
 		plMenu.add(btnOperationsMergedImages);
 		
@@ -206,6 +208,7 @@ public class StartWin {
 		plOperationsImages.add(scrollPaneListToMarge);
 		
 		final JToolBar tbListToMerge = new JToolBar();
+		tbListToMerge.setFloatable(false);
 		scrollPaneListToMarge.setViewportView(tbListToMerge);
 		
 		JPanel plOperationsListPath = new JPanel();
@@ -224,49 +227,52 @@ public class StartWin {
 		
 		JButton btnOperationsWorkLoad = new JButton("LOAD");
 		
-		btnOperationsWorkLoad.setBounds(0, 6, 274, 50);
+		btnOperationsWorkLoad.setBounds(6, 6, 262, 50);
 		plOperationsWork.add(btnOperationsWorkLoad);
 		
 		JButton btnOperationsWorkRefresh = new JButton("Refresh");
-		btnOperationsWorkRefresh.setBounds(0, 56, 182, 30);
+		btnOperationsWorkRefresh.setBounds(6, 56, 174, 30);
 		plOperationsWork.add(btnOperationsWorkRefresh);
 		
 		JButton btnOperationsWorkMerge = new JButton("MERGE");
-		btnOperationsWorkMerge.setBounds(0, 470, 274, 120);
+		btnOperationsWorkMerge.setBounds(6, 470, 262, 120);
 		plOperationsWork.add(btnOperationsWorkMerge);
 		
 		JButton btnOperationsWorkMergeAll = new JButton("Merge all");
-		btnOperationsWorkMergeAll.setBounds(0, 420, 274, 50);
+		btnOperationsWorkMergeAll.setBounds(6, 420, 262, 50);
 		plOperationsWork.add(btnOperationsWorkMergeAll);
 		
 		JPanel plOperationsWorkMode = new JPanel();
 		plOperationsWorkMode.setBackground(new Color(102, 204, 51));
 		plOperationsWorkMode.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Mode", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		plOperationsWorkMode.setBounds(0, 89, 274, 60);
+		plOperationsWorkMode.setBounds(6, 89, 262, 60);
 		plOperationsWork.add(plOperationsWorkMode);
 		plOperationsWorkMode.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkModeAnd = new JRadioButton("AND");
+		rdbtnOperationsWorkModeAnd.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkModeAnd.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeAnd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				mergeMode = 2;
 			}
 		});
-		rdbtnOperationsWorkModeAnd.setBounds(0, 20, 91, 30);
+		rdbtnOperationsWorkModeAnd.setBounds(10, 20, 80, 30);
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeAnd);
 		
 		JRadioButton rdbtnOperationsWorkModeOr = new JRadioButton("OR");
+		rdbtnOperationsWorkModeOr.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkModeOr.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeOr.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				mergeMode = 1;
 			}
 		});
-		rdbtnOperationsWorkModeOr.setBounds(91, 20, 91, 30);
+		rdbtnOperationsWorkModeOr.setBounds(90, 20, 80, 30);
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeOr);
 		
 		JRadioButton rdbtnOperationsWorkModeXor = new JRadioButton("XOR");
+		rdbtnOperationsWorkModeXor.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkModeXor.setSelected(true);
 		rdbtnOperationsWorkModeXor.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeXor.addActionListener(new ActionListener(){
@@ -274,7 +280,7 @@ public class StartWin {
 				mergeMode = 0;
 			}
 		});
-		rdbtnOperationsWorkModeXor.setBounds(182, 20, 92, 30);
+		rdbtnOperationsWorkModeXor.setBounds(170, 20, 81, 30);
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeXor);
 			
 		ButtonGroup mMode = new ButtonGroup();
@@ -285,7 +291,7 @@ public class StartWin {
 		JPanel plOperationsWorkShading = new JPanel();
 		plOperationsWorkShading.setBackground(new Color(102, 204, 51));
 		plOperationsWorkShading.setBorder(new TitledBorder(null, "Shading Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkShading.setBounds(0, 155, 124, 120);
+		plOperationsWorkShading.setBounds(6, 155, 108, 120);
 		plOperationsWork.add(plOperationsWorkShading);
 		plOperationsWorkShading.setLayout(null);
 		
@@ -297,10 +303,11 @@ public class StartWin {
 				shadeMode = 2;
 			}
 		});
-		rdbtnOperationsWorkShadingNormal.setBounds(0, 20, 124, 30);
+		rdbtnOperationsWorkShadingNormal.setBounds(6, 20, 96, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingNormal);
 		
 		JRadioButton rdbtnOperationsWorkShadingFading = new JRadioButton("FADING");
+		rdbtnOperationsWorkShadingFading.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingFading.setSelected(true);
 		rdbtnOperationsWorkShadingFading.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){
@@ -308,17 +315,18 @@ public class StartWin {
 				shadeMode = 0;
 			}
 		});
-		rdbtnOperationsWorkShadingFading.setBounds(0, 50, 124, 30);
+		rdbtnOperationsWorkShadingFading.setBounds(6, 50, 96, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingFading);
 		
 		JRadioButton rdbtnOperationsWorkShadingShading = new JRadioButton("SHADING");
+		rdbtnOperationsWorkShadingShading.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingShading.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingShading.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				shadeMode = 1;
 			}
 		});
-		rdbtnOperationsWorkShadingShading.setBounds(0, 80, 124, 30);
+		rdbtnOperationsWorkShadingShading.setBounds(6, 80, 96, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingShading);
 		
 		ButtonGroup shadingMode = new ButtonGroup();
@@ -329,51 +337,56 @@ public class StartWin {
 		JPanel plOperationsWorkShadingDirections = new JPanel();
 		plOperationsWorkShadingDirections.setBackground(new Color(102, 204, 51));
 		plOperationsWorkShadingDirections.setBorder(new TitledBorder(null, "Shading Directions", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkShadingDirections.setBounds(125, 155, 150, 120);
+		plOperationsWorkShadingDirections.setBounds(114, 155, 154, 120);
 		plOperationsWork.add(plOperationsWorkShadingDirections);
 		plOperationsWorkShadingDirections.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTL = new JRadioButton("TL");
+		rdbtnOperationsWorkShadingDirectionsTL.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsTL.setToolTipText("From top left corner");
 		rdbtnOperationsWorkShadingDirectionsTL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 1;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTL.setBounds(0, 20, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsTL.setBounds(3, 20, 48, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTC = new JRadioButton("TC");
+		rdbtnOperationsWorkShadingDirectionsTC.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsTC.setToolTipText("From top");
 		rdbtnOperationsWorkShadingDirectionsTC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 2;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTC.setBounds(50, 20, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsTC.setBounds(51, 20, 49, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTR = new JRadioButton("TR");
+		rdbtnOperationsWorkShadingDirectionsTR.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsTR.setToolTipText("From top right corner");
 		rdbtnOperationsWorkShadingDirectionsTR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 3;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTR.setBounds(100, 20, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsTR.setBounds(100, 20, 48, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCL = new JRadioButton("CL");
+		rdbtnOperationsWorkShadingDirectionsCL.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsCL.setToolTipText("From left side");
 		rdbtnOperationsWorkShadingDirectionsCL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 0;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCL.setBounds(0, 50, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsCL.setBounds(3, 50, 48, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCC = new JRadioButton("CC");
+		rdbtnOperationsWorkShadingDirectionsCC.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsCC.setSelected(true);
 		rdbtnOperationsWorkShadingDirectionsCC.setToolTipText("From center");
 		rdbtnOperationsWorkShadingDirectionsCC.addActionListener(new ActionListener() {
@@ -381,47 +394,51 @@ public class StartWin {
 				direction = 8;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCC.setBounds(50, 50, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsCC.setBounds(51, 50, 50, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCR = new JRadioButton("CR");
+		rdbtnOperationsWorkShadingDirectionsCR.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsCR.setToolTipText("From right side");
 		rdbtnOperationsWorkShadingDirectionsCR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 4;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCR.setBounds(100, 50, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsCR.setBounds(100, 50, 49, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBL = new JRadioButton("BL");
+		rdbtnOperationsWorkShadingDirectionsBL.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsBL.setToolTipText("From bottom left corner");
 		rdbtnOperationsWorkShadingDirectionsBL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 7;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBL.setBounds(0, 80, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsBL.setBounds(3, 80, 48, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBC = new JRadioButton("BC");
+		rdbtnOperationsWorkShadingDirectionsBC.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsBC.setToolTipText("From bottom");
 		rdbtnOperationsWorkShadingDirectionsBC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 6;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBC.setBounds(50, 80, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsBC.setBounds(51, 80, 48, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBR = new JRadioButton("BR");
+		rdbtnOperationsWorkShadingDirectionsBR.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkShadingDirectionsBR.setToolTipText("From bottom right corner");
 		rdbtnOperationsWorkShadingDirectionsBR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 5;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBR.setBounds(100, 80, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsBR.setBounds(100, 80, 47, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBR);
 		
 		ButtonGroup shadingDirections = new ButtonGroup();
@@ -438,11 +455,12 @@ public class StartWin {
 		JPanel plOperationsWorkBow = new JPanel();
 		plOperationsWorkBow.setBackground(new Color(102, 204, 51));
 		plOperationsWorkBow.setBorder(new TitledBorder(null, "BOW Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkBow.setBounds(0, 281, 274, 90);
+		plOperationsWorkBow.setBounds(6, 281, 262, 90);
 		plOperationsWork.add(plOperationsWorkBow);
 		plOperationsWorkBow.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkBowWob = new JRadioButton("WHITE ON BLACK");
+		rdbtnOperationsWorkBowWob.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkBowWob.setSelected(true);
 		rdbtnOperationsWorkBowWob.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkBowWob.addActionListener(new ActionListener(){
@@ -450,17 +468,18 @@ public class StartWin {
 				BWMode = 0;
 			}
 		});
-		rdbtnOperationsWorkBowWob.setBounds(0, 20, 274, 30);
+		rdbtnOperationsWorkBowWob.setBounds(10, 20, 242, 30);
 		plOperationsWorkBow.add(rdbtnOperationsWorkBowWob);
 		
 		JRadioButton rdbtnOperationsWorkBowBow = new JRadioButton("BLACK ON WHITE");
+		rdbtnOperationsWorkBowBow.setBackground(new Color(102, 204, 51));
 		rdbtnOperationsWorkBowBow.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkBowBow.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				BWMode = 1;
 			}
 		});
-		rdbtnOperationsWorkBowBow.setBounds(0, 50, 274, 30);
+		rdbtnOperationsWorkBowBow.setBounds(10, 50, 242, 30);
 		plOperationsWorkBow.add(rdbtnOperationsWorkBowBow);
 
 		ButtonGroup bowMode = new ButtonGroup();
@@ -468,6 +487,7 @@ public class StartWin {
 		bowMode.add(rdbtnOperationsWorkBowBow);
 		
 		JCheckBox chckbxOperationsWorkViewAfterMerge = new JCheckBox("View images after merge");
+		chckbxOperationsWorkViewAfterMerge.setBackground(new Color(102, 204, 51));
 		chckbxOperationsWorkViewAfterMerge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				viewImagesAfterMerge = !viewImagesAfterMerge;
@@ -479,12 +499,9 @@ public class StartWin {
 		plOperationsWork.add(chckbxOperationsWorkViewAfterMerge);
 		
 		JButton btnOperationsWorkClearAll = new JButton("Clear all");
-		btnOperationsWorkClearAll.setBounds(182, 56, 92, 30);
+		btnOperationsWorkClearAll.setBounds(180, 56, 88, 30);
 		plOperationsWork.add(btnOperationsWorkClearAll);
 		
-		
-		
-
 		final JPanel plOperationsPreviewWork = new JPanel();
 		plOperationsPreviewWork.setVisible(false);
 		plOperationsPreviewWork.setBackground(new Color(102, 204, 51));
@@ -531,31 +548,46 @@ public class StartWin {
 		plMergedImagesView.add(scrollPaneListMergedImages);
 		
 		final JToolBar tbListMergedImages = new JToolBar();
+		tbListMergedImages.setFloatable(false);
 		scrollPaneListMergedImages.setViewportView(tbListMergedImages);
 		
 		JPanel plMergedImagesWork = new JPanel();
 		plMergedImagesWork.setBounds(1092, 0, 274, 640);
 		plMergedImages.add(plMergedImagesWork);
-		plMergedImagesWork.setBackground(new Color(204, 153, 51));
+		plMergedImagesWork.setBackground(new Color(102, 153, 255));
 		plMergedImagesWork.setLayout(null);
 		
 		JPanel plMergedImagesWorkName = new JPanel();
 		plMergedImagesWorkName.setBorder(new TitledBorder(null, "Name", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkName.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkName.setBounds(0, 50, 274, 60);
+		plMergedImagesWorkName.setBackground(new Color(102, 153, 255));
+		plMergedImagesWorkName.setBounds(6, 12, 262, 95);
 		plMergedImagesWork.add(plMergedImagesWorkName);
 		plMergedImagesWorkName.setLayout(null);
 		
-		tfMergedImagesWorkName = new JTextField();
-		tfMergedImagesWorkName.setText("image");
-		tfMergedImagesWorkName.setBounds(10, 20, 254, 30);
-		plMergedImagesWorkName.add(tfMergedImagesWorkName);
-		tfMergedImagesWorkName.setColumns(10);
+		tfMergedImagesWorkNameCustom = new JTextField();
+		tfMergedImagesWorkNameCustom.setText("image");
+		tfMergedImagesWorkNameCustom.setBounds(10, 55, 242, 30);
+		plMergedImagesWorkName.add(tfMergedImagesWorkNameCustom);
+		tfMergedImagesWorkNameCustom.setColumns(10);
+		
+		JRadioButton rdbtnMergedImagesWorkNameCustom = new JRadioButton("Custom");
+		rdbtnMergedImagesWorkNameCustom.setSelected(true);
+		rdbtnMergedImagesWorkNameCustom.setBounds(10, 20, 121, 23);
+		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameCustom);
+		
+		JRadioButton rdbtnMergedImagesWorkNameFromFile = new JRadioButton("Get from file");
+		rdbtnMergedImagesWorkNameFromFile.setBounds(131, 20, 121, 23);
+		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameFromFile);
+		
+		ButtonGroup nameMode = new ButtonGroup();
+		nameMode.add(rdbtnMergedImagesWorkNameCustom);
+		nameMode.add(rdbtnMergedImagesWorkNameFromFile);
+		
 		
 		JPanel plMergedImagesWorkCounter = new JPanel();
 		plMergedImagesWorkCounter.setBorder(new TitledBorder(null, "Counter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkCounter.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkCounter.setBounds(0, 116, 274, 95);
+		plMergedImagesWorkCounter.setBackground(new Color(102, 153, 255));
+		plMergedImagesWorkCounter.setBounds(6, 113, 262, 95);
 		plMergedImagesWork.add(plMergedImagesWorkCounter);
 		plMergedImagesWorkCounter.setLayout(null);
 		
@@ -566,7 +598,7 @@ public class StartWin {
 			}
 		});
 		tfMergedImagesWorkCounterStart.setText("1");
-		tfMergedImagesWorkCounterStart.setBounds(100, 20, 164, 30);
+		tfMergedImagesWorkCounterStart.setBounds(100, 20, 152, 30);
 		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterStart);
 		tfMergedImagesWorkCounterStart.setColumns(10);
 		
@@ -577,96 +609,38 @@ public class StartWin {
 			}
 		});
 		tfMergedImagesWorkCounterIncrease.setText("1");
-		tfMergedImagesWorkCounterIncrease.setBounds(100, 55, 164, 30);
+		tfMergedImagesWorkCounterIncrease.setBounds(100, 55, 152, 30);
 		plMergedImagesWorkCounter.add(tfMergedImagesWorkCounterIncrease);
 		tfMergedImagesWorkCounterIncrease.setColumns(10);
 		
 		JLabel lblMergedImagesWorkCounterStart = new JLabel("Start value:");
-		lblMergedImagesWorkCounterStart.setBounds(10, 20, 90, 30);
+		lblMergedImagesWorkCounterStart.setBackground(new Color(102, 153, 255));
+		lblMergedImagesWorkCounterStart.setBounds(10, 20, 80, 30);
 		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterStart);
 		
 		JLabel lblMergedImagesWorkCounterIncrease = new JLabel("Increase by:");
-		lblMergedImagesWorkCounterIncrease.setBounds(10, 55, 90, 30);
+		lblMergedImagesWorkCounterIncrease.setBackground(new Color(102, 153, 255));
+		lblMergedImagesWorkCounterIncrease.setBounds(10, 55, 80, 30);
 		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterIncrease);
 		
 		JButton btnMergedImagesWorkSave = new JButton("SAVE");
-		btnMergedImagesWorkSave.setBounds(0, 440, 274, 100);
+		btnMergedImagesWorkSave.setBounds(6, 440, 262, 100);
 		plMergedImagesWork.add(btnMergedImagesWorkSave);
 		
 		JButton btnMergedImagesWorkDelete = new JButton("Delete");
 		btnMergedImagesWorkDelete.setToolTipText("Delete chosen image");
-		btnMergedImagesWorkDelete.setBounds(0, 546, 182, 40);
+		btnMergedImagesWorkDelete.setBounds(6, 546, 174, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDelete);
-		
-		JPanel plMergedImagesWorkType = new JPanel();
-		plMergedImagesWorkType.setBorder(new TitledBorder(null, "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkType.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkType.setBounds(0, 217, 137, 180);
-		plMergedImagesWork.add(plMergedImagesWorkType);
-		plMergedImagesWorkType.setLayout(null);
-		
-		JRadioButton rdbtnMergedImagesWorkTypeJPG = new JRadioButton(".JPG");
-		rdbtnMergedImagesWorkTypeJPG.setSelected(true);
-		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				type = "JPG";
-			}
-		});
-		rdbtnMergedImagesWorkTypeJPG.setBounds(10, 20, 110, 30);
-		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPG);
-		
-		JRadioButton rdbtnMergedImagesWorkTypeJPEG = new JRadioButton(".JPEG");
-		rdbtnMergedImagesWorkTypeJPEG.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				type = "JPEG";
-			}
-		});
-		rdbtnMergedImagesWorkTypeJPEG.setBounds(10, 50, 110, 30);
-		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPEG);
-		
-		JRadioButton rdbtnMergedImagesWorkTypeBMP = new JRadioButton(".BMP");
-		rdbtnMergedImagesWorkTypeBMP.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				type = "BMP";
-				System.out.println("BMP action performed");
-			}
-		});
-		rdbtnMergedImagesWorkTypeBMP.setBounds(10, 80, 110, 30);
-		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeBMP);
-		
-		JRadioButton rdbtnMergedImagesWorkTypePNG = new JRadioButton(".PNG");
-		rdbtnMergedImagesWorkTypePNG.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				type = "PNG";
-			}
-		});
-		rdbtnMergedImagesWorkTypePNG.setBounds(10, 110, 110, 30);
-		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypePNG);
-		
-		JRadioButton rdbtnMergedImagesWorkTypeTIFF = new JRadioButton(".TIFF");
-		rdbtnMergedImagesWorkTypeTIFF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				type = "TIFF";
-			}
-		});
-		rdbtnMergedImagesWorkTypeTIFF.setBounds(10, 140, 110, 30);
-		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeTIFF);
-		
-		ButtonGroup saveAs = new ButtonGroup();
-		saveAs.add(rdbtnMergedImagesWorkTypeJPG);
-		saveAs.add(rdbtnMergedImagesWorkTypeJPEG);
-		saveAs.add(rdbtnMergedImagesWorkTypeBMP);
-		saveAs.add(rdbtnMergedImagesWorkTypePNG);
-		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
 		
 		JPanel plMergedImagesWorkBpp = new JPanel();
 		plMergedImagesWorkBpp.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "BPP", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		plMergedImagesWorkBpp.setBackground(new Color(204, 153, 51));
-		plMergedImagesWorkBpp.setBounds(137, 217, 137, 180);
+		plMergedImagesWorkBpp.setBackground(new Color(102, 153, 255));
+		plMergedImagesWorkBpp.setBounds(137, 214, 131, 180);
 		plMergedImagesWork.add(plMergedImagesWorkBpp);
 		plMergedImagesWorkBpp.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp1 = new JRadioButton("1");
+		rdbtnMergedImagesWorkBpp1.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 1;
@@ -676,6 +650,7 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp1);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
+		rdbtnMergedImagesWorkBpp8.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 8;
@@ -685,6 +660,7 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp8);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
+		rdbtnMergedImagesWorkBpp16.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 16;
@@ -693,7 +669,8 @@ public class StartWin {
 		rdbtnMergedImagesWorkBpp16.setBounds(10, 80, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp16);
 		
-		JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
+		final JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
+		rdbtnMergedImagesWorkBpp24.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp24.setSelected(true);
 		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -703,7 +680,9 @@ public class StartWin {
 		rdbtnMergedImagesWorkBpp24.setBounds(10, 110, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp24);
 		
-		JRadioButton rdbtnMergedImagesWorkBpp32 = new JRadioButton("32");
+		final JRadioButton rdbtnMergedImagesWorkBpp32 = new JRadioButton("32");
+		rdbtnMergedImagesWorkBpp32.setEnabled(false);
+		rdbtnMergedImagesWorkBpp32.setBackground(new Color(102, 153, 255));
 		rdbtnMergedImagesWorkBpp32.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 32;
@@ -720,13 +699,99 @@ public class StartWin {
 		saveBpp.add(rdbtnMergedImagesWorkBpp32);
 		
 		
+		JPanel plMergedImagesWorkType = new JPanel();
+		plMergedImagesWorkType.setBorder(new TitledBorder(null, "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		plMergedImagesWorkType.setBackground(new Color(102, 153, 255));
+		plMergedImagesWorkType.setBounds(6, 214, 131, 180);
+		plMergedImagesWork.add(plMergedImagesWorkType);
+		plMergedImagesWorkType.setLayout(null);
+		
+		JRadioButton rdbtnMergedImagesWorkTypeJPG = new JRadioButton(".JPG");
+		rdbtnMergedImagesWorkTypeJPG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeJPG.setSelected(true);
+		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "JPG";
+				if (bppMode == 32) {
+					bppMode = 24;
+					rdbtnMergedImagesWorkBpp32.setSelected(false);
+					rdbtnMergedImagesWorkBpp24.setSelected(true);
+				}
+				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+			}
+		});
+		rdbtnMergedImagesWorkTypeJPG.setBounds(10, 20, 110, 30);
+		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPG);
+		
+		JRadioButton rdbtnMergedImagesWorkTypeJPEG = new JRadioButton(".JPEG");
+		rdbtnMergedImagesWorkTypeJPEG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeJPEG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "JPEG";
+				if (bppMode == 32) {
+					bppMode = 24;
+					rdbtnMergedImagesWorkBpp32.setSelected(false);
+					rdbtnMergedImagesWorkBpp24.setSelected(true);
+				}
+				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+			}
+		});
+		rdbtnMergedImagesWorkTypeJPEG.setBounds(10, 50, 110, 30);
+		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPEG);
+		
+		JRadioButton rdbtnMergedImagesWorkTypeBMP = new JRadioButton(".BMP");
+		rdbtnMergedImagesWorkTypeBMP.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeBMP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "BMP";
+				if (bppMode == 32) {
+					bppMode = 24;
+					rdbtnMergedImagesWorkBpp32.setSelected(false);
+					rdbtnMergedImagesWorkBpp24.setSelected(true);
+				}
+				System.out.println("BMP action performed");
+				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+			}
+		});
+		rdbtnMergedImagesWorkTypeBMP.setBounds(10, 80, 110, 30);
+		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeBMP);
+		
+		JRadioButton rdbtnMergedImagesWorkTypePNG = new JRadioButton(".PNG");
+		rdbtnMergedImagesWorkTypePNG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypePNG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "PNG";
+				rdbtnMergedImagesWorkBpp32.setEnabled(true);
+			}
+		});
+		rdbtnMergedImagesWorkTypePNG.setBounds(10, 110, 110, 30);
+		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypePNG);
+		
+		JRadioButton rdbtnMergedImagesWorkTypeTIFF = new JRadioButton(".TIFF");
+		rdbtnMergedImagesWorkTypeTIFF.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeTIFF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				type = "TIFF";
+				rdbtnMergedImagesWorkBpp32.setEnabled(true);
+			}
+		});
+		rdbtnMergedImagesWorkTypeTIFF.setBounds(10, 140, 110, 30);
+		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeTIFF);
+		
+		ButtonGroup saveAs = new ButtonGroup();
+		saveAs.add(rdbtnMergedImagesWorkTypeJPG);
+		saveAs.add(rdbtnMergedImagesWorkTypeJPEG);
+		saveAs.add(rdbtnMergedImagesWorkTypeBMP);
+		saveAs.add(rdbtnMergedImagesWorkTypePNG);
+		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
+		
 		
 		JButton btnMergedImagesWorkDeleteAll = new JButton("Delete all");
-		btnMergedImagesWorkDeleteAll.setBounds(182, 546, 92, 40);
+		btnMergedImagesWorkDeleteAll.setBounds(180, 546, 88, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDeleteAll);
 		
-		JButton btnMergedImagesWorkSaveAll = new JButton("save all");
-		btnMergedImagesWorkSaveAll.setBounds(0, 399, 253, 29);
+		JButton btnMergedImagesWorkSaveAll = new JButton("Save all");
+		btnMergedImagesWorkSaveAll.setBounds(6, 405, 262, 35);
 		plMergedImagesWork.add(btnMergedImagesWorkSaveAll);
 		
 		final JPanel plShade = new JPanel();
@@ -959,6 +1024,8 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				plOperations.setVisible(true);
 				plMergedImages.setVisible(false);
+				btnOperationsOperations.setForeground(new Color(0, 153, 0));
+				btnOperationsMergedImages.setForeground(new Color(0,0,0));
 			}
 		});
 		
@@ -966,6 +1033,8 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				plOperations.setVisible(false);
 				plMergedImages.setVisible(true);
+				btnOperationsOperations.setForeground(new Color(0,0,0));
+				btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
 			}
 		});
 		
@@ -982,6 +1051,7 @@ public class StartWin {
 		btnOperationsWorkRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				tbListImages.removeAll();
 				listImgs.clear();
 				File dir;
@@ -1021,7 +1091,7 @@ public class StartWin {
 									if (plOperationsListImagesOptions.isVisible())
 									{
 										plOperationsListImagesOptions.setVisible(false);
-										scrollPaneListImages.setBounds(312, 6, 774, 401);
+										scrollPaneListImages.setBounds(312, 6, 774, 409);
 									}
 									else
 									{
@@ -1085,6 +1155,7 @@ public class StartWin {
 		btnOperationsWorkLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				JFileChooser fileChooser = new JFileChooser(lastOpenDirectory);
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.setAcceptAllFileFilterUsed(false);				    
@@ -1136,7 +1207,7 @@ public class StartWin {
 									if (plOperationsListImagesOptions.isVisible())
 									{
 										plOperationsListImagesOptions.setVisible(false);
-										scrollPaneListImages.setBounds(312, 6, 774, 401);
+										scrollPaneListImages.setBounds(312, 6, 774, 409);
 									}
 									else
 									{
@@ -1148,6 +1219,7 @@ public class StartWin {
 									if(in ==1)
 									{
 										plOperationsListImagesOptions.setVisible(false);
+										scrollPaneListImages.setBounds(312, 6, 774, 409);
 										BufferedImage img = new BufferedImage(
 												selectedButton.getIcon().getIconWidth(),
 												selectedButton.getIcon().getIconHeight(),
@@ -1220,6 +1292,7 @@ public class StartWin {
 				listToMerge.add(selectedButton.getToolTipText());
 				selectedButton.putClientProperty("selected",new Integer(1));
 				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				
 				frame.revalidate();
 				frame.repaint();
@@ -1291,6 +1364,8 @@ public class StartWin {
 					listDirs.get(i).setText("");
 					listDirs.get(i).setVisible(false);
 				}
+				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				frame.revalidate();
 				frame.repaint();
 			}
@@ -1307,6 +1382,8 @@ public class StartWin {
 					listDirs.get(i).setText("");
 					listDirs.get(i).setVisible(false);
 				}
+				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				frame.revalidate();
 				frame.repaint();
 			}
@@ -1315,6 +1392,8 @@ public class StartWin {
 		
 		btnOperationsWorkMerge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
 				BufferedImage img = null;
 				if(!listToMerge.isEmpty())
@@ -1376,12 +1455,16 @@ public class StartWin {
 					img.flush();
 					frame.revalidate();
 					frame.repaint();
+					btnOperationsOperations.setForeground(new Color(0,0,0));
+					btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
 			}
 			}
 		});
 		
 		btnOperationsWorkMergeAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				plOperationsListImagesOptions.setVisible(false);
+				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				int i;
 				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
 				List<String> listStrings = new ArrayList<String>();
@@ -1460,6 +1543,8 @@ public class StartWin {
 					}
 					frame.revalidate();
 					frame.repaint();
+					btnOperationsOperations.setForeground(new Color(0,0,0));
+					btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
 				}
 			}
 		});
@@ -1477,7 +1562,7 @@ public class StartWin {
 					lastSaveDirectory = dir.getAbsolutePath();
 					String path = dir.getAbsolutePath();
 					System.out.println("the tpye choosen is"+type);
-					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkName.getText()+saveCounter,type,bppMode,path);
+					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
 					saveCounter+= saveStep;
 				}
 				
@@ -1493,6 +1578,8 @@ public class StartWin {
 					img.flush();
 				}
 				btnMergedImagesViewView.setIcon(null);
+				frame.revalidate();
+				frame.repaint();
 			}
 		});
 		btnMergedImagesWorkDelete.addActionListener(new ActionListener() {
@@ -1538,7 +1625,7 @@ public class StartWin {
 					for(int i =0; i < tbListMergedImages.getComponentCount();i++)
 					{
 						button = (JButton)tbListMergedImages.getComponent(i);
-						imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkName.getText()+saveCounter,type,bppMode,path);
+						imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
 						saveCounter+= saveStep;
 					}
 				}
