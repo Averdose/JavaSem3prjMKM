@@ -29,10 +29,10 @@ public class ImageMerger {
         public boolean accept(final File dir, final String name) {
             for (final String ext : EXTENSIONS) {
                 if (name.endsWith("." + ext)) {
-                    return (true);
+                    return true;
                 }
             }
-            return (false);
+            return false;
         }
 	};
 	public ImageMerger() {}
