@@ -1055,16 +1055,16 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
-				tbListImages.removeAll();
+				tbListImages.removeAll();									//first i remove all previously loaded images
 				listImgs.clear();
 				File dir;
 				int numberOfDirector =j;
-				for(j =0;j<numberOfDirector;j++)
+				for(j =0;j<numberOfDirector;j++)							//i restore the number of directories to their previous state
 				{
 					String dirPath = listDirs.get(j).getText();
 					dir = new File(dirPath);
 						if (dir.isDirectory()) {
-						for (final File f : dir.listFiles(IMAGE_FILTER)) {
+						for (final File f : dir.listFiles(IMAGE_FILTER)) {  //i open each folder seperately and find all images that matches the extensions
 							System.out.println(f.getAbsolutePath());
 							
 							final JButton button = new JButton();
@@ -1080,30 +1080,30 @@ public class StartWin {
 							
 							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
-							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);	//I resize the image so it fits nicely into to scrollbar
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
 							g.dispose();
 							
 							
-							button.setIcon(new ImageIcon(resized));
+							button.setIcon(new ImageIcon(resized));																//i set the image as an icon of a button
 							
 							listImgs.add(button);
 							
 							button.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent arg0) {				
+								public void actionPerformed(ActionEvent arg0) {													//I add actionlisteners to the created button so that they can be added to merging by clicking on them
 									if (plOperationsListImagesOptions.isVisible())
 									{
 										plOperationsListImagesOptions.setVisible(false);
 										scrollPaneListImages.setBounds(312, 6, 774, 409);
 									}
-									else
+									else																						//opening and closing the context menu for images
 									{
 										plOperationsListImagesOptions.setVisible(true);
 										scrollPaneListImages.setBounds(312, 6, 774, 358);
 									}
 									selectedButton = button;
 									int in = (Integer)selectedButton.getClientProperty("selected");
-									if(in ==1)
+									if(in ==1)																					//used only if the image is selcted to merge
 									{
 										plOperationsListImagesOptions.setVisible(false);
 										BufferedImage img = new BufferedImage(
@@ -1117,16 +1117,16 @@ public class StartWin {
 										
 										BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 										Graphics2D g = resized.createGraphics();
-										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//the point here is to get the image back to not selected images, to do so i need to resize it again
 										g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
 										g.dispose();
 										
 										selectedButton.setIcon(new ImageIcon(resized));
 
 										
-										tbListImages.add(button);
+										tbListImages.add(button);																		//i add the button back to tbListImages
 										for ( int i = 0;  i < listToMerge.size(); i++){
-								            String tempName = listToMerge.get(i);
+								            String tempName = listToMerge.get(i);														//i remove the button from to be merged list
 								            if(tempName.equals(selectedButton.getToolTipText())){
 								                listToMerge.remove(i);
 								            }
@@ -1140,12 +1140,12 @@ public class StartWin {
 								
 							
 							resized.flush();
-							img.flush();
+							img.flush();																//i take care of unused resources
 							
 							
 							tbListImages.add(button);	
 							
-							frame.revalidate();
+							frame.revalidate();															//i update the display
 							frame.repaint();
 							button.putClientProperty("selected", new Integer(0));
 						
@@ -1166,26 +1166,22 @@ public class StartWin {
 				
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					
-					File dir = fileChooser.getSelectedFile();
-					lastOpenDirectory = dir.getAbsolutePath();
+					File dir = fileChooser.getSelectedFile();								//i use file chooser for selecting the file
+					lastOpenDirectory = dir.getAbsolutePath();								//setting this directory to be the new open directory
 					
-					System.out.println("  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j);
+					//System.out.println("  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j);
 					listDirs.get(j).setText(dir.getAbsolutePath());
-					listDirs.get(j).setVisible(true);
+					listDirs.get(j).setVisible(true);										//i display the selected directory
 					j++;
 					
 					
 					if (dir.isDirectory()) {
 						for (final File f : dir.listFiles(IMAGE_FILTER)) {
-							System.out.println(f.getAbsolutePath());
-							if(f.getAbsolutePath().endsWith(".zip"))
-							{
-								//Opening Zip files here
-							}
+							System.out.println(f.getAbsolutePath());						
 							
 							final JButton button = new JButton();
 							BufferedImage img = null;
-							button.setToolTipText(f.getAbsolutePath());
+							button.setToolTipText(f.getAbsolutePath());						//for every file that matches extensions i read the image as buffered image
 							try {
 								img = ImageIO.read(f);
 							} catch (IOException err) {
@@ -1196,12 +1192,12 @@ public class StartWin {
 							
 							BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 							Graphics2D g = resized.createGraphics();
-							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//i resize the image
 							g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
 							g.dispose();
 							
 							
-							button.setIcon(new ImageIcon(resized));
+							button.setIcon(new ImageIcon(resized));					//i add the image to displayed images
 							listImgs.add(button);
 							
 							
@@ -1217,7 +1213,7 @@ public class StartWin {
 										plOperationsListImagesOptions.setVisible(true);
 										scrollPaneListImages.setBounds(312, 6, 774, 358);
 									}
-									selectedButton = button;
+									selectedButton = button;												//selectedButton stores the curently pressed button
 									int in = (Integer)selectedButton.getClientProperty("selected");
 									if(in ==1)
 									{
@@ -1234,23 +1230,23 @@ public class StartWin {
 										
 										BufferedImage resized = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
 										Graphics2D g = resized.createGraphics();
-										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+										g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);	//resizing the image
 										g.drawImage(img, 0, 0, 400, 400, 0, 0, img.getWidth(),img.getHeight(), null);
 										g.dispose();
 										
 										selectedButton.setIcon(new ImageIcon(resized));
 
 										
-										tbListImages.add(button);
-										for ( int i = 0;  i < listToMerge.size(); i++){
+										tbListImages.add(button);												//i add the button back to not choosen images
+										for ( int i = 0;  i < listToMerge.size(); i++){				
 								            String tempName = listToMerge.get(i);
 								            if(tempName.equals(selectedButton.getToolTipText())){
-								                listToMerge.remove(i);
+								                listToMerge.remove(i);											//i remove the button from to be merged list
 								            }
 								        }
 										selectedButton.putClientProperty("selected", new Integer(0));
 										frame.revalidate();
-										frame.repaint();
+										frame.repaint();														//i update the frame
 									}
 								}
 							});
@@ -1259,10 +1255,10 @@ public class StartWin {
 							
 							
 							resized.flush();
-							img.flush();
+							img.flush();																		//i take care of unsused resources
 							
 							tbListImages.add(button);	
-							button.putClientProperty("selected", new Integer(0));
+							button.putClientProperty("selected", new Integer(0));								//noting the the image is not selected
 							frame.revalidate();
 							frame.repaint();
 						}
@@ -1271,7 +1267,7 @@ public class StartWin {
 			}
 		});
 		
-		btnOperationsListImageAdd.addActionListener(new ActionListener() {
+		btnOperationsListImageAdd.addActionListener(new ActionListener() {										//an action listener used to add an image to the "to merge list
 			public void actionPerformed(ActionEvent e) {
 		
 				BufferedImage img = new BufferedImage(
@@ -1285,11 +1281,11 @@ public class StartWin {
 				
 				BufferedImage resized = new BufferedImage(170, 170, BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = resized.createGraphics();
-				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//resizing the image
 				g.drawImage(img, 0, 0, 170, 170, 0, 0, img.getWidth(),img.getHeight(), null);
 				g.dispose();
 				
-				selectedButton.setIcon(new ImageIcon(resized));
+				selectedButton.setIcon(new ImageIcon(resized));															//seting the newly resized image
 				
 				tbListToMerge.add(selectedButton);
 				listToMerge.add(selectedButton.getToolTipText());
@@ -1297,7 +1293,7 @@ public class StartWin {
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				
-				frame.revalidate();
+				frame.revalidate();																						//I update the frame
 				frame.repaint();
 
 			}
@@ -1309,7 +1305,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent arg0) {
 			plOperationsImages.setVisible(false);
 			plOperationsWork.setVisible(false);
-			plOperationsPreview.setVisible(true);
+			plOperationsPreview.setVisible(true);																		//opening the preview window
 			plOperationsPreviewWork.setVisible(true);
 			
 			BufferedImage img = new BufferedImage(
@@ -1323,13 +1319,13 @@ public class StartWin {
 			
 			BufferedImage resized = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = resized.createGraphics();
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);			//resizing the image 
 			g.drawImage(img, 0, 0, 800, 600, 0, 0, img.getWidth(),img.getHeight(), null);
 			g.dispose();
 			
 			imgOperationsPreview.setIcon(new ImageIcon(resized));
-			imgOperationsPreview.setText("");
-			tfOperationsPreviewWorkPath.setText(selectedButton.getToolTipText());
+			imgOperationsPreview.setText("");													
+			tfOperationsPreviewWorkPath.setText(selectedButton.getToolTipText());										//displaying the directory
 			
 			frame.revalidate();
 			frame.repaint();
@@ -1343,7 +1339,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsImages.setVisible(true);
 				plOperationsWork.setVisible(true);
-				plOperationsPreview.setVisible(false);
+				plOperationsPreview.setVisible(false);												//self explanatory
 				plOperationsPreviewWork.setVisible(false);
 					
 
@@ -1355,9 +1351,15 @@ public class StartWin {
 		
 		mntmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for(int i =0 ; i<tbListMergedImages.getComponentCount();i++)
+				{
+					JButton button =(JButton)tbListMergedImages.getComponent(i);
+					BufferedImage img = (BufferedImage)button.getClientProperty("image");		//clearing resources
+					img.flush();
+				}
 				tbListImages.removeAll();
 				tbListToMerge.removeAll();
-				listImgs.clear();
+				listImgs.clear();													//removing not needed content
 				listToMerge.clear();
 				tbListMergedImages.removeAll();
 				btnMergedImagesViewView.setIcon(null);
@@ -1365,7 +1367,7 @@ public class StartWin {
 				for(int i =0;i<listDirs.size();i++)
 				{
 					listDirs.get(i).setText("");
-					listDirs.get(i).setVisible(false);
+					listDirs.get(i).setVisible(false);								//clearing directory view
 				}
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
@@ -1382,7 +1384,7 @@ public class StartWin {
 				j=0;
 				for(int i =0;i<listDirs.size();i++)
 				{
-					listDirs.get(i).setText("");
+					listDirs.get(i).setText("");									//similar to function New, but removing less things
 					listDirs.get(i).setVisible(false);
 				}
 				plOperationsListImagesOptions.setVisible(false);
@@ -1397,7 +1399,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
-				ImageMerger imgMerger1 = new ImageMerger(mergeMode);
+				ImageMerger imgMerger1 = new ImageMerger(mergeMode);								//creating an instance of Image Merger
 				BufferedImage img = null;
 				if(!listToMerge.isEmpty())
 				{
@@ -1410,7 +1412,7 @@ public class StartWin {
 						else
 						img = imgMerger1.mergeAndFade(listToMerge, false, direction);
 					}
-					else
+					else																		//choosing appropriate modes
 					{
 						if(BWMode == 1)
 						img = imgMerger1.mergeAndShade(listToMerge, true, direction);
@@ -1419,27 +1421,27 @@ public class StartWin {
 					}
 					BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
 					Graphics2D g = resized.createGraphics();
-					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+					g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//resizing the image for preview after merge
 					g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
 					g.dispose();
 					
 					String name = baseString + counter;
-					counter += counterStep;
+					counter += counterStep;															//creating name
 					
-					btnMergedImagesViewView.setIcon(new ImageIcon(resized));
-					listMerged.add(name);
+					btnMergedImagesViewView.setIcon(new ImageIcon(resized));						//displaying image
+					listMerged.add(name);															//adding to list of merged images
 					final JButton button = new JButton(name);
-					button.putClientProperty("image", img);
+					button.putClientProperty("image", img);											//giving the button a property with actual merged image
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							BufferedImage image = (BufferedImage)button.getClientProperty("image");
 							BufferedImage res = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
-							Graphics2D g = res.createGraphics();
-							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+							Graphics2D g = res.createGraphics();																	//enabling the choice which image to see
+							g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//again resizing
 							g.drawImage(image, 0, 0, 700, 700, 0, 0, image.getWidth(),image.getHeight(), null);
 							g.dispose();
 							btnMergedImagesViewView.setIcon(new ImageIcon(res));
-							image.flush();
+							image.flush();																	//setting image and updating frome
 							res.flush();
 							frame.revalidate();
 							frame.repaint();
@@ -1452,11 +1454,11 @@ public class StartWin {
 					if(viewImagesAfterMerge)
 					{
 						plOperations.setVisible(false);
-						plMergedImages.setVisible(true);
+						plMergedImages.setVisible(true);													//functionality of "view after merge button
 					}
 					resized.flush();
 					img.flush();
-					frame.revalidate();
+					frame.revalidate();																		//clearing resources
 					frame.repaint();
 					btnOperationsOperations.setForeground(new Color(0,0,0));
 					btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
@@ -1465,7 +1467,7 @@ public class StartWin {
 		});
 		
 		btnOperationsWorkMergeAll.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {													//very simmilar Action listener to Merge i note just a few differences
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				int i;
@@ -1485,7 +1487,7 @@ public class StartWin {
 						if(BWMode ==1)
 						img = imgMerger1.directoryMergeAndFade(listStrings, true, direction);	
 						else
-						img = imgMerger1.directoryMergeAndFade(listStrings, false, direction);
+						img = imgMerger1.directoryMergeAndFade(listStrings, false, direction);			//i use special functions for directory merging
 					}
 					else
 					{
@@ -1497,7 +1499,7 @@ public class StartWin {
 					
 					
 					
-					for(i =0; i<img.size();i++)
+					for(i =0; i<img.size();i++)										//everything happens in a loop
 					{
 						
 						String name = baseString + counter;
@@ -1557,31 +1559,31 @@ public class StartWin {
 				ImageMerger imgmer = new ImageMerger();
 				File dir;
 				JFileChooser fileChooser = new JFileChooser(lastSaveDirectory);
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);			//i use filechooser to get selected directory
 				fileChooser.setAcceptAllFileFilterUsed(false);				  
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				{
 					dir =fileChooser.getSelectedFile();
-					lastSaveDirectory = dir.getAbsolutePath();
+					lastSaveDirectory = dir.getAbsolutePath();								//setting this directory to be the new open directory
 					String path = dir.getAbsolutePath();
-					System.out.println("the tpye choosen is"+type);
+					//System.out.println("the tpye choosen is"+type);
 					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
-					saveCounter+= saveStep;
+					saveCounter+= saveStep;													//i use a dedicated function for saving and increase the naming counter
 				}
 				
 			}
 		});
 		btnMergedImagesWorkDeleteAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tbListMergedImages.removeAll();
+				tbListMergedImages.removeAll();													//removing all buttons
 				for(int i =0 ; i<tbListMergedImages.getComponentCount();i++)
 				{
 					JButton button =(JButton)tbListMergedImages.getComponent(i);
-					BufferedImage img = (BufferedImage)button.getClientProperty("image");
+					BufferedImage img = (BufferedImage)button.getClientProperty("image");		//clearing resources
 					img.flush();
 				}
 				btnMergedImagesViewView.setIcon(null);
-				frame.revalidate();
+				frame.revalidate();																//updating frame
 				frame.repaint();
 			}
 		});
@@ -1590,20 +1592,20 @@ public class StartWin {
 				int i;
 				for(i =0; i<listMerged.size();i++)
 				{
-					if(listMerged.get(i)==buttonToSave.getText())
+					if(listMerged.get(i)==buttonToSave.getText())										//i find which in the list is the image we want to delete
 						break;
 				}
 				BufferedImage img = (BufferedImage)buttonToSave.getClientProperty("image");
-				img.flush();
+				img.flush();																			//i clear its resources
 				tbListMergedImages.remove(buttonToSave);
 				if(i!=0)
-					buttonToSave = (JButton)tbListMergedImages.getComponent(i-2);
+					buttonToSave = (JButton)tbListMergedImages.getComponent(i-2);						//I set a new image as the displayed image
 				else
 					buttonToSave = (JButton)tbListMergedImages.getComponent(i+1);
 				img = (BufferedImage)buttonToSave.getClientProperty("image");
 				BufferedImage resized = new BufferedImage(700, 700, BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = resized.createGraphics();
-				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);		//i resize the new image
 				g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
 				g.dispose();
 				btnMergedImagesViewView.setIcon(new ImageIcon(resized));
@@ -1611,7 +1613,7 @@ public class StartWin {
 				frame.repaint();
 			}
 		});
-		btnMergedImagesWorkSaveAll.addActionListener(new ActionListener() {
+		btnMergedImagesWorkSaveAll.addActionListener(new ActionListener() {				//again very similar function to save
 			public void actionPerformed(ActionEvent arg0) {
 				ImageMerger imgmer = new ImageMerger();
 				File dir;
@@ -1624,8 +1626,8 @@ public class StartWin {
 					dir =fileChooser.getSelectedFile();
 					lastSaveDirectory = dir.getAbsolutePath();
 					String path = dir.getAbsolutePath();
-					System.out.println("the tpye choosen is"+type);
-					for(int i =0; i < tbListMergedImages.getComponentCount();i++)
+					//System.out.println("the tpye choosen is"+type);
+					for(int i =0; i < tbListMergedImages.getComponentCount();i++)		//this time everything happens in a loop
 					{
 						button = (JButton)tbListMergedImages.getComponent(i);
 						imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
