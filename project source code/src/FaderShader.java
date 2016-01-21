@@ -1,14 +1,35 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+/*FaderShader class is responsible for shading and fading images during the merging process*/
 public class FaderShader {
 	private int maxWidth, maxHeight;
+	/*direction variable holds the int value of direction of shading/merging :
+	 * 0 - from left to right, 1 - from top left to bottom right, 2 - from top to bottom
+	 * 3 - from top right to bottom left, 4 - from right to left, 5 - from bottom right to top left
+	 * 6 - from bottom to top, 7 - from bottom left to top right, 8 - from centre outwards
+	 */
 	private int direction;
+	/*blackOnWhite variable holds the boolean value :
+	 * 1 - image has black colour and is placed on white background
+	 * 2 - image has white colour and is placed on black background
+	 */
 	private boolean blackOnWhite;
 	FaderShader(boolean _blackOnWhite, int _direction) {
 		blackOnWhite = _blackOnWhite;
 		direction = _direction;
 	}
+	/*Function getGradient() calculates the value of shade/fade gradient by which 
+	 *  RGB value of pixel has to be increased/decreased.
+	 *  The gradient calculation is based on ratio of already coloured part of image
+	 *  to the total surface of image.
+	 *  For top to bottom/left to right and reverse shading/fading operations, the function
+	 *  calculates ratio of current width/height to total width/height.
+	 *  Otherwise the function calculates the ratio of current shaded/faded surface of image
+	 *  to the total surface.
+	 *  boolean value grayShade, changes the ratio interval to [0, 200] if the image is meant to have
+	 *  gray shade, otherwise the ratio interval is standard RGB [0, 255]
+	 */
 	private int getGradient(int currentWidth, int currentHeight, boolean grayShade){
 		switch(direction) {
 		case 0 :
@@ -56,7 +77,7 @@ public class FaderShader {
 			return (int) (ratio * 255);
 		case 7 :
 			area = maxWidth * maxHeight;
-			currentArea = currentWidth * (maxHeight - currentHeight); //0 = minHeight
+			currentArea = currentWidth * (maxHeight - currentHeight); 
 			ratio = (float) currentArea / area;
 			if(grayShade)
 				return (int) (ratio * 200);
@@ -71,7 +92,11 @@ public class FaderShader {
 		}
 		return -1;
 	}
-	
+	/*function shadeImage darkens the pixels of the image down to the value 55(dark gray)
+	 *  on RGB scale, if blackOnWhite = 1
+	 *  lightens the pixel of the image up to the value 254(white) on RGB scale if blackOnWhite = 0
+	 *  the function iterates over every pixel of image changing its RGB value
+	 */
 	public BufferedImage shadeImage(BufferedImage image) {
 		maxWidth = image.getWidth();
 		maxHeight = image.getHeight();
@@ -98,11 +123,14 @@ public class FaderShader {
 				image.setRGB(w,  h, newColor.getRGB());
 			}
 		}
-		// only for tests //
-		//ImageIO.write(image, "BMP", new File("shadeImage.bmp"));
+		
 		return image;
 	}
-	
+	/*function fadeImage darkens the pixels of the image down to the value 55(dark gray)
+	 *  on RGB scale, if blackOnWhite = 0
+	 *  lightens the pixel of the image up to the value 254(white) on RGB scale if blackOnWhite = 1
+	 *  the function iterates over every pixel of image changing its RGB value
+	 */
 	public BufferedImage fadeImage(BufferedImage image) {
 		maxWidth = image.getWidth();
 		maxHeight = image.getHeight();
@@ -130,8 +158,7 @@ public class FaderShader {
 				image.setRGB(w,  h, newColor.getRGB());
 			}
 		}
-		// only for tests //
-		//ImageIO.write(image, "PNG", new File("fadeImage.png"));
+		
 		return image;
 	}
 }
