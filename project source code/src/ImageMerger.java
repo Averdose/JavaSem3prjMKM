@@ -9,20 +9,20 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 
-/* in constructor mode = 0 -> XOR, mode = 1 -> OR, mode = 2 -> AND*/
+/** ImageMerger class is responsible for image/directory merging process and file saving*/
 public class ImageMerger {	
 	private int minWidth, minHeight;
 	private int maxWidth, maxHeight;
-	/*variable mode holds the mode of merging i.e 0 = XOR, 1 = OR, 2 = AND
+	/**variable mode holds the mode of merging i.e 0 = XOR, 1 = OR, 2 = AND
 	 * enum was not used due to the past compilation issues on MiNI lab PCs
 	 */
 	private int mode;
 	private BufferedImage baseImageA, baseImageB;
-	/*below supported file extensions*/
+	/**below supported file extensions*/
 	private final String[] EXTENSIONS = new String[]{
 	       "TIF", "TIFF", "tif", "tiff", "png", "bmp","jpeg","JPEG","jpg","JPG","BMP", "PNG" // and other formats you need
 	};
-	/*FilenameFilter filters out not supported file types*/
+	/**FilenameFilter filters out not supported file types*/
 	private final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
         @Override
@@ -39,7 +39,7 @@ public class ImageMerger {
 	public ImageMerger(int _mode) {
 		mode = _mode;
 	}
-	/* Function saveImage provides possibility of saving an image
+	/**Function saveImage provides possibility of saving an image
 	 * it takes intended fileName of image, its format, colour depth(1, 8, 16, 24, 32) in bits per pixel
 	 * and destination string which is path to the directory
 	 * Function also chooses BufferedImage type based on colour depth of an image
@@ -75,7 +75,7 @@ public class ImageMerger {
 		}
 		newImage.flush();
 	}
-	/*Function merge merges a list of paths to images the function provides several 
+	/**Function merge merges a list of paths to images the function provides several 
 	 * safety checks, in case the image was not successfully loaded
 	 */
 	public BufferedImage merge(List<String> paths) {
@@ -112,7 +112,7 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	/* Function mergeAndFade provides merging and fading functionality,
+	/** Function mergeAndFade provides merging and fading functionality,
 	 *  the possible values of blackOnWhite and direction variables are explained in FaderShader class,
 	 *   it returns successfully merged image
 	 */
@@ -156,7 +156,7 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	/* Function mergeAndShade provides merging and shading functionality, 
+	/** Function mergeAndShade provides merging and shading functionality, 
 	 * the possible values of blackOnWhite and direction  variables are explained in FaderShader class,
 	 *  it returns successfully merged image
 	 */
@@ -200,7 +200,7 @@ public class ImageMerger {
 			return baseImageB;
 		return null;
 	}
-	/*Function directoryMerge browses a list of paths to directories,
+	/**Function directoryMerge browses a list of paths to directories,
 	 *  merging images number 1 from dir1, dir2, dir3,
 	 *  then merging images number 2 from dir 1, dir2, dir3... and so on.
 	 *   returns list of merged images
@@ -237,7 +237,7 @@ public class ImageMerger {
 		list.clear();
 		return images;		
 	}
-	/*Function directoryMergeAndFade browses a list of paths to directories,
+	/**Function directoryMergeAndFade browses a list of paths to directories,
 	 *  merging and fading images number 1 from dir1, dir2, dir3,
 	 *  then merging images number 2 from dir 1, dir2, dir3... and so on.
 	 *   returns list of merged images */
@@ -272,7 +272,7 @@ public class ImageMerger {
 		list.clear();
 		return images;
 	}
-	/*Function directoryMergeAndShade browses a list of paths to directories,
+	/**Function directoryMergeAndShade browses a list of paths to directories,
 	 *  merging and shading images number 1 from dir1, dir2, dir3,
 	 *  then merging images number 2 from dir 1, dir2, dir3... and so on.
 	 *   returns list of merged images */
@@ -307,7 +307,7 @@ public class ImageMerger {
 		list.clear();
 		return images;
 	}
-	/* Function setColorDepth returns the greatest possible colour depth based on images bits per pixel
+	/** Function setColorDepth returns the greatest possible colour depth based on images bits per pixel
 	 * 32bit colour depth cannot be chosen due to the issues during the merging process with the image's
 	 * alpha channel, often leaving the image completely transparent or being unable to be loaded on screen
 	 */
@@ -326,7 +326,7 @@ public class ImageMerger {
 			return BufferedImage.TYPE_BYTE_BINARY;
 		return BufferedImage.TYPE_INT_RGB;
 	}
-	/* Function setWhiteBackground sets the background of newly merged image to white*/
+	/** Function setWhiteBackground sets the background of newly merged image to white*/
 	private void setWhiteBackground(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -336,14 +336,14 @@ public class ImageMerger {
 		g.fillRect(0, 0, width, height);
 		g.dispose();
 	}
-	/*Function mergePixels provides the basic functionality of ImageMerger class
+	/**Function mergePixels provides the basic functionality of ImageMerger class
 	 *1. chooses the cross-section area of input images, based on their dimensions
 	 *2. iterates over every pixel of the cross-section
 	 *3. XORs, ORs or ANDs the pixels of input images with respect to specified mode of merging
 	 *4. sets the newImage pixel to the value returned in point 3.
 	 */
 	private void mergePixels(BufferedImage newImage, int width, int height) {
-		// if baseImageA is has greater width and lesser height
+		/** if baseImageA is has greater width and lesser height*/
 		if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
@@ -356,21 +356,21 @@ public class ImageMerger {
 					int pixelB = baseImageB.getRGB(i, h);
 					switch(mode) {
 						case 0 :
-							//XOR
+							/**XOR*/
 							newImage.setRGB(w, h, pixelA ^ pixelB);
 							break;
 						case 1 :
-							//OR
+							/**OR*/
 							newImage.setRGB(w, h, pixelA | pixelB);
 							break;
 						case 2 :
-							//AND
+							/**AND*/
 							newImage.setRGB(w, h, pixelA & pixelB);
 					}		
 				}
 			}
 		}
-		//if baseImageA has lesser width and greater height
+		/**if baseImageA has lesser width and greater height*/
 		else if(baseImageA.getWidth() <= baseImageB.getWidth() && baseImageA.getHeight() >= baseImageB.getHeight()) {
 			minWidth = (width - baseImageA.getWidth())/2;
 			maxWidth = minWidth + baseImageA.getWidth();
@@ -383,21 +383,21 @@ public class ImageMerger {
 					int pixelB = baseImageA.getRGB(i, h);
 					switch(mode) {
 						case 0 :
-							//XOR
+							/**XOR*/
 							newImage.setRGB(w, h, pixelA ^ pixelB);
 							break;
 						case 1 :
-							//OR
+							/**OR*/
 							newImage.setRGB(w, h, pixelA | pixelB);
 							break;
 						case 2 :
-							//AND
+							/**AND*/
 							newImage.setRGB(w, h, pixelA & pixelB);
 					}		
 				}
 			}
 		}
-		//if baseImageA has greater width and height
+		/**if baseImageA has greater width and height*/
 		else if(baseImageA.getWidth() >= baseImageB.getWidth() && baseImageA.getHeight() >= baseImageB.getHeight()) {
 			minWidth = (width - baseImageB.getWidth())/2;
 			maxWidth = minWidth + baseImageB.getWidth();
@@ -410,21 +410,21 @@ public class ImageMerger {
 					int pixelB = baseImageA.getRGB(w, h);
 					switch(mode) {
 						case 0 :
-							//XOR
+							/**XOR*/
 							newImage.setRGB(w, h, pixelA ^ pixelB);
 							break;
 						case 1 :
-							//OR
+							/**OR*/
 							newImage.setRGB(w, h, pixelA | pixelB);
 							break;
 						case 2 :
-							//AND
+							/**AND*/
 							newImage.setRGB(w, h, pixelA & pixelB);
 					}		
 				}
 			}
 		}
-		//if baseImageA has lesser width and height
+		/**if baseImageA has lesser width and height*/
 		else if(baseImageA.getWidth() <= baseImageB.getWidth() && baseImageA.getHeight() <= baseImageB.getHeight()) {
 			minWidth = (width - baseImageA.getWidth())/2;
 			maxWidth = minWidth + baseImageA.getWidth();
@@ -437,22 +437,22 @@ public class ImageMerger {
 					int pixelB = baseImageA.getRGB(i, j);
 					switch(mode) {
 						case 0 :
-							//XOR
+							/**XOR*/
 							newImage.setRGB(w, h, pixelA ^ pixelB);
 							break;
 						case 1 :
-							//OR
+							/**OR*/
 							newImage.setRGB(w, h, pixelA | pixelB);
 							break;
 						case 2 :
-							//AND
+							/**AND*/
 							newImage.setRGB(w, h, pixelA & pixelB);
 					}		
 				}
 			}
 		}
 	}
-	/*Function mergeImages merges the 2 input images
+	/**Function mergeImages merges the 2 input images
 	 * 1. creates new image using greatest dimensions of both input images
 	 * 2. sets the new image background to white
 	 * 3. draws both images in the centre of the new image
