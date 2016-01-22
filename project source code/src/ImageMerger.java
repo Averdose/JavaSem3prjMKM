@@ -308,8 +308,8 @@ public class ImageMerger {
 		return images;
 	}
 	/** Function setColorDepth returns the greatest possible colour depth based on images bits per pixel
-	 * 32bit colour depth cannot be chosen due to the issues during the merging process with the image's
-	 * alpha channel, often leaving the image completely transparent or being unable to be loaded on screen
+	 * 32bit colour depth cannot be chosen due to the some issues with confilicting bufferedimage types
+	 * this function does not ignore alpha channel(i.e it may be also merged)
 	 */
 	private int setColorDepth() {
 		int depthA = baseImageA.getType(), depthB = baseImageB.getType();
