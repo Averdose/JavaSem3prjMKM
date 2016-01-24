@@ -705,7 +705,7 @@ public class StartWin {
 		
 		JScrollPane scrollPaneListMergedImages = new JScrollPane();
 		scrollPaneListMergedImages.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "Merged Images:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
-		scrollPaneListMergedImages.setBounds(6, 536, 1080, 50);
+		scrollPaneListMergedImages.setBounds(6, 536, 1080, 70);
 		plMergedImagesView.add(scrollPaneListMergedImages);
 		
 		final JToolBar tbListMergedImages = new JToolBar();
@@ -746,8 +746,8 @@ public class StartWin {
 		JRadioButton rdbtnMergedImagesWorkNameCustom = new JRadioButton("Custom");
 		rdbtnMergedImagesWorkNameCustom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbMergedImagesWorkNameFromFile.setVisible(true);
-				tfMergedImagesWorkNameCustom.setVisible(false);
+				cbMergedImagesWorkNameFromFile.setVisible(false);
+				tfMergedImagesWorkNameCustom.setVisible(true);
 			}
 		});
 		rdbtnMergedImagesWorkNameCustom.setFont(new Font("STHeiti", Font.PLAIN, 13));
@@ -868,6 +868,7 @@ public class StartWin {
 		final JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
 		rdbtnMergedImagesWorkBpp16.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkBpp16.setBackground(Color.WHITE);
+		rdbtnMergedImagesWorkBpp16.setEnabled(false);
 		rdbtnMergedImagesWorkBpp16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 16;
