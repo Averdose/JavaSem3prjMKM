@@ -44,10 +44,18 @@ import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.DropMode;
 import java.awt.Component;
+import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.SystemColor;
 
 public class StartWin {
 	
-	private JFrame frame;
+	private JFrame frmMicromerge;
 	private JTextField tfOperationsPreviewWorkPath;
 	private int j =0;										//j is the number of selected directories
 	private int numberofdirs =0;
@@ -70,6 +78,7 @@ public class StartWin {
 	private int bppMode = 24;
 	private String lastOpenDirectory = null;
 	private String lastSaveDirectory = null;
+	private JLabel lblbtnMergedImagesWorkSave;
 	/**
 	 * Launch the application.
 	 */
@@ -78,7 +87,7 @@ public class StartWin {
 			public void run() {
 				try {
 					StartWin window = new StartWin();
-					window.frame.setVisible(true);
+					window.frmMicromerge.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,115 +152,140 @@ public class StartWin {
 		{
 			yScreen = (int) ((heightScreen-700)/2);
 		}
-		frame = new JFrame();
-		frame.setBounds(xScreen, yScreen, 1366, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmMicromerge = new JFrame();
+		frmMicromerge.setResizable(false);
+		frmMicromerge.setIconImage(Toolkit.getDefaultToolkit().getImage(StartWin.class.getResource("/resources/mmlogo.jpg")));
+		frmMicromerge.setTitle("MicroMerge");
+		frmMicromerge.setBounds(xScreen, yScreen, 1366, 700);
+		frmMicromerge.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmMicromerge.getContentPane().setLayout(null);
 		
 		final JPanel plMenu = new JPanel();
+		plMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 153, 0)));
 		plMenu.setBounds(0, 20, 1366, 40);
-		frame.getContentPane().add(plMenu);
-		plMenu.setBackground(new Color(192, 192, 192));
+		frmMicromerge.getContentPane().add(plMenu);
+		plMenu.setBackground(Color.WHITE);
 		plMenu.setLayout(null);
 		
-		final JButton btnOperationsOperations = new JButton("Operations");
-		btnOperationsOperations.setForeground(new Color(0, 153, 0));
-		btnOperationsOperations.setBounds(0, 0, 683, 40);
+		final JButton btnOperationsOperations = new JButton("OPERATIONS");
+		btnOperationsOperations.setBackground(Color.WHITE);
+		btnOperationsOperations.setBorder(null);
+		btnOperationsOperations.setContentAreaFilled(false);
+		btnOperationsOperations.setFocusPainted(false);
+		btnOperationsOperations.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsOperations.setForeground(Color.WHITE);
+		btnOperationsOperations.setBounds(0, 0, 683, 38);
 		plMenu.add(btnOperationsOperations);
 		
-		final JButton btnOperationsMergedImages = new JButton("Merged Images");
+		final JButton btnOperationsMergedImages = new JButton("MERGED IMAGES");
+		btnOperationsMergedImages.setBorder(null);
+		btnOperationsMergedImages.setBackground(Color.WHITE);
+		btnOperationsMergedImages.setContentAreaFilled(false);
+		btnOperationsMergedImages.setFocusPainted(false);
+		btnOperationsMergedImages.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnOperationsMergedImages.setMargin(new Insets(0, 0, 0, 0));
+		btnOperationsMergedImages.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnOperationsMergedImages.setFont(new Font("STHeiti", Font.PLAIN, 17));
 		btnOperationsMergedImages.setForeground(new Color(0, 0, 0));
-		btnOperationsMergedImages.setBounds(683, 0, 683, 40);
+		btnOperationsMergedImages.setBounds(683, 0, 683, 38);
 		plMenu.add(btnOperationsMergedImages);
 		
+		final JLabel lblbtnOperationsMergedImages = new JLabel("");
+		lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		lblbtnOperationsMergedImages.setBounds(683, 0, 683, 38);
+		plMenu.add(lblbtnOperationsMergedImages);
+		
+		final JLabel lblbtnOperationsOperations = new JLabel("");
+		lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnOperationsA.jpg")));
+		lblbtnOperationsOperations.setBounds(0, 0, 683, 38);
+		plMenu.add(lblbtnOperationsOperations);
+		
+		ButtonGroup mMode = new ButtonGroup();
+		
+		ButtonGroup shadingMode = new ButtonGroup();
+		
+		ButtonGroup shadingDirections = new ButtonGroup();
+
+		ButtonGroup bowMode = new ButtonGroup();
+		
+		ButtonGroup nameMode = new ButtonGroup();
+		
+		ButtonGroup saveBpp = new ButtonGroup();
+		
+		ButtonGroup saveAs = new ButtonGroup();
+				
 		final JPanel plMain = new JPanel();
 		plMain.setBounds(0, 60, 1366, 678);
-		frame.getContentPane().add(plMain);
+		frmMicromerge.getContentPane().add(plMain);
 		plMain.setLayout(new CardLayout(0, 0));
 		
 		final JPanel plOperations = new JPanel();
+		plOperations.setBorder(new MatteBorder(2, 0, 0, 0, (Color) new Color(0, 153, 0)));
 		plOperations.setVisible(false);
 		plMain.add(plOperations, "name_77612886309962");
 		plOperations.setLayout(null);
 		
-		final JPanel plOperationsImages = new JPanel();
-		plOperationsImages.setBackground(new Color(192, 192, 192));
-		plOperationsImages.setBounds(0, 0, 1092, 640);
-		plOperations.add(plOperationsImages);
-		plOperationsImages.setLayout(null);
 		
-		final JPanel plOperationsListImagesOptions = new JPanel();
-		plOperationsListImagesOptions.setVisible(false);
-		plOperationsListImagesOptions.setBackground(new Color(102, 204, 51));
-		plOperationsListImagesOptions.setBounds(312, 363, 774, 52);
-		plOperationsImages.add(plOperationsListImagesOptions);
-		plOperationsListImagesOptions.setLayout(null);
-		
-		JButton btnOperationsListImageAdd = new JButton("Add to merge");
-		
-		btnOperationsListImageAdd.setBounds(228, 6, 150, 40);
-		plOperationsListImagesOptions.add(btnOperationsListImageAdd);
-		
-		JButton btnOperationsListImagePreview = new JButton("Preview");
-		btnOperationsListImagePreview.setBounds(396, 6, 150, 40);
-		plOperationsListImagesOptions.add(btnOperationsListImagePreview);
-		
-		final JScrollPane scrollPaneListImages = new JScrollPane();
-		scrollPaneListImages.setBounds(312, 6, 774, 409);
-		plOperationsImages.add(scrollPaneListImages);
-		
-		final JToolBar tbListImages = new JToolBar();
-		tbListImages.setFloatable(false);
-		scrollPaneListImages.setViewportView(tbListImages);
-		
-		JScrollPane scrollPaneListToMarge = new JScrollPane();
-		scrollPaneListToMarge.setBounds(6, 420, 1080, 170);
-		plOperationsImages.add(scrollPaneListToMarge);
-		
-		final JToolBar tbListToMerge = new JToolBar();
-		tbListToMerge.setFloatable(false);
-		scrollPaneListToMarge.setViewportView(tbListToMerge);
-		
-		JPanel plOperationsListPath = new JPanel();
-		plOperationsListPath.setBounds(6, 6, 300, 409);
-		plOperationsImages.add(plOperationsListPath);
-		plOperationsListPath.setLayout(new GridLayout(20, 1, 0, 0));
+		final JPanel plOperationsPreviewWork = new JPanel();
+		plOperationsPreviewWork.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 153, 0)));
+		plOperationsPreviewWork.setVisible(false);
 		
 		final JPanel plOperationsPreview = new JPanel();
+		plOperationsPreview.setBorder(new MatteBorder(2, 0, 0, 2, (Color) new Color(0, 153, 0)));
 		plOperationsPreview.setVisible(false);
 		
 		final JPanel plOperationsWork = new JPanel();
-		plOperationsWork.setBackground(new Color(102, 204, 51));
+		plOperationsWork.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 153, 0)));
+		plOperationsWork.setBackground(Color.WHITE);
 		plOperationsWork.setBounds(1092, 0, 274, 640);
 		plOperations.add(plOperationsWork);
 		plOperationsWork.setLayout(null);
 		
-		JButton btnOperationsWorkLoad = new JButton("LOAD");
+		final JButton btnOperationsWorkLoad = new JButton("LOAD");
+		btnOperationsWorkLoad.setFocusPainted(false);
+		btnOperationsWorkLoad.setContentAreaFilled(false);
+		btnOperationsWorkLoad.setForeground(new Color(0, 153, 0));
+		btnOperationsWorkLoad.setFont(new Font("STHeiti", Font.PLAIN, 20));
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(0, 153, 0), 2));
 		
-		btnOperationsWorkLoad.setBounds(6, 6, 262, 50);
+		btnOperationsWorkLoad.setBounds(6, 6, 259, 40);
 		plOperationsWork.add(btnOperationsWorkLoad);
 		
-		JButton btnOperationsWorkRefresh = new JButton("Refresh");
-		btnOperationsWorkRefresh.setBounds(6, 56, 174, 30);
+		final JButton btnOperationsWorkRefresh = new JButton("Refresh");
+		btnOperationsWorkRefresh.setFocusPainted(false);
+		btnOperationsWorkRefresh.setContentAreaFilled(false);
+		btnOperationsWorkRefresh.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkRefresh.setBounds(6, 52, 165, 35);
 		plOperationsWork.add(btnOperationsWorkRefresh);
 		
-		JButton btnOperationsWorkMerge = new JButton("MERGE");
-		btnOperationsWorkMerge.setBounds(6, 470, 262, 120);
+		final JButton btnOperationsWorkMerge = new JButton("MERGE");
+		btnOperationsWorkMerge.setFocusPainted(false);
+		btnOperationsWorkMerge.setContentAreaFilled(false);
+		btnOperationsWorkMerge.setForeground(new Color(0, 153, 0));
+		btnOperationsWorkMerge.setFont(new Font("STHeiti", Font.PLAIN, 25));
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(0, 153, 0), 4));
+		btnOperationsWorkMerge.setBounds(6, 470, 259, 120);
 		plOperationsWork.add(btnOperationsWorkMerge);
 		
-		JButton btnOperationsWorkMergeAll = new JButton("Merge all");
-		btnOperationsWorkMergeAll.setBounds(6, 420, 262, 50);
+		final JButton btnOperationsWorkMergeAll = new JButton("Merge all");
+		btnOperationsWorkMergeAll.setFocusPainted(false);
+		btnOperationsWorkMergeAll.setContentAreaFilled(false);
+		btnOperationsWorkMergeAll.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMergeAll.setBounds(6, 414, 259, 50);
 		plOperationsWork.add(btnOperationsWorkMergeAll);
 		
 		JPanel plOperationsWorkMode = new JPanel();
-		plOperationsWorkMode.setBackground(new Color(102, 204, 51));
-		plOperationsWorkMode.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Mode", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		plOperationsWorkMode.setBounds(6, 89, 262, 60);
+		plOperationsWorkMode.setBackground(Color.WHITE);
+		plOperationsWorkMode.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Mode", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		plOperationsWorkMode.setBounds(6, 93, 262, 60);
 		plOperationsWork.add(plOperationsWorkMode);
 		plOperationsWorkMode.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkModeAnd = new JRadioButton("AND");
-		rdbtnOperationsWorkModeAnd.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkModeAnd.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkModeAnd.setBackground(Color.WHITE);
 		rdbtnOperationsWorkModeAnd.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeAnd.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -262,7 +296,8 @@ public class StartWin {
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeAnd);
 		
 		JRadioButton rdbtnOperationsWorkModeOr = new JRadioButton("OR");
-		rdbtnOperationsWorkModeOr.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkModeOr.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkModeOr.setBackground(Color.WHITE);
 		rdbtnOperationsWorkModeOr.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeOr.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {												//simple ActionListeners used to change the merge mode
@@ -273,7 +308,8 @@ public class StartWin {
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeOr);
 		
 		JRadioButton rdbtnOperationsWorkModeXor = new JRadioButton("XOR");
-		rdbtnOperationsWorkModeXor.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkModeXor.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkModeXor.setBackground(Color.WHITE);
 		rdbtnOperationsWorkModeXor.setSelected(true);
 		rdbtnOperationsWorkModeXor.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkModeXor.addActionListener(new ActionListener(){
@@ -283,32 +319,33 @@ public class StartWin {
 		});
 		rdbtnOperationsWorkModeXor.setBounds(170, 20, 81, 30);
 		plOperationsWorkMode.add(rdbtnOperationsWorkModeXor);
-			
-		ButtonGroup mMode = new ButtonGroup();
 		mMode.add(rdbtnOperationsWorkModeAnd);
 		mMode.add(rdbtnOperationsWorkModeOr);
 		mMode.add(rdbtnOperationsWorkModeXor);
 		
 		JPanel plOperationsWorkShading = new JPanel();
-		plOperationsWorkShading.setBackground(new Color(102, 204, 51));
-		plOperationsWorkShading.setBorder(new TitledBorder(null, "Shading Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkShading.setBounds(6, 155, 108, 120);
+		plOperationsWorkShading.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		plOperationsWorkShading.setBackground(Color.WHITE);
+		plOperationsWorkShading.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Shading", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		plOperationsWorkShading.setBounds(6, 159, 100, 120);
 		plOperationsWork.add(plOperationsWorkShading);
 		plOperationsWorkShading.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingNormal = new JRadioButton("NORMAL");
-		rdbtnOperationsWorkShadingNormal.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingNormal.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingNormal.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingNormal.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingNormal.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				shadeMode = 2;
 			}
 		});
-		rdbtnOperationsWorkShadingNormal.setBounds(6, 20, 96, 30);
+		rdbtnOperationsWorkShadingNormal.setBounds(3, 20, 93, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingNormal);
 		
 		JRadioButton rdbtnOperationsWorkShadingFading = new JRadioButton("FADING");
-		rdbtnOperationsWorkShadingFading.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingFading.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingFading.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingFading.setSelected(true);
 		rdbtnOperationsWorkShadingFading.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingFading.addActionListener(new ActionListener(){						//similar to above Action Listeners used to change shade mode
@@ -316,78 +353,82 @@ public class StartWin {
 				shadeMode = 0;
 			}
 		});
-		rdbtnOperationsWorkShadingFading.setBounds(6, 50, 96, 30);
+		rdbtnOperationsWorkShadingFading.setBounds(3, 50, 94, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingFading);
 		
 		JRadioButton rdbtnOperationsWorkShadingShading = new JRadioButton("SHADING");
-		rdbtnOperationsWorkShadingShading.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingShading.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingShading.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingShading.setHorizontalAlignment(SwingConstants.LEFT);
 		rdbtnOperationsWorkShadingShading.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				shadeMode = 1;
 			}
 		});
-		rdbtnOperationsWorkShadingShading.setBounds(6, 80, 96, 30);
+		rdbtnOperationsWorkShadingShading.setBounds(3, 80, 94, 30);
 		plOperationsWorkShading.add(rdbtnOperationsWorkShadingShading);
-		
-		ButtonGroup shadingMode = new ButtonGroup();
 		shadingMode.add(rdbtnOperationsWorkShadingNormal);
 		shadingMode.add(rdbtnOperationsWorkShadingFading);
 		shadingMode.add(rdbtnOperationsWorkShadingShading);
 		
 		JPanel plOperationsWorkShadingDirections = new JPanel();
-		plOperationsWorkShadingDirections.setBackground(new Color(102, 204, 51));
-		plOperationsWorkShadingDirections.setBorder(new TitledBorder(null, "Shading Directions", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkShadingDirections.setBounds(114, 155, 154, 120);
+		plOperationsWorkShadingDirections.setBackground(Color.WHITE);
+		plOperationsWorkShadingDirections.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Shading Directions", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		plOperationsWorkShadingDirections.setBounds(106, 159, 162, 120);
 		plOperationsWork.add(plOperationsWorkShadingDirections);
 		plOperationsWorkShadingDirections.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTL = new JRadioButton("TL");
-		rdbtnOperationsWorkShadingDirectionsTL.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsTL.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsTL.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsTL.setToolTipText("From top left corner");
 		rdbtnOperationsWorkShadingDirectionsTL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 1;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTL.setBounds(3, 20, 48, 30);
+		rdbtnOperationsWorkShadingDirectionsTL.setBounds(3, 20, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTC = new JRadioButton("TC");
-		rdbtnOperationsWorkShadingDirectionsTC.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsTC.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsTC.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsTC.setToolTipText("From top");
 		rdbtnOperationsWorkShadingDirectionsTC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 2;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTC.setBounds(51, 20, 49, 30);
+		rdbtnOperationsWorkShadingDirectionsTC.setBounds(54, 20, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsTR = new JRadioButton("TR");
-		rdbtnOperationsWorkShadingDirectionsTR.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsTR.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsTR.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsTR.setToolTipText("From top right corner");
 		rdbtnOperationsWorkShadingDirectionsTR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 3;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsTR.setBounds(100, 20, 48, 30);
+		rdbtnOperationsWorkShadingDirectionsTR.setBounds(105, 20, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsTR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCL = new JRadioButton("CL");
-		rdbtnOperationsWorkShadingDirectionsCL.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsCL.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsCL.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsCL.setToolTipText("From left side");
 		rdbtnOperationsWorkShadingDirectionsCL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 0;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCL.setBounds(3, 50, 48, 30);
+		rdbtnOperationsWorkShadingDirectionsCL.setBounds(3, 50, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCC = new JRadioButton("CC");
-		rdbtnOperationsWorkShadingDirectionsCC.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsCC.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsCC.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsCC.setSelected(true);
 		rdbtnOperationsWorkShadingDirectionsCC.setToolTipText("From center");
 		rdbtnOperationsWorkShadingDirectionsCC.addActionListener(new ActionListener() {
@@ -395,54 +436,56 @@ public class StartWin {
 				direction = 8;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCC.setBounds(51, 50, 50, 30);
+		rdbtnOperationsWorkShadingDirectionsCC.setBounds(54, 50, 54, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsCR = new JRadioButton("CR");
-		rdbtnOperationsWorkShadingDirectionsCR.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsCR.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsCR.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsCR.setToolTipText("From right side");
 		rdbtnOperationsWorkShadingDirectionsCR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 4;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsCR.setBounds(100, 50, 49, 30);
+		rdbtnOperationsWorkShadingDirectionsCR.setBounds(105, 50, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsCR);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBL = new JRadioButton("BL");
-		rdbtnOperationsWorkShadingDirectionsBL.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsBL.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsBL.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsBL.setToolTipText("From bottom left corner");
 		rdbtnOperationsWorkShadingDirectionsBL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {										//Action listeners used to change direction from which we shade/fade
 				direction = 7;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBL.setBounds(3, 80, 48, 30);
+		rdbtnOperationsWorkShadingDirectionsBL.setBounds(3, 80, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBL);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBC = new JRadioButton("BC");
-		rdbtnOperationsWorkShadingDirectionsBC.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsBC.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsBC.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsBC.setToolTipText("From bottom");
 		rdbtnOperationsWorkShadingDirectionsBC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 6;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBC.setBounds(51, 80, 48, 30);
+		rdbtnOperationsWorkShadingDirectionsBC.setBounds(54, 80, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBC);
 		
 		JRadioButton rdbtnOperationsWorkShadingDirectionsBR = new JRadioButton("BR");
-		rdbtnOperationsWorkShadingDirectionsBR.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkShadingDirectionsBR.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkShadingDirectionsBR.setBackground(Color.WHITE);
 		rdbtnOperationsWorkShadingDirectionsBR.setToolTipText("From bottom right corner");
 		rdbtnOperationsWorkShadingDirectionsBR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				direction = 5;
 			}
 		});
-		rdbtnOperationsWorkShadingDirectionsBR.setBounds(100, 80, 47, 30);
+		rdbtnOperationsWorkShadingDirectionsBR.setBounds(105, 80, 51, 30);
 		plOperationsWorkShadingDirections.add(rdbtnOperationsWorkShadingDirectionsBR);
-		
-		ButtonGroup shadingDirections = new ButtonGroup();
 		shadingDirections.add(rdbtnOperationsWorkShadingDirectionsTL);
 		shadingDirections.add(rdbtnOperationsWorkShadingDirectionsTC);
 		shadingDirections.add(rdbtnOperationsWorkShadingDirectionsTR);
@@ -454,14 +497,15 @@ public class StartWin {
 		shadingDirections.add(rdbtnOperationsWorkShadingDirectionsBR);
 		
 		JPanel plOperationsWorkBow = new JPanel();
-		plOperationsWorkBow.setBackground(new Color(102, 204, 51));
-		plOperationsWorkBow.setBorder(new TitledBorder(null, "BOW Mode", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plOperationsWorkBow.setBounds(6, 281, 262, 90);
+		plOperationsWorkBow.setBackground(Color.WHITE);
+		plOperationsWorkBow.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "BOW Mode", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		plOperationsWorkBow.setBounds(6, 285, 262, 90);
 		plOperationsWork.add(plOperationsWorkBow);
 		plOperationsWorkBow.setLayout(null);
 		
 		JRadioButton rdbtnOperationsWorkBowWob = new JRadioButton("WHITE ON BLACK");
-		rdbtnOperationsWorkBowWob.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkBowWob.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkBowWob.setBackground(Color.WHITE);
 		rdbtnOperationsWorkBowWob.setSelected(true);
 		rdbtnOperationsWorkBowWob.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkBowWob.addActionListener(new ActionListener(){
@@ -473,7 +517,8 @@ public class StartWin {
 		plOperationsWorkBow.add(rdbtnOperationsWorkBowWob);
 		
 		JRadioButton rdbtnOperationsWorkBowBow = new JRadioButton("BLACK ON WHITE");
-		rdbtnOperationsWorkBowBow.setBackground(new Color(102, 204, 51));
+		rdbtnOperationsWorkBowBow.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnOperationsWorkBowBow.setBackground(Color.WHITE);
 		rdbtnOperationsWorkBowBow.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnOperationsWorkBowBow.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -482,13 +527,12 @@ public class StartWin {
 		});
 		rdbtnOperationsWorkBowBow.setBounds(10, 50, 242, 30);
 		plOperationsWorkBow.add(rdbtnOperationsWorkBowBow);
-
-		ButtonGroup bowMode = new ButtonGroup();
 		bowMode.add(rdbtnOperationsWorkBowWob);
 		bowMode.add(rdbtnOperationsWorkBowBow);
 		
 		JCheckBox chckbxOperationsWorkViewAfterMerge = new JCheckBox("View images after merge");
-		chckbxOperationsWorkViewAfterMerge.setBackground(new Color(102, 204, 51));
+		chckbxOperationsWorkViewAfterMerge.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		chckbxOperationsWorkViewAfterMerge.setBackground(Color.WHITE);
 		chckbxOperationsWorkViewAfterMerge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {											//changing viewImagesAfterMerge boolean  flag
 				viewImagesAfterMerge = !viewImagesAfterMerge;
@@ -496,39 +540,148 @@ public class StartWin {
 		});
 		chckbxOperationsWorkViewAfterMerge.setSelected(true);
 		chckbxOperationsWorkViewAfterMerge.setHorizontalAlignment(SwingConstants.CENTER);
-		chckbxOperationsWorkViewAfterMerge.setBounds(0, 384, 274, 30);
+		chckbxOperationsWorkViewAfterMerge.setBounds(6, 375, 262, 30);
 		plOperationsWork.add(chckbxOperationsWorkViewAfterMerge);
 		
-		JButton btnOperationsWorkClearAll = new JButton("Clear all");
-		btnOperationsWorkClearAll.setBounds(180, 56, 88, 30);
+		final JButton btnOperationsWorkClearAll = new JButton("Clear all");
+		btnOperationsWorkClearAll.setFocusPainted(false);
+		btnOperationsWorkClearAll.setContentAreaFilled(false);
+		btnOperationsWorkClearAll.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkClearAll.setBounds(177, 52, 88, 35);
 		plOperationsWork.add(btnOperationsWorkClearAll);
 		
-		final JPanel plOperationsPreviewWork = new JPanel();
-		plOperationsPreviewWork.setVisible(false);
-		plOperationsPreviewWork.setBackground(new Color(102, 204, 51));
-		plOperationsPreviewWork.setBounds(1092, 0, 274, 640);
-		plOperations.add(plOperationsPreviewWork);
-		plOperationsPreviewWork.setLayout(null);
+		final JLabel lblbtnOperationsWorkLoad = new JLabel("");
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoad.jpg")));
+		lblbtnOperationsWorkLoad.setBounds(6, 6, 259, 40);
+		plOperationsWork.add(lblbtnOperationsWorkLoad);
 		
-		JButton btnOperationsPreviewWorkBack = new JButton("Close the preview");
-		btnOperationsPreviewWorkBack.setBounds(6, 420, 262, 60);
-		plOperationsPreviewWork.add(btnOperationsPreviewWorkBack);
+		final JLabel lblbtnOperationsWorkRefresh = new JLabel("");
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+		lblbtnOperationsWorkRefresh.setBounds(6, 52, 165, 35);
+		plOperationsWork.add(lblbtnOperationsWorkRefresh);
 		
-		tfOperationsPreviewWorkPath = new JTextField();
-		tfOperationsPreviewWorkPath.setEditable(false);
-		tfOperationsPreviewWorkPath.setHorizontalAlignment(SwingConstants.CENTER);
-		tfOperationsPreviewWorkPath.setText("Path of the imagesfssdasdasmdkasngkasngaksmvlmsA");
-		tfOperationsPreviewWorkPath.setBounds(6, 36, 262, 30);
-		plOperationsPreviewWork.add(tfOperationsPreviewWorkPath);
-		tfOperationsPreviewWorkPath.setColumns(10);
+		final JLabel lblbtnOperationsWorkClearAll = new JLabel("");
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAll.jpg")));
+		lblbtnOperationsWorkClearAll.setBounds(177, 52, 88, 35);
+		plOperationsWork.add(lblbtnOperationsWorkClearAll);
+		
+		final JLabel lblbtnOperationsWorkMergeAll = new JLabel("");
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+		lblbtnOperationsWorkMergeAll.setBounds(6, 414, 259, 50);
+		plOperationsWork.add(lblbtnOperationsWorkMergeAll);
+		
+		final JLabel lblbtnOperationsWorkMerge = new JLabel("");
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMerge.jpg")));
+		lblbtnOperationsWorkMerge.setBounds(6, 470, 259, 120);
+		plOperationsWork.add(lblbtnOperationsWorkMerge);
+		
+		
+		final JPanel plOperationsImages = new JPanel();
+		plOperationsImages.setBorder(new MatteBorder(2, 0, 0, 2, (Color) new Color(0, 153, 0)));
+		plOperationsImages.setBackground(Color.WHITE);
+		plOperationsImages.setBounds(0, 0, 1092, 640);
+		plOperations.add(plOperationsImages);
+		plOperationsImages.setLayout(null);
+		
+		final JPanel plOperationsListImagesOptions = new JPanel();
+		plOperationsListImagesOptions.setVisible(false);
+		plOperationsListImagesOptions.setBackground(new Color(0, 153, 0));
+		plOperationsListImagesOptions.setBounds(312, 363, 774, 52);
+		plOperationsImages.add(plOperationsListImagesOptions);
+		plOperationsListImagesOptions.setLayout(null);
+		
+		final JButton btnOperationsListImageAdd = new JButton("Add to merge");
+		btnOperationsListImageAdd.setBorderPainted(false);
+		btnOperationsListImageAdd.setContentAreaFilled(false);
+		btnOperationsListImageAdd.setFocusPainted(false);
+		btnOperationsListImageAdd.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		
+		btnOperationsListImageAdd.setBounds(210, 8, 168, 35);
+		plOperationsListImagesOptions.add(btnOperationsListImageAdd);
+		
+		final JButton btnOperationsListImagePreview = new JButton("Preview");
+		btnOperationsListImagePreview.setFocusPainted(false);
+		btnOperationsListImagePreview.setContentAreaFilled(false);
+		btnOperationsListImagePreview.setBorderPainted(false);
+		btnOperationsListImagePreview.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsListImagePreview.setBounds(396, 8, 168, 35);
+		plOperationsListImagesOptions.add(btnOperationsListImagePreview);
+		
+		final JLabel lblbtnOperationsListImageAdd = new JLabel("");
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+		lblbtnOperationsListImageAdd.setBounds(210, 8, 168, 35);
+		plOperationsListImagesOptions.add(lblbtnOperationsListImageAdd);
+		
+		final JLabel lblbtnOperationsListImagePreview = new JLabel("f");
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+		lblbtnOperationsListImagePreview.setBounds(396, 8, 168, 35);
+		plOperationsListImagesOptions.add(lblbtnOperationsListImagePreview);
+		
+		final JScrollPane scrollPaneListImages = new JScrollPane();
+		scrollPaneListImages.setBounds(312, 6, 774, 409);
+		plOperationsImages.add(scrollPaneListImages);
+		
+		final JToolBar tbListImages = new JToolBar();
+		tbListImages.setBackground(Color.WHITE);
+		tbListImages.setFloatable(false);
+		scrollPaneListImages.setViewportView(tbListImages);
+		
+		JScrollPane scrollPaneListToMarge = new JScrollPane();
+		scrollPaneListToMarge.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Added to merge:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		scrollPaneListToMarge.setBounds(6, 420, 1080, 170);
+		plOperationsImages.add(scrollPaneListToMarge);
+		
+		final JToolBar tbListToMerge = new JToolBar();
+		tbListToMerge.setBackground(Color.WHITE);
+		tbListToMerge.setFloatable(false);
+		scrollPaneListToMarge.setViewportView(tbListToMerge);
+		
+		JPanel plOperationsListPath = new JPanel();
+		plOperationsListPath.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Path:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		plOperationsListPath.setBackground(Color.WHITE);
+		plOperationsListPath.setBounds(6, 6, 300, 409);
+		plOperationsImages.add(plOperationsListPath);
+		plOperationsListPath.setLayout(new GridLayout(20, 1, 0, 0));
+		
+		
+		
 		plOperationsPreview.setBackground(Color.WHITE);
 		plOperationsPreview.setBounds(0, 0, 1092, 640);
 		plOperations.add(plOperationsPreview);
 		plOperationsPreview.setLayout(null);
 		
 		final JButton imgOperationsPreview = new JButton("ImageToView");
-		imgOperationsPreview.setBounds(146, 5, 800, 590);
+		imgOperationsPreview.setBounds(146, 5, 800, 545);
 		plOperationsPreview.add(imgOperationsPreview);
+		
+		tfOperationsPreviewWorkPath = new JTextField();
+		tfOperationsPreviewWorkPath.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 0)), "Path of the image:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 0)));
+		tfOperationsPreviewWorkPath.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		tfOperationsPreviewWorkPath.setBounds(146, 555, 800, 40);
+		plOperationsPreview.add(tfOperationsPreviewWorkPath);
+		tfOperationsPreviewWorkPath.setEditable(false);
+		tfOperationsPreviewWorkPath.setHorizontalAlignment(SwingConstants.CENTER);
+		tfOperationsPreviewWorkPath.setText("Path of the image");
+		tfOperationsPreviewWorkPath.setColumns(10);
+		plOperationsPreviewWork.setBackground(Color.WHITE);
+		plOperationsPreviewWork.setBounds(1092, 0, 274, 640);
+		plOperations.add(plOperationsPreviewWork);
+		plOperationsPreviewWork.setLayout(null);
+		
+		final JButton btnOperationsPreviewWorkBack = new JButton("Close the preview");
+		btnOperationsPreviewWorkBack.setBackground(Color.WHITE);
+		btnOperationsPreviewWorkBack.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnOperationsPreviewWorkBack.setFocusPainted(false);
+		btnOperationsPreviewWorkBack.setContentAreaFilled(false);
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsPreviewWorkBack.setBounds(6, 280, 259, 50);
+		plOperationsPreviewWork.add(btnOperationsPreviewWorkBack);
+		
+		final JLabel lblbtnOperationsPreviewWorkBack = new JLabel("");
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+		lblbtnOperationsPreviewWorkBack.setBounds(6, 280, 259, 50);
+		plOperationsPreviewWork.add(lblbtnOperationsPreviewWorkBack);
 		
 		final JPanel plMergedImages = new JPanel();
 		plMergedImages.setVisible(false);
@@ -536,65 +689,80 @@ public class StartWin {
 		plMergedImages.setLayout(null);
 		
 		final JPanel plMergedImagesView = new JPanel();
+		plMergedImagesView.setBackground(Color.WHITE);
+		plMergedImagesView.setBorder(new MatteBorder(2, 0, 0, 2, (Color) new Color(0, 153, 255)));
 		plMergedImagesView.setBounds(0, 0, 1092, 640);
 		plMergedImages.add(plMergedImagesView);
 		plMergedImagesView.setLayout(null);
 		
 		final JButton btnMergedImagesViewView = new JButton("");
-		btnMergedImagesViewView.setBounds(6, 6, 1080, 534);
+		btnMergedImagesViewView.setContentAreaFilled(false);
+		btnMergedImagesViewView.setFocusPainted(false);
+		btnMergedImagesViewView.setBackground(Color.WHITE);
+		btnMergedImagesViewView.setBounds(6, 6, 1080, 524);
 		plMergedImagesView.add(btnMergedImagesViewView);
 		
 		JScrollPane scrollPaneListMergedImages = new JScrollPane();
-		scrollPaneListMergedImages.setBounds(6, 546, 1080, 40);
+		scrollPaneListMergedImages.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "Merged Images:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
+		scrollPaneListMergedImages.setBounds(6, 536, 1080, 50);
 		plMergedImagesView.add(scrollPaneListMergedImages);
 		
 		final JToolBar tbListMergedImages = new JToolBar();
+		tbListMergedImages.setBackground(Color.WHITE);
 		tbListMergedImages.setFloatable(false);
 		scrollPaneListMergedImages.setViewportView(tbListMergedImages);
 		
 		JPanel plMergedImagesWork = new JPanel();
+		plMergedImagesWork.setBorder(new MatteBorder(2, 2, 0, 0, (Color) new Color(0, 153, 255)));
 		plMergedImagesWork.setBounds(1092, 0, 274, 640);
 		plMergedImages.add(plMergedImagesWork);
-		plMergedImagesWork.setBackground(new Color(102, 153, 255));
+		plMergedImagesWork.setBackground(Color.WHITE);
 		plMergedImagesWork.setLayout(null);
 		
+
+		
 		JPanel plMergedImagesWorkName = new JPanel();
-		plMergedImagesWorkName.setBorder(new TitledBorder(null, "Name", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkName.setBackground(new Color(102, 153, 255));
-		plMergedImagesWorkName.setBounds(6, 12, 262, 95);
+		plMergedImagesWorkName.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "Name", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
+		plMergedImagesWorkName.setBackground(Color.WHITE);
+		plMergedImagesWorkName.setBounds(6, 6, 262, 95);
 		plMergedImagesWork.add(plMergedImagesWorkName);
 		plMergedImagesWorkName.setLayout(null);
 		
 		tfMergedImagesWorkNameCustom = new JTextField();
+		tfMergedImagesWorkNameCustom.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		tfMergedImagesWorkNameCustom.setBorder(new LineBorder(new Color(0, 153, 255)));
 		tfMergedImagesWorkNameCustom.setText("image");
 		tfMergedImagesWorkNameCustom.setBounds(10, 55, 242, 30);
 		plMergedImagesWorkName.add(tfMergedImagesWorkNameCustom);
 		tfMergedImagesWorkNameCustom.setColumns(10);
 		
 		JRadioButton rdbtnMergedImagesWorkNameCustom = new JRadioButton("Custom");
-		rdbtnMergedImagesWorkNameCustom.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkNameCustom.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkNameCustom.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkNameCustom.setSelected(true);
 		rdbtnMergedImagesWorkNameCustom.setBounds(10, 20, 121, 23);
 		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameCustom);
 		
 		JRadioButton rdbtnMergedImagesWorkNameFromFile = new JRadioButton("Get from file");
-		rdbtnMergedImagesWorkNameFromFile.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkNameFromFile.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkNameFromFile.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkNameFromFile.setBounds(131, 20, 121, 23);
 		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameFromFile);
-		
-		ButtonGroup nameMode = new ButtonGroup();
 		nameMode.add(rdbtnMergedImagesWorkNameCustom);
 		nameMode.add(rdbtnMergedImagesWorkNameFromFile);
 		
 		
 		JPanel plMergedImagesWorkCounter = new JPanel();
-		plMergedImagesWorkCounter.setBorder(new TitledBorder(null, "Counter", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkCounter.setBackground(new Color(102, 153, 255));
-		plMergedImagesWorkCounter.setBounds(6, 113, 262, 95);
+		plMergedImagesWorkCounter.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		plMergedImagesWorkCounter.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "Counter", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
+		plMergedImagesWorkCounter.setBackground(Color.WHITE);
+		plMergedImagesWorkCounter.setBounds(6, 107, 262, 95);
 		plMergedImagesWork.add(plMergedImagesWorkCounter);
 		plMergedImagesWorkCounter.setLayout(null);
 		
 		tfMergedImagesWorkCounterStart = new JTextField();
+		tfMergedImagesWorkCounterStart.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		tfMergedImagesWorkCounterStart.setBorder(new LineBorder(new Color(0, 153, 255)));
 		tfMergedImagesWorkCounterStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveCounter = Integer.parseInt(tfMergedImagesWorkCounterStart.getText());
@@ -606,6 +774,9 @@ public class StartWin {
 		tfMergedImagesWorkCounterStart.setColumns(10);
 		
 		tfMergedImagesWorkCounterIncrease = new JTextField();
+		tfMergedImagesWorkCounterIncrease.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		tfMergedImagesWorkCounterIncrease.setHorizontalAlignment(SwingConstants.LEFT);
+		tfMergedImagesWorkCounterIncrease.setBorder(new LineBorder(new Color(0, 153, 255)));
 		tfMergedImagesWorkCounterIncrease.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveStep = Integer.parseInt(tfMergedImagesWorkCounterIncrease.getText());
@@ -617,33 +788,45 @@ public class StartWin {
 		tfMergedImagesWorkCounterIncrease.setColumns(10);
 		
 		JLabel lblMergedImagesWorkCounterStart = new JLabel("Start value:");
-		lblMergedImagesWorkCounterStart.setBackground(new Color(102, 153, 255));
+		lblMergedImagesWorkCounterStart.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		lblMergedImagesWorkCounterStart.setBackground(Color.WHITE);
 		lblMergedImagesWorkCounterStart.setBounds(10, 20, 80, 30);
 		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterStart);
 		
 		JLabel lblMergedImagesWorkCounterIncrease = new JLabel("Increase by:");
-		lblMergedImagesWorkCounterIncrease.setBackground(new Color(102, 153, 255));
+		lblMergedImagesWorkCounterIncrease.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		lblMergedImagesWorkCounterIncrease.setBackground(Color.WHITE);
 		lblMergedImagesWorkCounterIncrease.setBounds(10, 55, 80, 30);
 		plMergedImagesWorkCounter.add(lblMergedImagesWorkCounterIncrease);
 		
-		JButton btnMergedImagesWorkSave = new JButton("SAVE");
-		btnMergedImagesWorkSave.setBounds(6, 440, 262, 100);
+		final JButton btnMergedImagesWorkSave = new JButton("SAVE");
+		btnMergedImagesWorkSave.setContentAreaFilled(false);
+		btnMergedImagesWorkSave.setFocusPainted(false);
+		btnMergedImagesWorkSave.setFont(new Font("STHeiti", Font.BOLD, 25));
+		btnMergedImagesWorkSave.setForeground(new Color(0, 153, 255));
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnMergedImagesWorkSave.setBounds(6, 440, 259, 100);
 		plMergedImagesWork.add(btnMergedImagesWorkSave);
 		
-		JButton btnMergedImagesWorkDelete = new JButton("Delete");
+		final JButton btnMergedImagesWorkDelete = new JButton("Delete");
+		btnMergedImagesWorkDelete.setContentAreaFilled(false);
+		btnMergedImagesWorkDelete.setFocusPainted(false);
+		btnMergedImagesWorkDelete.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(0, 153, 255), 2));
 		btnMergedImagesWorkDelete.setToolTipText("Delete chosen image");
-		btnMergedImagesWorkDelete.setBounds(6, 546, 174, 40);
+		btnMergedImagesWorkDelete.setBounds(6, 546, 165, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDelete);
 		
 		JPanel plMergedImagesWorkBpp = new JPanel();
-		plMergedImagesWorkBpp.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "BPP", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		plMergedImagesWorkBpp.setBackground(new Color(102, 153, 255));
-		plMergedImagesWorkBpp.setBounds(137, 214, 131, 180);
+		plMergedImagesWorkBpp.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "BPP", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
+		plMergedImagesWorkBpp.setBackground(Color.WHITE);
+		plMergedImagesWorkBpp.setBounds(137, 208, 131, 180);
 		plMergedImagesWork.add(plMergedImagesWorkBpp);
 		plMergedImagesWorkBpp.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp1 = new JRadioButton("1");
-		rdbtnMergedImagesWorkBpp1.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkBpp1.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkBpp1.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 1;
@@ -653,7 +836,8 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp1);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
-		rdbtnMergedImagesWorkBpp8.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkBpp8.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkBpp8.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 8;
@@ -663,7 +847,8 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp8);
 		
 		JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
-		rdbtnMergedImagesWorkBpp16.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkBpp16.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkBpp16.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 16;
@@ -673,7 +858,8 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp16);
 		
 		final JRadioButton rdbtnMergedImagesWorkBpp24 = new JRadioButton("24");
-		rdbtnMergedImagesWorkBpp24.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkBpp24.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkBpp24.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp24.setSelected(true);
 		rdbtnMergedImagesWorkBpp24.addActionListener(new ActionListener() {						//changing the bpp with which images will be saved
 			public void actionPerformed(ActionEvent e) {
@@ -684,8 +870,9 @@ public class StartWin {
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp24);
 		
 		final JRadioButton rdbtnMergedImagesWorkBpp32 = new JRadioButton("32");
+		rdbtnMergedImagesWorkBpp32.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkBpp32.setEnabled(false);
-		rdbtnMergedImagesWorkBpp32.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkBpp32.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp32.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bppMode = 32;
@@ -693,8 +880,6 @@ public class StartWin {
 		});
 		rdbtnMergedImagesWorkBpp32.setBounds(10, 140, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp32);
-		
-		ButtonGroup saveBpp = new ButtonGroup();
 		saveBpp.add(rdbtnMergedImagesWorkBpp1);
 		saveBpp.add(rdbtnMergedImagesWorkBpp8);
 		saveBpp.add(rdbtnMergedImagesWorkBpp16);
@@ -703,14 +888,16 @@ public class StartWin {
 		
 		
 		JPanel plMergedImagesWorkType = new JPanel();
-		plMergedImagesWorkType.setBorder(new TitledBorder(null, "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		plMergedImagesWorkType.setBackground(new Color(102, 153, 255));
-		plMergedImagesWorkType.setBounds(6, 214, 131, 180);
+		plMergedImagesWorkType.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		plMergedImagesWorkType.setBorder(new TitledBorder(new LineBorder(new Color(0, 153, 255)), "Save as", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 153, 255)));
+		plMergedImagesWorkType.setBackground(Color.WHITE);
+		plMergedImagesWorkType.setBounds(6, 208, 131, 180);
 		plMergedImagesWork.add(plMergedImagesWorkType);
 		plMergedImagesWorkType.setLayout(null);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeJPG = new JRadioButton(".JPG");
-		rdbtnMergedImagesWorkTypeJPG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeJPG.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkTypeJPG.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkTypeJPG.setSelected(true);
 		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -727,7 +914,8 @@ public class StartWin {
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeJPEG = new JRadioButton(".JPEG");
-		rdbtnMergedImagesWorkTypeJPEG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeJPEG.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkTypeJPEG.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkTypeJPEG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "JPEG";
@@ -743,7 +931,8 @@ public class StartWin {
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeJPEG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeBMP = new JRadioButton(".BMP");
-		rdbtnMergedImagesWorkTypeBMP.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeBMP.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkTypeBMP.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkTypeBMP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "BMP";
@@ -760,7 +949,8 @@ public class StartWin {
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeBMP);
 		
 		JRadioButton rdbtnMergedImagesWorkTypePNG = new JRadioButton(".PNG");
-		rdbtnMergedImagesWorkTypePNG.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypePNG.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkTypePNG.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkTypePNG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "PNG";
@@ -771,7 +961,8 @@ public class StartWin {
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypePNG);
 		
 		JRadioButton rdbtnMergedImagesWorkTypeTIFF = new JRadioButton(".TIFF");
-		rdbtnMergedImagesWorkTypeTIFF.setBackground(new Color(102, 153, 255));
+		rdbtnMergedImagesWorkTypeTIFF.setFont(new Font("STHeiti", Font.PLAIN, 13));
+		rdbtnMergedImagesWorkTypeTIFF.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkTypeTIFF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "TIFF";
@@ -780,8 +971,6 @@ public class StartWin {
 		});
 		rdbtnMergedImagesWorkTypeTIFF.setBounds(10, 140, 110, 30);
 		plMergedImagesWorkType.add(rdbtnMergedImagesWorkTypeTIFF);
-		
-		ButtonGroup saveAs = new ButtonGroup();
 		saveAs.add(rdbtnMergedImagesWorkTypeJPG);
 		saveAs.add(rdbtnMergedImagesWorkTypeJPEG);
 		saveAs.add(rdbtnMergedImagesWorkTypeBMP);
@@ -789,118 +978,50 @@ public class StartWin {
 		saveAs.add(rdbtnMergedImagesWorkTypeTIFF);
 		
 		
-		JButton btnMergedImagesWorkDeleteAll = new JButton("Delete all");
-		btnMergedImagesWorkDeleteAll.setBounds(180, 546, 88, 40);
+		final JButton btnMergedImagesWorkDeleteAll = new JButton("Delete all");
+		btnMergedImagesWorkDeleteAll.setContentAreaFilled(false);
+		btnMergedImagesWorkDeleteAll.setFocusPainted(false);
+		btnMergedImagesWorkDeleteAll.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDeleteAll.setBounds(177, 546, 88, 40);
 		plMergedImagesWork.add(btnMergedImagesWorkDeleteAll);
 		
-		JButton btnMergedImagesWorkSaveAll = new JButton("Save all");
-		btnMergedImagesWorkSaveAll.setBounds(6, 405, 262, 35);
+		final JButton btnMergedImagesWorkSaveAll = new JButton("Save all");
+		btnMergedImagesWorkSaveAll.setContentAreaFilled(false);
+		btnMergedImagesWorkSaveAll.setFocusPainted(false);
+		btnMergedImagesWorkSaveAll.setFont(new Font("STHeiti", Font.PLAIN, 17));
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkSaveAll.setBounds(6, 399, 259, 35);
 		plMergedImagesWork.add(btnMergedImagesWorkSaveAll);
+		
+		lblbtnMergedImagesWorkSave = new JLabel("");
+		lblbtnMergedImagesWorkSave.setBounds(6, 440, 259, 100);
+		plMergedImagesWork.add(lblbtnMergedImagesWorkSave);
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		
+		final JLabel lblbtnMergedImagesWorkDelete = new JLabel("");
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+		lblbtnMergedImagesWorkDelete.setBounds(6, 546, 165, 40);
+		plMergedImagesWork.add(lblbtnMergedImagesWorkDelete);
+		
+		final JLabel lblbtnMergedImagesWorkDeleteAll = new JLabel("");
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAll.jpg")));
+		lblbtnMergedImagesWorkDeleteAll.setBounds(177, 546, 88, 40);
+		plMergedImagesWork.add(lblbtnMergedImagesWorkDeleteAll);
+		
+		final JLabel lblbtnMergedImagesWorkSaveAll = new JLabel("");
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		lblbtnMergedImagesWorkSaveAll.setBounds(6, 399, 259, 35);
+		plMergedImagesWork.add(lblbtnMergedImagesWorkSaveAll);
+		
 		
 		final JPanel plShade = new JPanel();
 		plShade.setVisible(false);
-		plShade.setBounds(0, 20, 1366, 660);
-		frame.getContentPane().add(plShade);
-		plShade.setBackground(Color.WHITE);
-		plShade.setLayout(null);
-		
-		final JPanel plShadeData = new JPanel();
-		plShadeData.setBackground(new Color(51, 153, 255));
-		plShadeData.setVisible(false);
-		
-		final JButton btnShadeCancel = new JButton("CANCEL");
-		btnShadeCancel.setForeground(new Color(51, 153, 255));
-		btnShadeCancel.setBounds(1086, 280, 262, 40);
-		plShade.add(btnShadeCancel);
-		plShadeData.setBounds(0, 60, 1366, 480);
-		plShade.add(plShadeData);
-		plShadeData.setLayout(null);
-		
-		final JTextPane txtpnShadeDataAboutUs = new JTextPane();
-		txtpnShadeDataAboutUs.setVisible(false);
-		
-		final JLabel lblShadeTitle = new JLabel("");
-		lblShadeTitle.setBounds(0, 0, 1092, 50);
-		plShadeData.add(lblShadeTitle);
-		lblShadeTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblShadeTitle.setForeground(Color.WHITE);
-		lblShadeTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
-		
-		final JTextPane txtpnShadeDataFaq = new JTextPane();
-		txtpnShadeDataFaq.setVisible(false);
-		txtpnShadeDataFaq.setText("Q: What does these letters in Shading Direction mean?\nA: Hover mouse over each abbreviation, you will see a tip.");
-		txtpnShadeDataFaq.setEditable(false);
-		txtpnShadeDataFaq.setBounds(296, 80, 500, 380);
-		plShadeData.add(txtpnShadeDataFaq);
-		
-		final JTextPane txtpnShadeDataBugs = new JTextPane();
-		txtpnShadeDataBugs.setText("Known bugs:\n- Name choose options does not work properly.");
-		txtpnShadeDataBugs.setEditable(false);
-		txtpnShadeDataBugs.setVisible(false);
-		txtpnShadeDataBugs.setBounds(296, 80, 500, 380);
-		plShadeData.add(txtpnShadeDataBugs);
-		txtpnShadeDataAboutUs.setEditable(false);
-		txtpnShadeDataAboutUs.setText("Students of Warsaw University of Technology:\nMikołaj Słoń\nMateusz Szperna\nKornel Żaba");
-		txtpnShadeDataAboutUs.setBounds(296, 80, 500, 380);
-		plShadeData.add(txtpnShadeDataAboutUs);
-		
-		final JTextPane txtpnShadeDataProgram = new JTextPane();
-		txtpnShadeDataProgram.setVisible(false);
-		txtpnShadeDataProgram.setText("MicroMerge Beta 0.95");
-		txtpnShadeDataProgram.setEditable(false);
-		
-		final JTextPane txtpnShadeDataThanks = new JTextPane();
-		txtpnShadeDataThanks.setVisible(false);
-		txtpnShadeDataThanks.setText("Special thanks to Mikolaj and Kornel  and all who helped us to create this wonderful program - MicroMerge! <3");
-		txtpnShadeDataThanks.setEditable(false);
-		txtpnShadeDataThanks.setBounds(296, 80, 500, 380);
-		plShadeData.add(txtpnShadeDataThanks);
-		txtpnShadeDataProgram.setBounds(296, 80, 500, 380);
-		plShadeData.add(txtpnShadeDataProgram);
-		
-		JButton btnShadeBackUp = new JButton("");
-		btnShadeBackUp.setFocusable(false);
-		btnShadeBackUp.setRequestFocusEnabled(false);
-		btnShadeBackUp.setBorderPainted(false);
-		btnShadeBackUp.setBackground(Color.WHITE);
-		btnShadeBackUp.setBounds(0, 0, 1366, 60);
-		plShade.add(btnShadeBackUp);
-		
-		JButton btnShadeBackBottom = new JButton("");
-		btnShadeBackBottom.setBackground(Color.WHITE);
-		btnShadeBackBottom.setBorderPainted(false);
-		btnShadeBackBottom.setRequestFocusEnabled(false);
-		btnShadeBackBottom.setFocusable(false);
-		btnShadeBackBottom.setBounds(0, 540, 1366, 100);
-		plShade.add(btnShadeBackBottom);
-		
-		btnShadeBackUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(true);
-				plMenu.setVisible(true);
-				plShade.setVisible(false);
-			}
-		});
-		
-		btnShadeBackBottom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(true);
-				plMenu.setVisible(true);
-				plShade.setVisible(false);
-			}
-		});
-		
-		btnShadeCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(true);
-				plMenu.setVisible(true);
-				plShade.setVisible(false);
-			}
-		});
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
 		menuBar.setBounds(0, 0, 1366, 20);
-		frame.getContentPane().add(menuBar);
+		frmMicromerge.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
 		menuBar.add(mnMenu);
@@ -909,11 +1030,7 @@ public class StartWin {
 		mnMenu.add(mntmNew);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
-		mntmExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		});
+
 		mnMenu.add(mntmExit);
 		
 		JMenu mnHelp = new JMenu("Help");
@@ -928,7 +1045,7 @@ public class StartWin {
 		JMenu mnAbout = new JMenu("About");
 		menuBar.add(mnAbout);
 		
-		JMenuItem mntmCreators = new JMenuItem("Creators");
+		JMenuItem mntmCreators = new JMenuItem("Authors");
 		mnAbout.add(mntmCreators);
 		
 		JMenuItem mntmThanks = new JMenuItem("Thanks");
@@ -937,109 +1054,101 @@ public class StartWin {
 		JMenuItem mntmProgram = new JMenuItem("MicroMerge");
 		mnAbout.add(mntmProgram);
 		
-		mntmFaq.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(false);
-				plMenu.setVisible(false);
-				plShade.setVisible(true);
-				plShadeData.setVisible(true);
-				plShadeData.setBackground(new Color(153, 0, 0));
-				btnShadeCancel.setForeground(new Color(153, 0, 0));
-				txtpnShadeDataFaq.setVisible(true);
-				txtpnShadeDataBugs.setVisible(false);
-				txtpnShadeDataAboutUs.setVisible(false);
-				txtpnShadeDataThanks.setVisible(false);
-				txtpnShadeDataProgram.setVisible(false);
-				lblShadeTitle.setText("FAQ");
-			}
-		});
 		
-		mntmBugs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(false);
-				plMenu.setVisible(false);
-				plShade.setVisible(true);
-				plShadeData.setVisible(true);
-				plShadeData.setBackground(new Color(153, 0, 0));
-				btnShadeCancel.setForeground(new Color(153, 0, 0));
-				txtpnShadeDataFaq.setVisible(false);
-				txtpnShadeDataBugs.setVisible(true);
-				txtpnShadeDataAboutUs.setVisible(false);
-				txtpnShadeDataThanks.setVisible(false);
-				txtpnShadeDataProgram.setVisible(false);
-				lblShadeTitle.setText("Bugs");
-			}
-		});
+		plShade.setBounds(0, 20, 1366, 660);
+		frmMicromerge.getContentPane().add(plShade);
+		plShade.setBackground(SystemColor.inactiveCaption);
+		plShade.setLayout(null);
 		
-		mntmCreators.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(false);
-				plMenu.setVisible(false);
-				plShade.setVisible(true);
-				plShadeData.setVisible(true);
-				plShadeData.setBackground(new Color(51, 153, 255));
-				btnShadeCancel.setForeground(new Color(51, 153, 255));
-				txtpnShadeDataFaq.setVisible(false);
-				txtpnShadeDataBugs.setVisible(false);
-				txtpnShadeDataAboutUs.setVisible(true);
-				txtpnShadeDataThanks.setVisible(false);
-				txtpnShadeDataProgram.setVisible(false);
-				lblShadeTitle.setText("About Us");
-			}
-		});
+		final JPanel plShadeData = new JPanel();
+		plShadeData.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		plShadeData.setBackground(Color.WHITE);
+		plShadeData.setVisible(false);
 		
-		mntmThanks.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(false);
-				plMenu.setVisible(false);
-				plShade.setVisible(true);
-				plShadeData.setVisible(true);
-				plShadeData.setBackground(new Color(51, 153, 255));
-				btnShadeCancel.setForeground(new Color(51, 153, 255));
-				txtpnShadeDataFaq.setVisible(false);
-				txtpnShadeDataBugs.setVisible(false);
-				txtpnShadeDataAboutUs.setVisible(false);
-				txtpnShadeDataThanks.setVisible(true);
-				txtpnShadeDataProgram.setVisible(false);
-				lblShadeTitle.setText("Special thanks");
-			}
-		});
+		final JButton btnShadeCancel = new JButton("CANCEL");
+		btnShadeCancel.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnShadeCancel.setFocusPainted(false);
+		btnShadeCancel.setContentAreaFilled(false);
+		btnShadeCancel.setBackground(Color.WHITE);
+		btnShadeCancel.setForeground(new Color(0, 153, 255));
+		btnShadeCancel.setBounds(1086, 280, 259, 50);
+		plShade.add(btnShadeCancel);
 		
-		mntmProgram.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plMain.setVisible(false);
-				plMenu.setVisible(false);
-				plShade.setVisible(true);
-				plShadeData.setVisible(true);
-				plShadeData.setBackground(new Color(51, 153, 255));
-				btnShadeCancel.setForeground(new Color(51, 153, 255));
-				txtpnShadeDataFaq.setVisible(false);
-				txtpnShadeDataBugs.setVisible(false);
-				txtpnShadeDataAboutUs.setVisible(false);
-				txtpnShadeDataThanks.setVisible(false);
-				txtpnShadeDataProgram.setVisible(true);
-				lblShadeTitle.setText("MicroMerge");
-			}
-		});
+		final JLabel lblbtnShadeCancel  = new JLabel();
+		lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		lblbtnShadeCancel.setSize(259, 50);
+		lblbtnShadeCancel.setLocation(1086, 280);
+		lblbtnShadeCancel.setVisible(true);
+		plShade.add(lblbtnShadeCancel);
+		plShadeData.setBounds(0, 60, 1366, 480);
+		plShade.add(plShadeData);
+		plShadeData.setLayout(null);
 		
+		final JLabel lblShadeTitle = new JLabel("");
+		lblShadeTitle.setBackground(Color.WHITE);
+		lblShadeTitle.setBounds(6, 6, 1080, 50);
+		plShadeData.add(lblShadeTitle);
+		lblShadeTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblShadeTitle.setForeground(Color.WHITE);
+		lblShadeTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		
-		btnOperationsOperations.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plOperations.setVisible(true);
-				plMergedImages.setVisible(false);
-				btnOperationsOperations.setForeground(new Color(0, 153, 0));
-				btnOperationsMergedImages.setForeground(new Color(0,0,0));
-			}
-		});
+		final JTextPane txtpnShadeDataFaq = new JTextPane();
+		txtpnShadeDataFaq.setBorder(new LineBorder(new Color(153, 0, 0), 2));
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataFaq.setText("Q: What does these letters in Shading Direction mean?\nA: Hover mouse over each abbreviation, you will see a tip.");
+		txtpnShadeDataFaq.setEditable(false);
+		txtpnShadeDataFaq.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataFaq);
 		
-		btnOperationsMergedImages.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				plOperations.setVisible(false);
-				plMergedImages.setVisible(true);
-				btnOperationsOperations.setForeground(new Color(0,0,0));
-				btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
-			}
-		});
+		final JTextPane txtpnShadeDataBugs = new JTextPane();
+		txtpnShadeDataBugs.setBorder(new LineBorder(new Color(153, 0, 0), 2));
+		txtpnShadeDataBugs.setText("There are no known bugs.\nIf you notice any, please, wrtie to us.");
+		txtpnShadeDataBugs.setEditable(false);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataBugs.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataBugs);
+		
+		final JTextPane txtpnShadeDataAboutUs = new JTextPane();
+		txtpnShadeDataAboutUs.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataAboutUs.setVisible(false);
+		txtpnShadeDataAboutUs.setEditable(false);
+		txtpnShadeDataAboutUs.setText("Students of Warsaw University of Technology:\nMikołaj Słoń\nMateusz Szperna\nKornel Żaba");
+		txtpnShadeDataAboutUs.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataAboutUs);
+		
+		final JTextPane txtpnShadeDataProgram = new JTextPane();
+		txtpnShadeDataProgram.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataProgram.setVisible(false);
+		txtpnShadeDataProgram.setText("MicroMerge Beta 0.99");
+		txtpnShadeDataProgram.setEditable(false);
+		txtpnShadeDataProgram.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataProgram);
+		
+		final JTextPane txtpnShadeDataThanks = new JTextPane();
+		txtpnShadeDataThanks.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataThanks.setText("Special thanks to our friends who helped us to create this wonderful program - MicroMerge! :)");
+		txtpnShadeDataThanks.setEditable(false);
+		txtpnShadeDataThanks.setBounds(296, 80, 500, 380);
+		plShadeData.add(txtpnShadeDataThanks);
+		
+		JButton btnShadeBackUp = new JButton("");
+		btnShadeBackUp.setFocusPainted(false);
+		btnShadeBackUp.setBorderPainted(false);
+		btnShadeBackUp.setContentAreaFilled(false);
+		btnShadeBackUp.setFocusable(false);
+		btnShadeBackUp.setRequestFocusEnabled(false);
+		btnShadeBackUp.setBackground(new Color(105, 105, 105));
+		btnShadeBackUp.setBounds(0, 0, 1366, 60);
+		plShade.add(btnShadeBackUp);
+		
+		JButton btnShadeBackBottom = new JButton("");
+		btnShadeBackBottom.setBackground(Color.WHITE);
+		btnShadeBackBottom.setBorderPainted(false);
+		btnShadeBackBottom.setRequestFocusEnabled(false);
+		btnShadeBackBottom.setFocusable(false);
+		btnShadeBackBottom.setBounds(0, 540, 1366, 100);
+		plShade.add(btnShadeBackBottom);
 		
 		for(;numberofdirs<20;numberofdirs++)
 		{
@@ -1048,9 +1157,755 @@ public class StartWin {
 			listDirs.get(numberofdirs).setColumns(10);
 			listDirs.get(numberofdirs).setVisible(false);
 		}
-		
-		//funkcje
-		
+
+btnOperationsOperations.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plOperations.setVisible(true);
+		plMergedImages.setVisible(false);
+		btnOperationsOperations.setForeground(new Color(255, 255, 255));
+		btnOperationsMergedImages.setForeground(new Color(0,0,0));
+		lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnOperationsA.jpg")));	
+		lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));	
+		plMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 153, 0)));
+	}
+});
+
+
+btnOperationsMergedImages.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plOperations.setVisible(false);
+		plMergedImages.setVisible(true);
+		btnOperationsOperations.setForeground(new Color(0,0,0));
+		btnOperationsMergedImages.setForeground(new Color(255, 255, 255));
+		lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));	
+		lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImagesA.jpg")));	
+		plMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 153, 255)));
+	}
+});
+
+mntmExit.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		frmMicromerge.dispose();
+	}
+});
+
+mntmFaq.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(false);
+		plMenu.setVisible(false);
+		plShade.setVisible(true);
+		plShadeData.setVisible(true);
+		plShadeData.setBorder(new LineBorder(new Color(153, 0, 0), 4));
+		btnShadeCancel.setForeground(new Color(153, 0, 0));
+		btnShadeCancel.setBorder(new LineBorder(new Color(153, 0, 0), 2));
+		txtpnShadeDataFaq.setVisible(true);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataAboutUs.setVisible(false);
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataProgram.setVisible(false);
+		lblShadeTitle.setText("FAQ");
+		lblShadeTitle.setForeground(new Color(153, 0, 0));
+	}
+});
+
+mntmBugs.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(false);
+		plMenu.setVisible(false);
+		plShade.setVisible(true);
+		plShadeData.setVisible(true);
+		plShadeData.setBorder(new LineBorder(new Color(153, 0, 0), 4));
+		btnShadeCancel.setForeground(new Color(153, 0, 0));
+		btnShadeCancel.setBorder(new LineBorder(new Color(153, 0, 0), 2));
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataBugs.setVisible(true);
+		txtpnShadeDataAboutUs.setVisible(false);
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataProgram.setVisible(false);
+		lblShadeTitle.setText("Bugs");
+		lblShadeTitle.setForeground(new Color(153, 0, 0));
+	}
+});
+
+mntmCreators.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(false);
+		plMenu.setVisible(false);
+		plShade.setVisible(true);
+		plShadeData.setVisible(true);
+		plShadeData.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnShadeCancel.setForeground(new Color(0, 153, 255));
+		btnShadeCancel.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataAboutUs.setVisible(true);
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataProgram.setVisible(false);
+		lblShadeTitle.setText("About Us");
+		lblShadeTitle.setForeground(new Color(0, 153, 255));
+	}
+});
+
+mntmThanks.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(false);
+		plMenu.setVisible(false);
+		plShade.setVisible(true);
+		plShadeData.setVisible(true);
+		plShadeData.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnShadeCancel.setForeground(new Color(0, 153, 255));
+		btnShadeCancel.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataAboutUs.setVisible(false);
+		txtpnShadeDataThanks.setVisible(true);
+		txtpnShadeDataProgram.setVisible(false);
+		lblShadeTitle.setText("Special thanks");
+		lblShadeTitle.setForeground(new Color(0, 153, 255));
+	}
+});
+
+mntmProgram.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(false);
+		plMenu.setVisible(false);
+		plShade.setVisible(true);
+		plShadeData.setVisible(true);
+		plShadeData.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnShadeCancel.setForeground(new Color(0, 153, 255));
+		btnShadeCancel.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		txtpnShadeDataFaq.setVisible(false);
+		txtpnShadeDataBugs.setVisible(false);
+		txtpnShadeDataAboutUs.setVisible(false);
+		txtpnShadeDataThanks.setVisible(false);
+		txtpnShadeDataProgram.setVisible(true);
+		lblShadeTitle.setText("MicroMerge");
+		lblShadeTitle.setForeground(new Color(0, 153, 255));
+	}
+});
+
+
+mntmNew.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		for(int i =0 ; i<tbListMergedImages.getComponentCount();i++)
+		{
+			JButton button =(JButton)tbListMergedImages.getComponent(i);
+			BufferedImage img = (BufferedImage)button.getClientProperty("image");		//clearing resources
+			img.flush();
+		}
+		tbListImages.removeAll();
+		tbListToMerge.removeAll();
+		listImgs.clear();													//removing not needed content
+		listToMerge.clear();
+		tbListMergedImages.removeAll();
+		btnMergedImagesViewView.setIcon(null);
+		j=0;
+		for(int i =0;i<listDirs.size();i++)
+		{
+			listDirs.get(i).setText("");
+			listDirs.get(i).setVisible(false);								//clearing directory view
+		}
+		plOperationsListImagesOptions.setVisible(false);
+		scrollPaneListImages.setBounds(312, 6, 774, 409);
+		frmMicromerge.revalidate();
+		frmMicromerge.repaint();
+	}
+});
+
+
+btnShadeBackUp.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(true);
+		plMenu.setVisible(true);
+		plShade.setVisible(false);
+	}
+});
+
+btnShadeBackBottom.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(true);
+		plMenu.setVisible(true);
+		plShade.setVisible(false);
+	}
+});
+
+btnShadeCancel.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		plMain.setVisible(true);
+		plMenu.setVisible(true);
+		plShade.setVisible(false);
+	}
+});
+
+
+btnShadeCancel.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if ((txtpnShadeDataFaq.isVisible() == false) && (txtpnShadeDataBugs.isVisible() == false))
+		{
+			btnShadeCancel.setForeground(new Color(0, 102, 204));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveH.jpg")));
+		}
+		else
+		{
+			btnShadeCancel.setForeground(new Color(0, 0, 0));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnBackShadeH.jpg")));
+		}
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if ((txtpnShadeDataFaq.isVisible() == false) && (txtpnShadeDataBugs.isVisible() == false))
+		{
+			btnShadeCancel.setForeground(new Color(0, 153, 255));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+		else
+		{
+			btnShadeCancel.setForeground(new Color(153, 0, 0));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if ((txtpnShadeDataFaq.isVisible() == false) && (txtpnShadeDataBugs.isVisible() == false))
+		{
+			btnShadeCancel.setForeground(new Color(255, 255, 255));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveC.jpg")));
+		}
+		else
+		{
+			btnShadeCancel.setForeground(new Color(153, 0, 0));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnBackShadeC.jpg")));
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if ((txtpnShadeDataFaq.isVisible() == false) && (txtpnShadeDataBugs.isVisible() == false))
+		{
+			btnShadeCancel.setForeground(new Color(0, 153, 255));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+		else
+		{
+			btnShadeCancel.setForeground(new Color(153, 0, 0));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if ((txtpnShadeDataFaq.isVisible() == false) && (txtpnShadeDataBugs.isVisible() == false))
+		{
+			btnShadeCancel.setForeground(new Color(0, 153, 255));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+		else
+		{
+			btnShadeCancel.setForeground(new Color(0, 0, 0));
+			lblbtnShadeCancel.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+		}
+	}
+});
+
+
+btnOperationsMergedImages.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if (plMergedImages.isVisible() == false)
+		{
+			btnOperationsMergedImages.setForeground(new Color(0, 102, 204));
+			lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImagesH.jpg")));
+		}
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if (plMergedImages.isVisible() == false)
+		{
+			btnOperationsMergedImages.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (plMergedImages.isVisible() == false)
+		{
+			btnOperationsMergedImages.setForeground(new Color(255, 255, 255));
+			lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImagesC.jpg")));
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (plMergedImages.isVisible() == false)
+		{
+			btnOperationsMergedImages.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (plMergedImages.isVisible() == false)
+		{
+			btnOperationsMergedImages.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+});
+
+btnOperationsOperations.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if (plOperations.isVisible() == false)
+		{
+			btnOperationsOperations.setForeground(new Color(0, 102, 51));
+			lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnOperationsH.jpg")));
+		}
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if (plOperations.isVisible() == false)
+		{
+			btnOperationsOperations.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (plOperations.isVisible() == false)
+		{
+			btnOperationsOperations.setForeground(new Color(255, 255, 255));
+			lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnOperationsC.jpg")));
+		}
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (plOperations.isVisible() == false)
+		{
+			btnOperationsOperations.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (plOperations.isVisible() == false)
+		{
+			btnOperationsOperations.setForeground(new Color(0, 0, 0));
+			lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));
+		}
+	}
+});
+
+
+btnOperationsWorkLoad.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsWorkLoad.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoadH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkLoad.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoad.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsWorkLoad.setForeground(new Color(255,255,255));
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoadC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkLoad.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoad.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsWorkLoad.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkLoad.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkLoad.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnLoad.jpg")));
+	}
+	
+});
+
+btnOperationsWorkRefresh.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsWorkRefresh.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkRefresh.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsWorkRefresh.setForeground(new Color(255,255,255));
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkRefresh.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsWorkRefresh.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkRefresh.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkRefresh.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	
+});
+btnOperationsWorkClearAll.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsWorkClearAll.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAllH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkClearAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAll.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsWorkClearAll.setForeground(new Color(255,255,255));
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAllC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkClearAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAll.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsWorkClearAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkClearAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkClearAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnClearAll.jpg")));
+	}
+	
+});
+
+btnOperationsWorkMergeAll.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsWorkMergeAll.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAllH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMergeAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsWorkMergeAll.setForeground(new Color(255,255,255));
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAllC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMergeAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsWorkMergeAll.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMergeAll.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsWorkMergeAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+});
+
+btnOperationsWorkMerge.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsWorkMerge.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMerge.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMerge.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsWorkMerge.setForeground(new Color(255,255,255));
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMerge.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMerge.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsWorkMerge.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsWorkMerge.setForeground(new Color(0, 153, 0));
+		lblbtnOperationsWorkMerge.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMerge.jpg")));
+	}	
+});
+
+
+btnOperationsListImageAdd.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsListImageAdd.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsListImageAdd.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsListImageAdd.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImageAdd.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsListImageAdd.setBorder(new LineBorder(new Color(0, 104, 204), 2));
+		btnOperationsListImageAdd.setForeground(new Color(255,255,255));
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsListImageAdd.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImageAdd.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsListImageAdd.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImageAdd.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImageAdd.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}	
+});
+
+btnOperationsListImagePreview.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsListImagePreview.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsListImagePreview.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsListImagePreview.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImagePreview.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsListImagePreview.setBorder(new LineBorder(new Color(0, 104, 204), 2));
+		btnOperationsListImagePreview.setForeground(new Color(255,255,255));
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefreshC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsListImagePreview.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImagePreview.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsListImagePreview.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnOperationsListImagePreview.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsListImagePreview.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnRefresh.jpg")));
+	}
+	
+});
+
+btnOperationsPreviewWorkBack.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnOperationsPreviewWorkBack.setForeground(new Color(0, 102, 51));
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAllH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsPreviewWorkBack.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(0, 102, 51), 2));
+		btnOperationsPreviewWorkBack.setForeground(new Color(255,255,255));
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAllC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsPreviewWorkBack.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnOperationsPreviewWorkBack.setBorder(new LineBorder(new Color(0, 153, 0), 2));
+		btnOperationsPreviewWorkBack.setForeground(new Color(0, 0, 0));
+		lblbtnOperationsPreviewWorkBack.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergeAll.jpg")));
+	}
+});
+
+
+
+
+
+btnMergedImagesWorkSave.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(230, 230, 230), 2));
+		btnMergedImagesWorkSave.setForeground(new Color(0, 104, 204));
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnMergedImagesWorkSave.setForeground(new Color(0, 153, 255));
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(0, 104, 204), 4));
+		btnMergedImagesWorkSave.setForeground(new Color(255,255,255));
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnMergedImagesWorkSave.setForeground(new Color(0, 153, 255));
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnMergedImagesWorkSave.setBorder(new LineBorder(new Color(0, 153, 255), 4));
+		btnMergedImagesWorkSave.setForeground(new Color(0, 153, 255));
+		lblbtnMergedImagesWorkSave.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSave.jpg")));
+	}
+});
+
+btnMergedImagesWorkSaveAll.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnMergedImagesWorkSaveAll.setForeground(new Color(0, 104, 204));
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveAllH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkSaveAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveAll.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(0, 104, 204), 2));
+		btnMergedImagesWorkSaveAll.setForeground(new Color(255,255,255));
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveAllC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkSaveAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveAll.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnMergedImagesWorkSaveAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkSaveAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkSaveAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnSaveAll.jpg")));
+	}
+	
+});
+
+btnMergedImagesWorkDelete.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnMergedImagesWorkDelete.setForeground(new Color(0, 104, 204));
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDelete.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(0, 104, 204), 2));
+		btnMergedImagesWorkDelete.setForeground(new Color(255,255,255));
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDelete.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnMergedImagesWorkDelete.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDelete.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDelete.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDelete.jpg")));
+	}
+	
+});
+
+
+btnMergedImagesWorkDeleteAll.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(230, 230, 230), 1));
+		btnMergedImagesWorkDeleteAll.setForeground(new Color(0, 104, 204));
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAllH.jpg")));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDeleteAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAll.jpg")));
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(0, 104, 204), 2));
+		btnMergedImagesWorkDeleteAll.setForeground(new Color(255,255,255));
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAllC.jpg")));
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDeleteAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAll.jpg")));
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		btnMergedImagesWorkDeleteAll.setBorder(new LineBorder(new Color(0, 153, 255), 2));
+		btnMergedImagesWorkDeleteAll.setForeground(new Color(0, 0, 0));
+		lblbtnMergedImagesWorkDeleteAll.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnDeleteAll.jpg")));
+	}
+	
+});
+
+
+
+//funkcje
+
 		btnOperationsWorkRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				plOperationsListImagesOptions.setVisible(false);
@@ -1131,8 +1986,8 @@ public class StartWin {
 								                listToMerge.remove(i);
 								            }
 								        }
-										frame.revalidate();
-										frame.repaint();
+										frmMicromerge.revalidate();
+										frmMicromerge.repaint();
 										selectedButton.putClientProperty("selected", new Integer(0));
 									}
 								}
@@ -1145,8 +2000,8 @@ public class StartWin {
 							
 							tbListImages.add(button);	
 							
-							frame.revalidate();															//i update the display
-							frame.repaint();
+							frmMicromerge.revalidate();															//i update the display
+							frmMicromerge.repaint();
 							button.putClientProperty("selected", new Integer(0));
 						
 						}
@@ -1245,8 +2100,8 @@ public class StartWin {
 								            }
 								        }
 										selectedButton.putClientProperty("selected", new Integer(0));
-										frame.revalidate();
-										frame.repaint();														//i update the frame
+										frmMicromerge.revalidate();
+										frmMicromerge.repaint();														//i update the frame
 									}
 								}
 							});
@@ -1259,13 +2114,14 @@ public class StartWin {
 							
 							tbListImages.add(button);	
 							button.putClientProperty("selected", new Integer(0));								//noting the the image is not selected
-							frame.revalidate();
-							frame.repaint();
+							frmMicromerge.revalidate();
+							frmMicromerge.repaint();
 						}
 					}
 			   }
 			}
 		});
+		
 		
 		btnOperationsListImageAdd.addActionListener(new ActionListener() {										//an action listener used to add an image to the "to merge list
 			public void actionPerformed(ActionEvent e) {
@@ -1285,7 +2141,7 @@ public class StartWin {
 				g.drawImage(img, 0, 0, 170, 170, 0, 0, img.getWidth(),img.getHeight(), null);
 				g.dispose();
 				
-				selectedButton.setIcon(new ImageIcon(resized));															//seting the newly resized image
+				selectedButton.setIcon(new ImageIcon(resized));															//setting the newly resized image
 				
 				tbListToMerge.add(selectedButton);
 				listToMerge.add(selectedButton.getToolTipText());
@@ -1293,8 +2149,8 @@ public class StartWin {
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
 				
-				frame.revalidate();																						//I update the frame
-				frame.repaint();
+				frmMicromerge.revalidate();																						//I update the frame
+				frmMicromerge.repaint();
 
 			}
 		});
@@ -1307,7 +2163,7 @@ public class StartWin {
 			plOperationsWork.setVisible(false);
 			plOperationsPreview.setVisible(true);																		//opening the preview window
 			plOperationsPreviewWork.setVisible(true);
-			
+				
 			BufferedImage img = new BufferedImage(
 					selectedButton.getIcon().getIconWidth(),
 					selectedButton.getIcon().getIconHeight(),
@@ -1316,21 +2172,21 @@ public class StartWin {
 				// paint the Icon to the BufferedImage.
 				selectedButton.getIcon().paintIcon(null, gr, 0,0);
 				gr.dispose();
-			
+				
 			BufferedImage resized = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = resized.createGraphics();
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);			//resizing the image 
 			g.drawImage(img, 0, 0, 800, 600, 0, 0, img.getWidth(),img.getHeight(), null);
 			g.dispose();
-			
+					
 			imgOperationsPreview.setIcon(new ImageIcon(resized));
 			imgOperationsPreview.setText("");													
 			tfOperationsPreviewWorkPath.setText(selectedButton.getToolTipText());										//displaying the directory
-			
-			frame.revalidate();
-			frame.repaint();
+					
+			frmMicromerge.revalidate();
+			frmMicromerge.repaint();
 
-			
+					
 			}
 		});
 		
@@ -1343,8 +2199,8 @@ public class StartWin {
 				plOperationsPreviewWork.setVisible(false);
 					
 
-				frame.revalidate();
-				frame.repaint();
+				frmMicromerge.revalidate();
+				frmMicromerge.repaint();
 			}
 		});
 		
@@ -1371,10 +2227,11 @@ public class StartWin {
 				}
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
-				frame.revalidate();
-				frame.repaint();
+				frmMicromerge.revalidate();
+				frmMicromerge.repaint();
 			}
 		});
+		
 		btnOperationsWorkClearAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tbListImages.removeAll();
@@ -1389,8 +2246,8 @@ public class StartWin {
 				}
 				plOperationsListImagesOptions.setVisible(false);
 				scrollPaneListImages.setBounds(312, 6, 774, 409);
-				frame.revalidate();
-				frame.repaint();
+				frmMicromerge.revalidate();
+				frmMicromerge.repaint();
 			}
 		});
 		
@@ -1443,8 +2300,8 @@ public class StartWin {
 							btnMergedImagesViewView.setIcon(new ImageIcon(res));
 							image.flush();																	//setting image and updating frome
 							res.flush();
-							frame.revalidate();
-							frame.repaint();
+							frmMicromerge.revalidate();
+							frmMicromerge.repaint();
 							buttonToSave = button;
 						}
 					});
@@ -1454,14 +2311,17 @@ public class StartWin {
 					if(viewImagesAfterMerge)
 					{
 						plOperations.setVisible(false);
-						plMergedImages.setVisible(true);													//functionality of "view after merge button
+						plMergedImages.setVisible(true);
+						btnOperationsOperations.setForeground(new Color(0,0,0));
+						btnOperationsMergedImages.setForeground(new Color(255, 255, 255));
+						lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));	
+						lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImagesA.jpg")));	
+						plMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 153, 255)));													//functionality of "view after merge button
 					}
 					resized.flush();
 					img.flush();
-					frame.revalidate();																		//clearing resources
-					frame.repaint();
-					btnOperationsOperations.setForeground(new Color(0,0,0));
-					btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
+					frmMicromerge.revalidate();																		//clearing resources
+					frmMicromerge.repaint();
 			}
 			}
 		});
@@ -1520,8 +2380,8 @@ public class StartWin {
 								btnMergedImagesViewView.setIcon(new ImageIcon(res));
 								image.flush();
 								res.flush();
-								frame.revalidate();
-								frame.repaint();
+								frmMicromerge.revalidate();
+								frmMicromerge.repaint();
 								buttonToSave = button;
 							}
 						});
@@ -1545,11 +2405,14 @@ public class StartWin {
 					{
 						plOperations.setVisible(false);
 						plMergedImages.setVisible(true);
+						btnOperationsOperations.setForeground(new Color(0,0,0));
+						btnOperationsMergedImages.setForeground(new Color(255, 255, 255));
+						lblbtnOperationsOperations.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImages.jpg")));	
+						lblbtnOperationsMergedImages.setIcon(new ImageIcon(StartWin.class.getResource("/resources/btnMergedImagesA.jpg")));	
+						plMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 153, 255)));
 					}
-					frame.revalidate();
-					frame.repaint();
-					btnOperationsOperations.setForeground(new Color(0,0,0));
-					btnOperationsMergedImages.setForeground(new Color(0, 153, 255));
+					frmMicromerge.revalidate();
+					frmMicromerge.repaint();
 				}
 			}
 		});
@@ -1566,7 +2429,7 @@ public class StartWin {
 					dir =fileChooser.getSelectedFile();
 					lastSaveDirectory = dir.getAbsolutePath();								//setting this directory to be the new open directory
 					String path = dir.getAbsolutePath();
-					//System.out.println("the tpye choosen is"+type);
+					//System.out.println("the type choosen is"+type);
 					imgmer.saveImage((BufferedImage)buttonToSave.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
 					saveCounter+= saveStep;													//i use a dedicated function for saving and increase the naming counter
 				}
@@ -1583,14 +2446,14 @@ public class StartWin {
 					img.flush();
 				}
 				btnMergedImagesViewView.setIcon(null);
-				frame.revalidate();																//updating frame
-				frame.repaint();
+				frmMicromerge.revalidate();																//updating frame
+				frmMicromerge.repaint();
 			}
 		});
 		btnMergedImagesWorkDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i;
-				for(i =0; i<listMerged.size();i++)
+				for(i =0; i<=listMerged.size();i++)
 				{
 					if(listMerged.get(i)==buttonToSave.getText())										//i find which in the list is the image we want to delete
 						break;
@@ -1609,8 +2472,8 @@ public class StartWin {
 				g.drawImage(img, 0, 0, 700, 700, 0, 0, img.getWidth(),img.getHeight(), null);
 				g.dispose();
 				btnMergedImagesViewView.setIcon(new ImageIcon(resized));
-				frame.revalidate();
-				frame.repaint();
+				frmMicromerge.revalidate();
+				frmMicromerge.repaint();
 			}
 		});
 		btnMergedImagesWorkSaveAll.addActionListener(new ActionListener() {				//again very similar function to save
@@ -1635,7 +2498,7 @@ public class StartWin {
 					}
 				}
 			}
-		});
+		});	
 	}
 }
 
