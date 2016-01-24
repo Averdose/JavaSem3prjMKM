@@ -80,6 +80,8 @@ public class StartWin {
 	private String lastOpenDirectory = null;
 	private String lastSaveDirectory = null;
 	private JLabel lblbtnMergedImagesWorkSave;
+	private boolean saveModeCustom = true;
+	private String folderName = "";
 	/**
 	 * Launch the application.
 	 */
@@ -738,6 +740,14 @@ public class StartWin {
 		tfMergedImagesWorkNameCustom.setColumns(10);
 		
 		final JComboBox cbMergedImagesWorkNameFromFile = new JComboBox();
+		cbMergedImagesWorkNameFromFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 JComboBox cb = (JComboBox)arg0.getSource();
+			     folderName = (String)cb.getSelectedItem();
+			        
+
+			}
+		});
 		cbMergedImagesWorkNameFromFile.setVisible(false);
 		cbMergedImagesWorkNameFromFile.setBackground(Color.WHITE);
 		cbMergedImagesWorkNameFromFile.setBounds(10, 55, 242, 30);
@@ -748,6 +758,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				cbMergedImagesWorkNameFromFile.setVisible(false);
 				tfMergedImagesWorkNameCustom.setVisible(true);
+				saveModeCustom = true;
 			}
 		});
 		rdbtnMergedImagesWorkNameCustom.setFont(new Font("STHeiti", Font.PLAIN, 13));
@@ -761,6 +772,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent e) {
 				cbMergedImagesWorkNameFromFile.setVisible(true);
 				tfMergedImagesWorkNameCustom.setVisible(false);
+				saveModeCustom = false;
 			}
 		});
 		rdbtnMergedImagesWorkNameFromFile.setFont(new Font("STHeiti", Font.PLAIN, 13));
@@ -2062,7 +2074,25 @@ btnMergedImagesWorkDeleteAll.addMouseListener(new MouseAdapter() {
 					//System.out.println("  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j+"  "+j);
 					listDirs.get(j).setText(dir.getAbsolutePath());
 					listDirs.get(j).setVisible(true);										//i display the selected directory
+					String textForCB = listDirs.get(j).getText();
+					int place = 0;
+					for(int p =textForCB.length()-1 ;p>0;p--)
+					{
+						int backSlash = 0;
+						if(textForCB.charAt(p) == '/')
+						{	
+							place = p;
+							backSlash++;
+							if(backSlash == 2)
+								break;
+						}
+					}
+					textForCB = textForCB.substring(place,textForCB.length());
+					
+					System.out.println(textForCB);
+					cbMergedImagesWorkNameFromFile.addItem(textForCB);
 					j++;
+					
 					
 					
 					if (dir.isDirectory()) {
