@@ -28,7 +28,7 @@ public class FaderShader {
 	 *  Otherwise the function calculates the ratio of current shaded/faded surface of image
 	 *  to the total surface.
 	 *  boolean value grayShade, changes the ratio interval to [0, 200] if the image is meant to have
-	 *  gray shade, otherwise the ratio interval is standard RGB [0, 255]
+	 *  gray shade, otherwise the ratio interval is standard RGB [0, 255].
 	 */
 	private int getGradient(int currentWidth, int currentHeight, boolean grayShade){
 		switch(direction) {
