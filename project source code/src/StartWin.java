@@ -52,6 +52,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.SystemColor;
+import javax.swing.JComboBox;
 
 public class StartWin {
 	
@@ -736,7 +737,19 @@ public class StartWin {
 		plMergedImagesWorkName.add(tfMergedImagesWorkNameCustom);
 		tfMergedImagesWorkNameCustom.setColumns(10);
 		
+		final JComboBox cbMergedImagesWorkNameFromFile = new JComboBox();
+		cbMergedImagesWorkNameFromFile.setVisible(false);
+		cbMergedImagesWorkNameFromFile.setBackground(Color.WHITE);
+		cbMergedImagesWorkNameFromFile.setBounds(10, 55, 242, 30);
+		plMergedImagesWorkName.add(cbMergedImagesWorkNameFromFile);
+		
 		JRadioButton rdbtnMergedImagesWorkNameCustom = new JRadioButton("Custom");
+		rdbtnMergedImagesWorkNameCustom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbMergedImagesWorkNameFromFile.setVisible(true);
+				tfMergedImagesWorkNameCustom.setVisible(false);
+			}
+		});
 		rdbtnMergedImagesWorkNameCustom.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkNameCustom.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkNameCustom.setSelected(true);
@@ -744,6 +757,12 @@ public class StartWin {
 		plMergedImagesWorkName.add(rdbtnMergedImagesWorkNameCustom);
 		
 		JRadioButton rdbtnMergedImagesWorkNameFromFile = new JRadioButton("Get from file");
+		rdbtnMergedImagesWorkNameFromFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbMergedImagesWorkNameFromFile.setVisible(true);
+				tfMergedImagesWorkNameCustom.setVisible(false);
+			}
+		});
 		rdbtnMergedImagesWorkNameFromFile.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkNameFromFile.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkNameFromFile.setBounds(131, 20, 121, 23);
@@ -835,7 +854,7 @@ public class StartWin {
 		rdbtnMergedImagesWorkBpp1.setBounds(10, 20, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp1);
 		
-		JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
+		final JRadioButton rdbtnMergedImagesWorkBpp8 = new JRadioButton("8");
 		rdbtnMergedImagesWorkBpp8.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkBpp8.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp8.addActionListener(new ActionListener() {
@@ -846,7 +865,7 @@ public class StartWin {
 		rdbtnMergedImagesWorkBpp8.setBounds(10, 50, 110, 30);
 		plMergedImagesWorkBpp.add(rdbtnMergedImagesWorkBpp8);
 		
-		JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
+		final JRadioButton rdbtnMergedImagesWorkBpp16 = new JRadioButton("16");
 		rdbtnMergedImagesWorkBpp16.setFont(new Font("STHeiti", Font.PLAIN, 13));
 		rdbtnMergedImagesWorkBpp16.setBackground(Color.WHITE);
 		rdbtnMergedImagesWorkBpp16.addActionListener(new ActionListener() {
@@ -902,12 +921,18 @@ public class StartWin {
 		rdbtnMergedImagesWorkTypeJPG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "JPG";
-				if (bppMode == 32) {
+				if (bppMode == 32 ) {
 					bppMode = 24;
 					rdbtnMergedImagesWorkBpp32.setSelected(false);
 					rdbtnMergedImagesWorkBpp24.setSelected(true);
 				}
+				if (bppMode == 16 ) {
+					bppMode = 8;
+					rdbtnMergedImagesWorkBpp16.setSelected(false);
+					rdbtnMergedImagesWorkBpp8.setSelected(true);
+				}
 				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+				rdbtnMergedImagesWorkBpp16.setEnabled(false);
 			}
 		});
 		rdbtnMergedImagesWorkTypeJPG.setBounds(10, 20, 110, 30);
@@ -924,7 +949,13 @@ public class StartWin {
 					rdbtnMergedImagesWorkBpp32.setSelected(false);				//they do not support such bpp mode
 					rdbtnMergedImagesWorkBpp24.setSelected(true);
 				}
+				if (bppMode == 16 ) {
+					bppMode = 8;
+					rdbtnMergedImagesWorkBpp16.setSelected(false);
+					rdbtnMergedImagesWorkBpp8.setSelected(true);
+				}
 				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+				rdbtnMergedImagesWorkBpp16.setEnabled(false);
 			}
 		});
 		rdbtnMergedImagesWorkTypeJPEG.setBounds(10, 50, 110, 30);
@@ -943,6 +974,7 @@ public class StartWin {
 				}
 				System.out.println("BMP action performed");
 				rdbtnMergedImagesWorkBpp32.setEnabled(false);
+				rdbtnMergedImagesWorkBpp16.setEnabled(true);
 			}
 		});
 		rdbtnMergedImagesWorkTypeBMP.setBounds(10, 80, 110, 30);
@@ -955,6 +987,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "PNG";
 				rdbtnMergedImagesWorkBpp32.setEnabled(true);
+				rdbtnMergedImagesWorkBpp16.setEnabled(true);
 			}
 		});
 		rdbtnMergedImagesWorkTypePNG.setBounds(10, 110, 110, 30);
@@ -967,6 +1000,7 @@ public class StartWin {
 			public void actionPerformed(ActionEvent arg0) {
 				type = "TIFF";
 				rdbtnMergedImagesWorkBpp32.setEnabled(true);
+				rdbtnMergedImagesWorkBpp16.setEnabled(true);
 			}
 		});
 		rdbtnMergedImagesWorkTypeTIFF.setBounds(10, 140, 110, 30);
