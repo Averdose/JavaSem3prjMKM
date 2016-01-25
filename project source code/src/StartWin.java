@@ -33,9 +33,12 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.xml.stream.events.Namespace;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -82,6 +85,7 @@ public class StartWin {
 	private JLabel lblbtnMergedImagesWorkSave;
 	private boolean saveModeCustom = true;
 	private String folderName = "";
+	private int indexOfDirectories = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -2076,21 +2080,24 @@ btnMergedImagesWorkDeleteAll.addMouseListener(new MouseAdapter() {
 					listDirs.get(j).setVisible(true);										//i display the selected directory
 					String textForCB = listDirs.get(j).getText();
 					int place = 0;
+					int backSlash = 0;
 					for(int p =textForCB.length()-1 ;p>0;p--)
 					{
-						int backSlash = 0;
-						if(textForCB.charAt(p) == '/')
+						
+						if(textForCB.charAt(p) == '\\')
 						{	
 							place = p;
 							backSlash++;
-							if(backSlash == 2)
+							if(backSlash == 1)
 								break;
 						}
 					}
-					textForCB = textForCB.substring(place,textForCB.length());
+					textForCB = textForCB.substring(place+1,textForCB.length());
 					
 					System.out.println(textForCB);
 					cbMergedImagesWorkNameFromFile.addItem(textForCB);
+					
+					
 					j++;
 					
 					
@@ -2551,15 +2558,41 @@ btnMergedImagesWorkDeleteAll.addMouseListener(new MouseAdapter() {
 				fileChooser.setAcceptAllFileFilterUsed(false);				  
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 				{
+					final Queue<String> names = new LinkedList<String>();
+					if(!saveModeCustom)
+					{
+						String dirPath = listDirs.get(cbMergedImagesWorkNameFromFile.getSelectedIndex()).getText();
+						dir = new File(dirPath);
+							if (dir.isDirectory()) {
+							
+							for (final File f : dir.listFiles(IMAGE_FILTER)) {  //i open each folder seperately and find all images that matches the extensions
+								//System.out.println(f.getAbsolutePath());
+								names.offer(f.getName());
+								System.out.println(f.getName());
+							}
+						}
+					}
 					dir =fileChooser.getSelectedFile();
 					lastSaveDirectory = dir.getAbsolutePath();
 					String path = dir.getAbsolutePath();
-					//System.out.println("the tpye choosen is"+type);
+					System.out.println("the tpye choosen is"+type);
 					for(int i =0; i < tbListMergedImages.getComponentCount();i++)		//this time everything happens in a loop
 					{
 						button = (JButton)tbListMergedImages.getComponent(i);
-						imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
-						saveCounter+= saveStep;
+						if(saveModeCustom)
+						{
+							imgmer.saveImage((BufferedImage)button.getClientProperty("image"),tfMergedImagesWorkNameCustom.getText()+saveCounter,type,bppMode,path);
+							saveCounter+= saveStep;
+						}
+						else
+						{
+							if(!names.isEmpty())
+							{
+								imgmer.saveImage((BufferedImage)button.getClientProperty("image"),names.poll(),type,bppMode,path);
+								
+							}
+						
+						}
 					}
 				}
 			}
